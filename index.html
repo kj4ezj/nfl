@@ -3,229 +3,446 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>2026 Viewing Guide — Lions, Packers, Commanders</title>
+<title>2026 NFL Viewing Guide</title>
 <style>
   :root{
     box-sizing:border-box;
     padding-top:env(safe-area-inset-top,0px);
     padding-bottom:env(safe-area-inset-bottom,0px);
-    --bg:#f7f6f3; --surface:#ffffff; --ink:#1a1a18; --muted:#6b6862; --line:#e2dfd8;
-    --accent:#1c5c3a;
+    --bg:#f7f6f3; --surface:#fff; --ink:#1a1a18; --muted:#6b6862; --line:#e2dfd8;
+    --accent:#1c5c3a; --rowhl:#f0eeea;
     --yes-bg:#e3f2e8; --yes-ink:#1c5c3a;
     --maybe-bg:#fbf0d9; --maybe-ink:#8a6414;
     --no-bg:#f6e3e3; --no-ink:#8d3535;
-    --det:#0076b6; --gb:#1f5c3d; --was:#7c2230;
-    --det-bg:#e2eff7; --gb-bg:#e4efe8; --was-bg:#f7e5e7;
-    --rowhl:#f0eeea;
+    --det:#0076b6; --det-bg:#e2eff7;
+    --gb:#1f5c3d;  --gb-bg:#e4efe8;
+    --was:#7c2230; --was-bg:#f7e5e7;
+    --bal:#5b3b8c; --bal-bg:#ece5f6;
+    --ten:#1b5d82; --ten-bg:#e0eef5;
+    --phi:#1d5c56; --phi-bg:#e1efed;
   }
   :root:not([data-theme="light"]){
     @media (prefers-color-scheme: dark){
       --bg:#17181a; --surface:#202224; --ink:#eceae5; --muted:#9d9a94; --line:#33363a;
-      --accent:#6fc294;
+      --accent:#6fc294; --rowhl:#25272a;
       --yes-bg:#1d3a2a; --yes-ink:#8fd9b0;
       --maybe-bg:#3b3420; --maybe-ink:#e3c47a;
       --no-bg:#3d2626; --no-ink:#e79f9f;
-      --det:#7fc4e8; --gb:#8ecfab; --was:#e8a0aa;
-      --det-bg:#1b2d38; --gb-bg:#1d3329; --was-bg:#37222a;
-      --rowhl:#25272a;
+      --det:#7fc4e8; --det-bg:#1b2d38;
+      --gb:#8ecfab;  --gb-bg:#1d3329;
+      --was:#e8a0aa; --was-bg:#37222a;
+      --bal:#b9a2e3; --bal-bg:#2a2338;
+      --ten:#8dc2de; --ten-bg:#1b2c36;
+      --phi:#8cccc2; --phi-bg:#1b302e;
     }
   }
   :root[data-theme="dark"]{
     --bg:#17181a; --surface:#202224; --ink:#eceae5; --muted:#9d9a94; --line:#33363a;
-    --accent:#6fc294;
+    --accent:#6fc294; --rowhl:#25272a;
     --yes-bg:#1d3a2a; --yes-ink:#8fd9b0;
     --maybe-bg:#3b3420; --maybe-ink:#e3c47a;
     --no-bg:#3d2626; --no-ink:#e79f9f;
-    --det:#7fc4e8; --gb:#8ecfab; --was:#e8a0aa;
-    --det-bg:#1b2d38; --gb-bg:#1d3329; --was-bg:#37222a;
-    --rowhl:#25272a;
+    --det:#7fc4e8; --det-bg:#1b2d38;
+    --gb:#8ecfab;  --gb-bg:#1d3329;
+    --was:#e8a0aa; --was-bg:#37222a;
+    --bal:#b9a2e3; --bal-bg:#2a2338;
+    --ten:#8dc2de; --ten-bg:#1b2c36;
+    --phi:#8cccc2; --phi-bg:#1b302e;
   }
   *,*::before,*::after{box-sizing:inherit}
   html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--bg);color:var(--ink);line-height:1.5;font-size:16px;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-  .wrap{max-width:1000px;margin:0 auto;padding:22px 14px 56px}
-  h1{font-size:1.4rem;line-height:1.25;margin:0 0 6px;letter-spacing:-0.01em}
-  .sub{color:var(--muted);font-size:.88rem;margin:0 0 18px}
-  .legend{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  .wrap{max-width:1040px;margin:0 auto;padding:22px 14px 56px}
+  h1{font-size:1.4rem;line-height:1.25;margin:0 0 6px;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:.87rem;margin:0 0 16px}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;
     padding:12px 14px;margin:0 0 12px;font-size:.84rem}
-  .legend p{margin:0 0 7px}
-  .legend p:last-child{margin:0}
-  .controls{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
-  button{font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;
-    padding:6px 12px;border-radius:100px;border:1px solid var(--line);
-    background:var(--surface);color:var(--muted);transition:all .12s}
-  button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .panel p{margin:0 0 7px}
+  .panel p:last-child{margin:0}
+  .lbl{font-size:.64rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);
+    font-weight:700;margin:0 0 6px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  button{font:inherit;font-size:.78rem;font-weight:600;cursor:pointer;padding:6px 12px;
+    border-radius:100px;border:1px solid var(--line);background:var(--surface);
+    color:var(--muted);transition:background .12s,color .12s,border-color .12s}
+  button:hover{border-color:var(--muted)}
+  button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  button.t-det.on{background:var(--det-bg);color:var(--det);border-color:var(--det)}
+  button.t-gb.on{background:var(--gb-bg);color:var(--gb);border-color:var(--gb)}
+  button.t-was.on{background:var(--was-bg);color:var(--was);border-color:var(--was)}
+  button.t-bal.on{background:var(--bal-bg);color:var(--bal);border-color:var(--bal)}
+  button.t-ten.on{background:var(--ten-bg);color:var(--ten);border-color:var(--ten)}
+  button.t-phi.on{background:var(--phi-bg);color:var(--phi);border-color:var(--phi)}
   .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);
     border-radius:10px;background:var(--surface);margin-top:10px}
-  table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:680px}
-  th{text-align:left;font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;
-    color:var(--muted);font-weight:600;padding:10px;border-bottom:1px solid var(--line);
+  table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:700px}
+  th{text-align:left;font-size:.64rem;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--muted);font-weight:700;padding:10px;border-bottom:1px solid var(--line);
     white-space:nowrap;background:var(--surface);position:sticky;top:0;z-index:1}
   td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
   tr:last-child td{border-bottom:none}
-  tr.played td{opacity:.5}
-  tr.star{background:var(--rowhl)}
-  .wk{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;font-size:.76rem}
+  tr.past td{opacity:.45}
+  tr.today{background:var(--rowhl)}
+  tr.bye td{background:var(--bg);font-size:.75rem;color:var(--muted);font-style:italic}
+  .wk{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;font-size:.75rem}
   .date{white-space:nowrap;font-weight:600}
   .time{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}
-  .team{display:inline-block;padding:2px 7px;border-radius:5px;font-size:.68rem;
-    font-weight:700;letter-spacing:.04em;white-space:nowrap}
-  .t-det{background:var(--det-bg);color:var(--det)}
-  .t-gb{background:var(--gb-bg);color:var(--gb)}
-  .t-was{background:var(--was-bg);color:var(--was)}
+  .badge{display:inline-block;padding:2px 7px;border-radius:5px;font-size:.67rem;
+    font-weight:700;letter-spacing:.04em;white-space:nowrap;margin-right:3px}
+  .b-det{background:var(--det-bg);color:var(--det)}
+  .b-gb{background:var(--gb-bg);color:var(--gb)}
+  .b-was{background:var(--was-bg);color:var(--was)}
+  .b-bal{background:var(--bal-bg);color:var(--bal)}
+  .b-ten{background:var(--ten-bg);color:var(--ten)}
+  .b-phi{background:var(--phi-bg);color:var(--phi)}
   .matchup{font-weight:600}
-  .pill{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.7rem;
-    font-weight:600;white-space:nowrap}
+  .pill{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.7rem;font-weight:600;white-space:nowrap}
   .yes{background:var(--yes-bg);color:var(--yes-ink)}
   .maybe{background:var(--maybe-bg);color:var(--maybe-ink)}
   .no{background:var(--no-bg);color:var(--no-ink)}
   .note{font-size:.7rem;color:var(--muted);display:block;margin-top:2px;font-weight:400}
-  .bye-row td{background:var(--bg);font-size:.74rem;color:var(--muted);font-style:italic}
+  .count{font-size:.75rem;color:var(--muted);margin-top:10px}
   .callout{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
-    border-radius:8px;padding:12px 14px;margin:24px 0 0;font-size:.86rem}
+    border-radius:8px;padding:12px 14px;margin:22px 0 0;font-size:.85rem}
   .callout strong{color:var(--accent)}
   .callout ul{margin:8px 0 0;padding-left:18px}
   .callout li{margin-bottom:6px}
-  footer{margin-top:32px;font-size:.74rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+  footer{margin-top:30px;font-size:.73rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+  #fallback{padding:20px;font-size:.9rem}
 </style>
 </head>
 <body>
-<div class="wrap">
-
-<h1>2026 Season Viewing Guide</h1>
-<p class="sub">Lions · Packers · Commanders, in date order — with over-the-air odds for the Roanoke–Lynchburg market. All times Eastern.</p>
-
-<div class="legend">
-  <p><span class="pill yes">OTA</span> Nationally distributed — it will be on a Roanoke station.</p>
-  <p><span class="pill maybe">Maybe</span> Depends on the weekly FOX/CBS regional pick, not set until about 12 days out.</p>
-  <p><span class="pill no">No</span> Streaming-exclusive, or blocked by a Commanders game in the same window.</p>
+<div id="app" class="wrap">
+  <div id="fallback">Loading the schedule…</div>
 </div>
 
-<div class="legend">
-  <p><strong>Your stations:</strong> WFXR 27 (FOX) · WDBJ 7 (CBS) · WSLS 10 (NBC) · WSET 13 (ABC)</p>
-  <p><strong>Byes:</strong> Lions Week 6 (Oct 18) · Commanders Week 7 (Oct 25) · Packers Week 11 (Nov 22)</p>
+<script type="x-template" id="tpl">
+<div>
+  <h1>2026 NFL Viewing Guide</h1>
+  <p class="sub">Six teams, four markets, one date-sorted table. All times Eastern. Today is {{ prettyToday }}.</p>
+
+  <div class="panel">
+    <p class="lbl">Market</p>
+    <div class="chips">
+      <button v-for="(m,k) in markets" :key="k" :class="{on: market===k}" @click="market=k">{{ m.short }}</button>
+    </div>
+    <p><strong>{{ markets[market].name }}</strong> — {{ markets[market].st.FOX }} (FOX) · {{ markets[market].st.CBS }} (CBS) · {{ markets[market].st.NBC }} (NBC) · {{ markets[market].st.ABC }} (ABC). Home team: {{ teams[markets[market].home].name }}.</p>
+  </div>
+
+  <div class="panel">
+    <p class="lbl">Teams</p>
+    <div class="chips">
+      <button :class="{on: shown.length===order.length}" @click="allTeams">All</button>
+      <button v-for="c in order" :key="c" :class="['t-'+c.toLowerCase(), {on: shown.includes(c)}]" @click="toggle(c)">{{ teams[c].name }}</button>
+    </div>
+    <div class="chips" style="margin-bottom:0">
+      <button :class="{on: hidePast}" @click="hidePast=!hidePast">{{ hidePast ? 'Showing upcoming only' : 'Hide past games' }}</button>
+      <button :class="{on: onlyOTA}" @click="onlyOTA=!onlyOTA">{{ onlyOTA ? 'Showing OTA only' : 'Only games I can get' }}</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p><span class="pill yes">OTA</span> National, or your market's home team — it will be on a local station.</p>
+    <p><span class="pill maybe">Maybe</span> Open window, decided by the weekly FOX/CBS regional pick about 12 days out.</p>
+    <p><span class="pill no">No</span> Streaming-exclusive, or the home team has that same network and window.</p>
+  </div>
+
+  <div class="scroller">
+    <table>
+      <thead><tr><th>Wk</th><th>Date</th><th>Time</th><th>Teams</th><th>Matchup</th><th>How to watch</th><th>{{ markets[market].short }}</th></tr></thead>
+      <tbody>
+        <tr v-for="g in visible" :key="g.k" :class="{past: isPast(g), today: g.d===today, bye: g.bye}">
+          <td class="wk">{{ g.w }}</td>
+          <td class="date">{{ fmt(g.d) }}</td>
+          <td class="time">{{ g.bye ? '—' : g.t }}</td>
+          <td><span v-for="c in g.tm" :key="c" :class="['badge','b-'+c.toLowerCase()]">{{ c }}</span></td>
+          <template v-if="g.bye">
+            <td colspan="3">Bye week</td>
+          </template>
+          <template v-else>
+            <td class="matchup">{{ g.l }}<span v-if="g.sub" class="note">{{ g.sub }}</span></td>
+            <td>{{ chan(g) }}<span v-if="g.nsub" class="note">{{ g.nsub }}</span></td>
+            <td>
+              <span :class="['pill', v(g).s]">{{ v(g).s==='yes' ? 'OTA' : v(g).s==='maybe' ? 'Maybe' : 'No' }}</span>
+              <span class="note">{{ v(g).note }}</span>
+            </td>
+          </template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="count">{{ gameCount }} games shown · {{ otaCount }} confirmed over the air in {{ markets[market].short }}</p>
+
+  <div class="callout">
+    <strong>How the verdict is computed</strong>
+    <p style="margin:8px 0 0">Sunday-afternoon games aren't assigned to markets until about 12 days out, so "OTA" and "No" are the cases the rules settle: national windows are always carried, your home team is always carried, and a game is blocked when the home team occupies the same network in the same time slot. Everything else is a genuine "Maybe" — check <em>506 Sports</em> coverage maps the week of.</p>
+    <p style="margin:8px 0 0">One simplification: each Sunday only one of FOX or CBS gets a doubleheader, and the single-header network shows just one game in your market. That isn't known this far ahead, so some late-window "Maybe" rows will resolve to no.</p>
+  </div>
+
+  <div class="callout">
+    <strong>Market notes</strong>
+    <ul>
+      <li><strong>Roanoke, DC and Norfolk are all Commanders markets</strong> — same home team, but three independent secondary picks. DC is a top-10 market and reliably gets the full doubleheader; Roanoke often doesn't.</li>
+      <li><strong>Baltimore is the odd one out</strong>, and that's what makes it useful. The Ravens are AFC, so they eat CBS windows and leave FOX comparatively open — the reverse of your other three.</li>
+      <li>Baltimore and DC are adjacent markets and Baltimore stations sometimes pick up Commanders games anyway. Treat Commanders "Maybe" rows in Baltimore as better than even.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Schedule pulled Sep 21, 2026. Network assignments for Sunday afternoon games follow the visiting conference rule and can be cross-flexed. Weeks 15–18 are subject to flex scheduling; Week 18 times and networks are set in early January. Netflix games simulcast over the air only in the participating teams' home markets — none of which are these four.
+  </footer>
 </div>
+</script>
 
-<div class="controls">
-  <button data-filter="all" aria-pressed="true">All teams</button>
-  <button data-filter="det" aria-pressed="false">Lions</button>
-  <button data-filter="gb" aria-pressed="false">Packers</button>
-  <button data-filter="was" aria-pressed="false">Commanders</button>
-  <button id="hidePlayed" aria-pressed="false">Hide played</button>
-</div>
-
-<div class="scroller">
-<table>
-<thead><tr><th>Wk</th><th>Date</th><th>Time</th><th>Team</th><th>Matchup</th><th>How to watch</th><th>Roanoke</th></tr></thead>
-<tbody id="tb">
-
-<tr class="played" data-team="det"><td class="wk">1</td><td class="date">Sun Sep 13</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">vs New Orleans — W 31–30</td><td>FOX</td><td>—</td></tr>
-<tr class="played" data-team="gb"><td class="wk">1</td><td class="date">Sun Sep 13</td><td class="time">4:25p</td><td><span class="team t-gb">GB</span></td><td class="matchup">at Minnesota — L 39–22</td><td>FOX</td><td>—</td></tr>
-<tr class="played" data-team="was"><td class="wk">1</td><td class="date">Sun Sep 13</td><td class="time">4:25p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at Philadelphia — L 24–22</td><td>FOX</td><td>—</td></tr>
-<tr class="played" data-team="det"><td class="wk">2</td><td class="date">Thu Sep 17</td><td class="time">8:15p</td><td><span class="team t-det">DET</span></td><td class="matchup">at Buffalo — L 41–31</td><td>Prime / Twitch</td><td>—</td></tr>
-<tr class="played" data-team="gb"><td class="wk">2</td><td class="date">Sun Sep 20</td><td class="time">1:00p</td><td><span class="team t-gb">GB</span></td><td class="matchup">at NY Jets</td><td>FOX</td><td>—</td></tr>
-<tr data-team="was"><td class="wk">2</td><td class="date">Sun Sep 20</td><td class="time">4:25p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at Dallas</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
-<tr data-team="gb"><td class="wk">3</td><td class="date">Thu Sep 24</td><td class="time">8:15p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Atlanta</td><td>Prime / <strong>Twitch (free)</strong></td><td><span class="pill no">No</span><span class="note">free on Twitch</span></td></tr>
-<tr data-team="det"><td class="wk">3</td><td class="date">Sun Sep 27</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">vs NY Jets</td><td>CBS</td><td><span class="pill maybe">Maybe</span><span class="note">CBS slot open — WAS on FOX</span></td></tr>
-<tr data-team="was"><td class="wk">3</td><td class="date">Sun Sep 27</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs Seattle</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
-<tr data-team="was"><td class="wk">4</td><td class="date">Sun Oct 4</td><td class="time">9:30a</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs Indianapolis<span class="note">international</span></td><td>Likely CBS<span class="note">also NFL+</span></td><td><span class="pill yes">OTA</span></td></tr>
-<tr data-team="gb"><td class="wk">4</td><td class="date">Sun Oct 4</td><td class="time">1:00p</td><td><span class="team t-gb">GB</span></td><td class="matchup">at Tampa Bay</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS plays at 9:30a</span></td></tr>
-<tr data-team="det"><td class="wk">4</td><td class="date">Sun Oct 4</td><td class="time">8:20p</td><td><span class="team t-det">DET</span></td><td class="matchup">at Carolina</td><td>NBC / Peacock<span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
-<tr data-team="was"><td class="wk">5</td><td class="date">Sun Oct 11</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs NY Giants</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
-<tr data-team="det"><td class="wk">5</td><td class="date">Sun Oct 11</td><td class="time">4:25p</td><td><span class="team t-det">DET</span></td><td class="matchup">at Arizona</td><td>FOX</td><td><span class="pill no">No</span><span class="note">GB–CHI is the bigger 4:25</span></td></tr>
-<tr data-team="gb"><td class="wk">5</td><td class="date">Sun Oct 11</td><td class="time">4:25p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Chicago</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">strong late-window candidate</span></td></tr>
-<tr class="bye-row" data-team="det"><td class="wk">6</td><td class="date">Week of Oct 18</td><td class="time">—</td><td><span class="team t-det">DET</span></td><td colspan="3">Bye week</td></tr>
-<tr data-team="gb"><td class="wk">6</td><td class="date">Sun Oct 18</td><td class="time">8:20p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Dallas</td><td>NBC / Peacock<span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
-<tr data-team="was"><td class="wk">6</td><td class="date">Mon Oct 19</td><td class="time">8:15p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at San Francisco</td><td>ESPN<span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
-<tr class="star" data-team="det gb"><td class="wk">7</td><td class="date">Sun Oct 25</td><td class="time">4:25p</td><td><span class="team t-det">DET</span> <span class="team t-gb">GB</span></td><td class="matchup">Packers at Lions</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">best bet of the year — WAS on bye</span></td></tr>
-<tr class="bye-row" data-team="was"><td class="wk">7</td><td class="date">Week of Oct 25</td><td class="time">—</td><td><span class="team t-was">WAS</span></td><td colspan="3">Bye week</td></tr>
-<tr data-team="gb"><td class="wk">8</td><td class="date">Thu Oct 29</td><td class="time">8:15p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Carolina</td><td>Prime / <strong>Twitch (free)</strong></td><td><span class="pill no">No</span><span class="note">free on Twitch</span></td></tr>
-<tr data-team="det"><td class="wk">8</td><td class="date">Sun Nov 1</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">vs Minnesota</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS plays SNF, FOX slot open</span></td></tr>
-<tr data-team="was"><td class="wk">8</td><td class="date">Sun Nov 1</td><td class="time">8:20p</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs Philadelphia</td><td>NBC / Peacock<span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
-<tr data-team="det"><td class="wk">9</td><td class="date">Sun Nov 8</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">at Miami</td><td>FOX</td><td><span class="pill no">No</span><span class="note">WAS has the FOX 1:00</span></td></tr>
-<tr data-team="was"><td class="wk">9</td><td class="date">Sun Nov 8</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs LA Rams</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
-<tr data-team="gb"><td class="wk">9</td><td class="date">Sun Nov 8</td><td class="time">4:25p</td><td><span class="team t-gb">GB</span></td><td class="matchup">at New England</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS is in the 1:00 window</span></td></tr>
-<tr data-team="was"><td class="wk">10</td><td class="date">Thu Nov 12</td><td class="time">8:15p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at NY Giants</td><td>Prime / <strong>Twitch (free)</strong></td><td><span class="pill no">No</span><span class="note">free on Twitch</span></td></tr>
-<tr data-team="det"><td class="wk">10</td><td class="date">Sun Nov 15</td><td class="time">9:30a</td><td><span class="team t-det">DET</span></td><td class="matchup">vs New England<span class="note">Munich, Germany</span></td><td>Likely CBS<span class="note">also NFL+</span></td><td><span class="pill maybe">Maybe</span><span class="note">morning games go near-national</span></td></tr>
-<tr data-team="gb"><td class="wk">10</td><td class="date">Sun Nov 15</td><td class="time">1:00p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Minnesota</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS played Thursday</span></td></tr>
-<tr class="bye-row" data-team="gb"><td class="wk">11</td><td class="date">Week of Nov 22</td><td class="time">—</td><td><span class="team t-gb">GB</span></td><td colspan="3">Bye week</td></tr>
-<tr data-team="det"><td class="wk">11</td><td class="date">Sun Nov 22</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">vs Tampa Bay</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS plays Monday</span></td></tr>
-<tr data-team="was"><td class="wk">11</td><td class="date">Mon Nov 23</td><td class="time">8:15p</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs Cincinnati</td><td>ESPN<span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
-<tr data-team="gb"><td class="wk">12</td><td class="date">Wed Nov 25</td><td class="time">8:00p</td><td><span class="team t-gb">GB</span></td><td class="matchup">at LA Rams<span class="note">first-ever Thanksgiving Eve game</span></td><td>Netflix</td><td><span class="pill no">No</span><span class="note">OTA only in GB and LA</span></td></tr>
-<tr data-team="det"><td class="wk">12</td><td class="date">Thu Nov 26</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">vs Chicago<span class="note">Thanksgiving</span></td><td>CBS</td><td><span class="pill yes">OTA</span><span class="note">WDBJ 7 — national</span></td></tr>
-<tr data-team="was"><td class="wk">12</td><td class="date">Sun Nov 29</td><td class="time">4:25p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at Arizona</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
-<tr data-team="det"><td class="wk">13</td><td class="date">Sun Dec 6</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">at Atlanta</td><td>FOX</td><td><span class="pill no">No</span><span class="note">WAS has the FOX 1:00</span></td></tr>
-<tr data-team="gb"><td class="wk">13</td><td class="date">Sun Dec 6</td><td class="time">1:00p</td><td><span class="team t-gb">GB</span></td><td class="matchup">at New Orleans</td><td>FOX</td><td><span class="pill no">No</span><span class="note">WAS has the FOX 1:00</span></td></tr>
-<tr data-team="was"><td class="wk">13</td><td class="date">Sun Dec 6</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at Tennessee</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
-<tr data-team="det"><td class="wk">14</td><td class="date">Sun Dec 13</td><td class="time">1:00p</td><td><span class="team t-det">DET</span></td><td class="matchup">vs Tennessee</td><td>CBS</td><td><span class="pill no">No</span><span class="note">WAS has the CBS 1:00</span></td></tr>
-<tr data-team="was"><td class="wk">14</td><td class="date">Sun Dec 13</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs Houston</td><td>CBS</td><td><span class="pill yes">OTA</span><span class="note">WDBJ 7</span></td></tr>
-<tr data-team="gb"><td class="wk">14</td><td class="date">Sun Dec 13</td><td class="time">8:20p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Buffalo</td><td>NBC / Peacock<span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
-<tr data-team="gb"><td class="wk">15</td><td class="date">Sun Dec 20</td><td class="time">1:00p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Miami</td><td>CBS</td><td><span class="pill maybe">Maybe</span><span class="note">WAS on FOX — CBS slot open</span></td></tr>
-<tr data-team="was"><td class="wk">15</td><td class="date">Sun Dec 20</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">vs Atlanta</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
-<tr data-team="det"><td class="wk">15</td><td class="date">Sun Dec 20</td><td class="time">8:20p</td><td><span class="team t-det">DET</span></td><td class="matchup">at Minnesota</td><td>NBC / Peacock<span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
-<tr data-team="gb"><td class="wk">16</td><td class="date">Fri Dec 25</td><td class="time">1:00p</td><td><span class="team t-gb">GB</span></td><td class="matchup">at Chicago<span class="note">Christmas Day</span></td><td>Netflix</td><td><span class="pill no">No</span><span class="note">OTA only in GB and CHI</span></td></tr>
-<tr data-team="was"><td class="wk">16</td><td class="date">Sun Dec 27</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at Minnesota</td><td>FOX<span class="note">flex candidate</span></td><td><span class="pill yes">OTA</span></td></tr>
-<tr data-team="det"><td class="wk">16</td><td class="date">Mon Dec 28</td><td class="time">8:15p</td><td><span class="team t-det">DET</span></td><td class="matchup">vs NY Giants</td><td>ESPN<span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
-<tr data-team="was"><td class="wk">17</td><td class="date">Sun Jan 3</td><td class="time">1:00p</td><td><span class="team t-was">WAS</span></td><td class="matchup">at Jacksonville</td><td>FOX<span class="note">flex candidate</span></td><td><span class="pill yes">OTA</span></td></tr>
-<tr data-team="det"><td class="wk">17</td><td class="date">Sun Jan 3</td><td class="time">4:25p</td><td><span class="team t-det">DET</span></td><td class="matchup">at Chicago</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS is in the 1:00 window</span></td></tr>
-<tr data-team="gb"><td class="wk">17</td><td class="date">Mon Jan 4</td><td class="time">8:15p</td><td><span class="team t-gb">GB</span></td><td class="matchup">vs Houston</td><td>ESPN<span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
-<tr data-team="det gb"><td class="wk">18</td><td class="date">Sun Jan 10</td><td class="time">TBD</td><td><span class="team t-det">DET</span> <span class="team t-gb">GB</span></td><td class="matchup">Lions at Packers</td><td>TBD<span class="note">flexed — network set later</span></td><td><span class="pill maybe">Maybe</span></td></tr>
-<tr data-team="was"><td class="wk">18</td><td class="date">Sun Jan 10</td><td class="time">TBD</td><td><span class="team t-was">WAS</span></td><td class="matchup">opponent TBD</td><td>TBD</td><td><span class="pill maybe">Maybe</span><span class="note">not yet in the schedule data</span></td></tr>
-
-</tbody>
-</table>
-</div>
-
-<div class="callout">
-<strong>The ones you can bank on</strong>
-<ul>
-<li><strong>Oct 25, 4:25p — Packers at Lions, FOX.</strong> Both your teams, and the Commanders are on bye. Nothing competing for Roanoke's FOX late window.</li>
-<li><strong>Nov 26, 1:00p — Bears at Lions, CBS.</strong> Thanksgiving is national. WDBJ 7, guaranteed.</li>
-<li><strong>Four Sunday nighters on NBC:</strong> Lions Oct 4 and Dec 20, Packers Oct 18 and Dec 13. All WSLS 10.</li>
-<li><strong>Three Thursday games free on Twitch:</strong> Packers Sep 24 and Oct 29, Commanders Nov 12.</li>
-</ul>
-</div>
-
-<div class="callout">
-<strong>Weekly reality check</strong>
-<p style="margin:8px 0 0">FOX and CBS publish regional coverage maps about 12 days before each Sunday. <em>506 Sports</em> maps them by market and will turn every "Maybe" above into a yes or no before kickoff.</p>
-</div>
-
-<footer>
-Schedule data pulled Sep 20, 2026. Sunday afternoon network assignments follow the standard conference rule and can be cross-flexed; Weeks 15–18 are subject to flex scheduling. Netflix games simulcast over the air only in the participating teams' home markets.
-</footer>
-
-</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
 <script>
 (function(){
-  var rows = Array.prototype.slice.call(document.querySelectorAll('#tb tr'));
-  var teamBtns = Array.prototype.slice.call(document.querySelectorAll('[data-filter]'));
-  var playedBtn = document.getElementById('hidePlayed');
-  var team = 'all', hidePlayed = false;
-
-  function apply(){
-    rows.forEach(function(r){
-      var t = r.getAttribute('data-team') || '';
-      var okTeam = (team === 'all') || t.split(' ').indexOf(team) !== -1;
-      var okPlayed = !hidePlayed || !r.classList.contains('played');
-      r.style.display = (okTeam && okPlayed) ? '' : 'none';
-    });
+  if (!window.Vue) {
+    document.getElementById('fallback').textContent =
+      'Could not load Vue from the CDN, so the table cannot render. Check the network connection and reload.';
+    return;
   }
-  teamBtns.forEach(function(b){
-    b.addEventListener('click', function(){
-      team = b.getAttribute('data-filter');
-      teamBtns.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-      apply();
-    });
-  });
-  playedBtn.addEventListener('click', function(){
-    hidePlayed = !hidePlayed;
-    playedBtn.setAttribute('aria-pressed', hidePlayed ? 'true' : 'false');
-    playedBtn.textContent = hidePlayed ? 'Show played' : 'Hide played';
-    apply();
-  });
-  apply();
+
+  var TEAMS = {
+    DET:{name:'Lions'}, GB:{name:'Packers'}, WAS:{name:'Commanders'},
+    BAL:{name:'Ravens'}, TEN:{name:'Titans'}, PHI:{name:'Eagles'}
+  };
+  var ORDER = ['DET','GB','WAS','BAL','TEN','PHI'];
+
+  var MARKETS = {
+    roanoke:{short:'Roanoke', name:'Roanoke–Lynchburg', home:'WAS',
+      st:{FOX:'WFXR 27',CBS:'WDBJ 7',NBC:'WSLS 10',ABC:'WSET 13'}},
+    nova:{short:'NoVA / DC', name:'Washington, DC (incl. Northern Virginia)', home:'WAS',
+      st:{FOX:'WTTG 5',CBS:'WUSA 9',NBC:'WRC 4',ABC:'WJLA 7'}},
+    vb:{short:'Virginia Beach', name:'Norfolk–Portsmouth–Newport News', home:'WAS',
+      st:{FOX:'WVBT 43',CBS:'WTKR 3',NBC:'WAVY 10',ABC:'WVEC 13'}},
+    balt:{short:'Baltimore', name:'Baltimore', home:'BAL',
+      st:{FOX:'WBFF 45',CBS:'WJZ 13',NBC:'WBAL 11',ABC:'WMAR 2'}}
+  };
+
+  // net: FOX CBS NBC ESPN PRIME NFLX THX INTL SAT TBD
+  // ts (window): am early late night special
+  var G = [
+    {w:1,d:'2026-09-13',t:'1:00p',ts:'early',tm:['DET'],l:'Saints at Lions',sub:'Lions won 31–30',net:'FOX'},
+    {w:1,d:'2026-09-13',t:'1:00p',ts:'early',tm:['BAL'],l:'Ravens at Colts',sub:'Ravens won 41–23',net:'CBS'},
+    {w:1,d:'2026-09-13',t:'1:00p',ts:'early',tm:['TEN'],l:'Jets at Titans',sub:'Jets won 23–10',net:'CBS'},
+    {w:1,d:'2026-09-13',t:'4:25p',ts:'late',tm:['GB'],l:'Packers at Vikings',sub:'Vikings won 39–22',net:'FOX'},
+    {w:1,d:'2026-09-13',t:'4:25p',ts:'late',tm:['WAS','PHI'],l:'Commanders at Eagles',sub:'Eagles won 24–22',net:'FOX'},
+
+    {w:2,d:'2026-09-17',t:'8:15p',ts:'night',tm:['DET'],l:'Lions at Bills',sub:'Bills won 41–31',net:'PRIME'},
+    {w:2,d:'2026-09-20',t:'1:00p',ts:'early',tm:['GB'],l:'Packers at Jets',net:'FOX'},
+    {w:2,d:'2026-09-20',t:'1:00p',ts:'early',tm:['BAL'],l:'Saints at Ravens',sub:'Saints won 24–17',net:'FOX'},
+    {w:2,d:'2026-09-20',t:'1:00p',ts:'early',tm:['TEN','PHI'],l:'Eagles at Titans',sub:'Eagles won 24–20',net:'FOX'},
+    {w:2,d:'2026-09-20',t:'4:25p',ts:'late',tm:['WAS'],l:'Commanders at Cowboys',net:'FOX'},
+
+    {w:3,d:'2026-09-24',t:'8:15p',ts:'night',tm:['GB'],l:'Falcons at Packers',net:'PRIME'},
+    {w:3,d:'2026-09-27',t:'1:00p',ts:'early',tm:['DET'],l:'Jets at Lions',net:'CBS'},
+    {w:3,d:'2026-09-27',t:'1:00p',ts:'early',tm:['WAS'],l:'Seahawks at Commanders',net:'FOX'},
+    {w:3,d:'2026-09-27',t:'1:00p',ts:'early',tm:['TEN'],l:'Titans at Giants',net:'CBS'},
+    {w:3,d:'2026-09-27',t:'4:25p',ts:'late',tm:['BAL'],l:'Ravens at Cowboys',net:'CBS'},
+    {w:3,d:'2026-09-28',t:'8:15p',ts:'night',tm:['PHI'],l:'Eagles at Bears',net:'ESPN'},
+
+    {w:4,d:'2026-10-04',t:'9:30a',ts:'am',tm:['WAS'],l:'Colts vs. Commanders',sub:'international',net:'INTL',nsub:'likely CBS · also NFL+'},
+    {w:4,d:'2026-10-04',t:'1:00p',ts:'early',tm:['GB'],l:'Packers at Buccaneers',net:'FOX'},
+    {w:4,d:'2026-10-04',t:'1:00p',ts:'early',tm:['BAL','TEN'],l:'Titans at Ravens',net:'CBS'},
+    {w:4,d:'2026-10-04',t:'1:00p',ts:'early',tm:['PHI'],l:'Rams at Eagles',net:'FOX'},
+    {w:4,d:'2026-10-04',t:'8:20p',ts:'night',tm:['DET'],l:'Lions at Panthers',net:'NBC'},
+
+    {w:5,d:'2026-10-11',t:'9:30a',ts:'am',tm:['PHI'],l:'Eagles vs. Jaguars',sub:'international',net:'INTL',nsub:'likely FOX · also NFL+'},
+    {w:5,d:'2026-10-11',t:'1:00p',ts:'early',tm:['WAS'],l:'Giants at Commanders',net:'FOX'},
+    {w:5,d:'2026-10-11',t:'1:00p',ts:'early',tm:['TEN'],l:'Texans at Titans',net:'CBS'},
+    {w:5,d:'2026-10-11',t:'4:25p',ts:'late',tm:['DET'],l:'Lions at Cardinals',net:'FOX'},
+    {w:5,d:'2026-10-11',t:'4:25p',ts:'late',tm:['GB'],l:'Bears at Packers',net:'FOX'},
+    {w:5,d:'2026-10-11',t:'8:20p',ts:'night',tm:['BAL'],l:'Ravens at Falcons',net:'NBC'},
+
+    {w:6,d:'2026-10-18',t:'—',ts:'bye',tm:['DET'],bye:true},
+    {w:6,d:'2026-10-18',t:'1:00p',ts:'early',tm:['BAL'],l:'Ravens at Browns',net:'CBS'},
+    {w:6,d:'2026-10-18',t:'1:00p',ts:'early',tm:['TEN'],l:'Titans at Colts',net:'CBS'},
+    {w:6,d:'2026-10-18',t:'1:00p',ts:'early',tm:['PHI'],l:'Panthers at Eagles',net:'FOX'},
+    {w:6,d:'2026-10-18',t:'8:20p',ts:'night',tm:['GB'],l:'Cowboys at Packers',net:'NBC'},
+    {w:6,d:'2026-10-19',t:'8:15p',ts:'night',tm:['WAS'],l:'Commanders at 49ers',net:'ESPN'},
+
+    {w:7,d:'2026-10-25',t:'—',ts:'bye',tm:['WAS'],bye:true},
+    {w:7,d:'2026-10-25',t:'1:00p',ts:'early',tm:['BAL'],l:'Bengals at Ravens',net:'CBS'},
+    {w:7,d:'2026-10-25',t:'1:00p',ts:'early',tm:['TEN'],l:'Browns at Titans',net:'CBS'},
+    {w:7,d:'2026-10-25',t:'4:25p',ts:'late',tm:['DET','GB'],l:'Packers at Lions',net:'FOX'},
+    {w:7,d:'2026-10-26',t:'8:15p',ts:'night',tm:['PHI'],l:'Cowboys at Eagles',net:'ESPN'},
+
+    {w:8,d:'2026-10-29',t:'8:15p',ts:'night',tm:['GB'],l:'Panthers at Packers',net:'PRIME'},
+    {w:8,d:'2026-11-01',t:'1:00p',ts:'early',tm:['DET'],l:'Vikings at Lions',net:'FOX'},
+    {w:8,d:'2026-11-01',t:'1:00p',ts:'early',tm:['BAL'],l:'Ravens at Bills',net:'CBS'},
+    {w:8,d:'2026-11-01',t:'1:00p',ts:'early',tm:['TEN'],l:'Titans at Bengals',net:'CBS'},
+    {w:8,d:'2026-11-01',t:'8:20p',ts:'night',tm:['WAS','PHI'],l:'Eagles at Commanders',net:'NBC'},
+
+    {w:9,d:'2026-11-05',t:'8:15p',ts:'night',tm:['BAL'],l:'Jaguars at Ravens',net:'PRIME'},
+    {w:9,d:'2026-11-08',t:'—',ts:'bye',tm:['TEN'],bye:true},
+    {w:9,d:'2026-11-08',t:'1:00p',ts:'early',tm:['DET'],l:'Lions at Dolphins',net:'FOX'},
+    {w:9,d:'2026-11-08',t:'1:00p',ts:'early',tm:['WAS'],l:'Rams at Commanders',net:'FOX'},
+    {w:9,d:'2026-11-08',t:'1:00p',ts:'early',tm:['PHI'],l:'Giants at Eagles',net:'FOX'},
+    {w:9,d:'2026-11-08',t:'4:25p',ts:'late',tm:['GB'],l:'Packers at Patriots',net:'FOX'},
+
+    {w:10,d:'2026-11-12',t:'8:15p',ts:'night',tm:['WAS'],l:'Commanders at Giants',net:'PRIME'},
+    {w:10,d:'2026-11-15',t:'—',ts:'bye',tm:['PHI'],bye:true},
+    {w:10,d:'2026-11-15',t:'9:30a',ts:'am',tm:['DET'],l:'Patriots vs. Lions',sub:'Munich, Germany',net:'INTL',nsub:'likely CBS · also NFL+'},
+    {w:10,d:'2026-11-15',t:'1:00p',ts:'early',tm:['GB'],l:'Vikings at Packers',net:'FOX'},
+    {w:10,d:'2026-11-15',t:'1:00p',ts:'early',tm:['TEN'],l:'Jaguars at Titans',net:'CBS'},
+    {w:10,d:'2026-11-16',t:'8:15p',ts:'night',tm:['BAL'],l:'Chargers at Ravens',net:'ESPN'},
+
+    {w:11,d:'2026-11-22',t:'—',ts:'bye',tm:['GB'],bye:true},
+    {w:11,d:'2026-11-22',t:'1:00p',ts:'early',tm:['DET'],l:'Buccaneers at Lions',net:'FOX'},
+    {w:11,d:'2026-11-22',t:'1:00p',ts:'early',tm:['BAL'],l:'Ravens at Panthers',net:'CBS'},
+    {w:11,d:'2026-11-22',t:'1:00p',ts:'early',tm:['TEN'],l:'Titans at Cowboys',net:'CBS'},
+    {w:11,d:'2026-11-22',t:'4:25p',ts:'late',tm:['PHI'],l:'Steelers at Eagles',net:'CBS'},
+    {w:11,d:'2026-11-23',t:'8:15p',ts:'night',tm:['WAS'],l:'Bengals at Commanders',net:'ESPN'},
+
+    {w:12,d:'2026-11-25',t:'8:00p',ts:'night',tm:['GB'],l:'Packers at Rams',sub:'first-ever Thanksgiving Eve game',net:'NFLX'},
+    {w:12,d:'2026-11-26',t:'1:00p',ts:'early',tm:['DET'],l:'Bears at Lions',sub:'Thanksgiving',net:'THX',chan:'CBS'},
+    {w:12,d:'2026-11-26',t:'4:30p',ts:'late',tm:['PHI'],l:'Eagles at Cowboys',sub:'Thanksgiving',net:'THX',chan:'FOX'},
+    {w:12,d:'2026-11-29',t:'1:00p',ts:'early',tm:['BAL'],l:'Ravens at Texans',net:'CBS'},
+    {w:12,d:'2026-11-29',t:'4:05p',ts:'late',tm:['TEN'],l:'Titans at Jaguars',net:'CBS'},
+    {w:12,d:'2026-11-29',t:'4:25p',ts:'late',tm:['WAS'],l:'Commanders at Cardinals',net:'FOX'},
+
+    {w:13,d:'2026-12-06',t:'—',ts:'bye',tm:['BAL'],bye:true},
+    {w:13,d:'2026-12-06',t:'1:00p',ts:'early',tm:['DET'],l:'Lions at Falcons',net:'FOX'},
+    {w:13,d:'2026-12-06',t:'1:00p',ts:'early',tm:['GB'],l:'Packers at Saints',net:'FOX'},
+    {w:13,d:'2026-12-06',t:'1:00p',ts:'early',tm:['WAS','TEN'],l:'Commanders at Titans',net:'FOX'},
+    {w:13,d:'2026-12-06',t:'4:05p',ts:'late',tm:['PHI'],l:'Eagles at Cardinals',net:'FOX'},
+
+    {w:14,d:'2026-12-13',t:'1:00p',ts:'early',tm:['DET','TEN'],l:'Titans at Lions',net:'CBS'},
+    {w:14,d:'2026-12-13',t:'1:00p',ts:'early',tm:['WAS'],l:'Texans at Commanders',net:'CBS'},
+    {w:14,d:'2026-12-13',t:'1:00p',ts:'early',tm:['BAL'],l:'Buccaneers at Ravens',net:'FOX'},
+    {w:14,d:'2026-12-13',t:'1:00p',ts:'early',tm:['PHI'],l:'Colts at Eagles',net:'CBS'},
+    {w:14,d:'2026-12-13',t:'8:20p',ts:'night',tm:['GB'],l:'Bills at Packers',net:'NBC'},
+
+    {w:15,d:'2026-12-19',t:'5:00p',ts:'special',tm:['PHI'],l:'Seahawks at Eagles',sub:'Saturday',net:'SAT'},
+    {w:15,d:'2026-12-20',t:'1:00p',ts:'early',tm:['GB'],l:'Dolphins at Packers',net:'CBS'},
+    {w:15,d:'2026-12-20',t:'1:00p',ts:'early',tm:['WAS'],l:'Falcons at Commanders',net:'FOX'},
+    {w:15,d:'2026-12-20',t:'1:00p',ts:'early',tm:['BAL'],l:'Ravens at Steelers',net:'CBS'},
+    {w:15,d:'2026-12-20',t:'1:00p',ts:'early',tm:['TEN'],l:'Colts at Titans',net:'CBS'},
+    {w:15,d:'2026-12-20',t:'8:20p',ts:'night',tm:['DET'],l:'Lions at Vikings',net:'NBC'},
+
+    {w:16,d:'2026-12-24',t:'8:15p',ts:'night',tm:['PHI'],l:'Texans at Eagles',sub:'Christmas Eve',net:'PRIME'},
+    {w:16,d:'2026-12-25',t:'1:00p',ts:'special',tm:['GB'],l:'Packers at Bears',sub:'Christmas Day',net:'NFLX'},
+    {w:16,d:'2026-12-27',t:'1:00p',ts:'early',tm:['WAS'],l:'Commanders at Vikings',net:'FOX',nsub:'flex candidate'},
+    {w:16,d:'2026-12-27',t:'1:00p',ts:'early',tm:['BAL'],l:'Browns at Ravens',net:'CBS'},
+    {w:16,d:'2026-12-27',t:'4:05p',ts:'late',tm:['TEN'],l:'Titans at Raiders',net:'CBS'},
+    {w:16,d:'2026-12-28',t:'8:15p',ts:'night',tm:['DET'],l:'Giants at Lions',net:'ESPN'},
+
+    {w:17,d:'2026-12-31',t:'8:15p',ts:'night',tm:['BAL'],l:'Ravens at Bengals',net:'PRIME'},
+    {w:17,d:'2027-01-03',t:'1:00p',ts:'early',tm:['WAS'],l:'Commanders at Jaguars',net:'FOX',nsub:'flex candidate'},
+    {w:17,d:'2027-01-03',t:'1:00p',ts:'early',tm:['TEN'],l:'Steelers at Titans',net:'CBS'},
+    {w:17,d:'2027-01-03',t:'4:25p',ts:'late',tm:['DET'],l:'Lions at Bears',net:'FOX'},
+    {w:17,d:'2027-01-03',t:'8:20p',ts:'night',tm:['PHI'],l:'Eagles at 49ers',net:'NBC'},
+    {w:17,d:'2027-01-04',t:'8:15p',ts:'night',tm:['GB'],l:'Texans at Packers',net:'ESPN'},
+
+    {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['DET','GB'],l:'Lions at Packers',net:'TBD'},
+    {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['WAS'],l:'Commanders — opponent TBD',sub:'not yet in the schedule data',net:'TBD'},
+    {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['BAL'],l:'Steelers at Ravens',net:'TBD'},
+    {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['TEN'],l:'Titans at Texans',net:'TBD'},
+    {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['PHI'],l:'Eagles at Giants',net:'TBD'}
+  ];
+  G.forEach(function(g,i){ g.k = i; });
+
+  function localToday(){
+    var n = new Date();
+    return n.getFullYear() + '-' +
+      String(n.getMonth()+1).padStart(2,'0') + '-' +
+      String(n.getDate()).padStart(2,'0');
+  }
+
+  var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  Vue.createApp({
+    template: document.getElementById('tpl').innerHTML,
+    data: function(){
+      return {
+        teams: TEAMS, order: ORDER, markets: MARKETS, games: G,
+        market: 'roanoke',
+        shown: ORDER.slice(),
+        hidePast: false,
+        onlyOTA: false,
+        today: localToday()
+      };
+    },
+    computed: {
+      prettyToday: function(){ return this.fmtLong(this.today); },
+      visible: function(){
+        var self = this;
+        return this.games.filter(function(g){
+          if (!g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
+          if (self.hidePast && g.d < self.today) return false;
+          if (self.onlyOTA && (g.bye || self.v(g).s !== 'yes')) return false;
+          return true;
+        });
+      },
+      gameCount: function(){ return this.visible.filter(function(g){ return !g.bye; }).length; },
+      otaCount: function(){
+        var self = this;
+        return this.visible.filter(function(g){ return !g.bye && self.v(g).s === 'yes'; }).length;
+      }
+    },
+    methods: {
+      toggle: function(c){
+        var i = this.shown.indexOf(c);
+        if (i === -1) this.shown.push(c);
+        else if (this.shown.length > 1) this.shown.splice(i,1);
+      },
+      allTeams: function(){ this.shown = ORDER.slice(); },
+      isPast: function(g){ return g.d < this.today; },
+      parse: function(d){
+        var p = d.split('-');
+        return new Date(+p[0], +p[1]-1, +p[2]);
+      },
+      fmt: function(d){
+        var x = this.parse(d);
+        return DOW[x.getDay()] + ' ' + MON[x.getMonth()] + ' ' + x.getDate();
+      },
+      fmtLong: function(d){
+        var x = this.parse(d);
+        return DOW[x.getDay()] + ', ' + MON[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
+      },
+      chan: function(g){
+        var n = g.net;
+        if (n === 'NBC')   return 'NBC / Peacock';
+        if (n === 'ESPN')  return 'ESPN';
+        if (n === 'PRIME') return 'Prime / Twitch (free)';
+        if (n === 'NFLX')  return 'Netflix';
+        if (n === 'THX')   return g.chan;
+        if (n === 'INTL')  return 'International';
+        if (n === 'SAT')   return 'Saturday — network TBD';
+        if (n === 'TBD')   return 'TBD';
+        return n;
+      },
+      v: function(g){
+        if (g.bye) return {s:'no', note:''};
+        var m = MARKETS[this.market], home = m.home;
+        var homeName = TEAMS[home].name;
+        var mine = g.tm.indexOf(home) !== -1;
+
+        if (g.net === 'NBC')  return {s:'yes', note:m.st.NBC + ' — national'};
+        if (g.net === 'THX')  return {s:'yes', note:m.st[g.chan] + ' — national'};
+        if (g.net === 'ESPN') return {s:'no',  note:'unless ABC simulcasts'};
+        if (g.net === 'PRIME')return {s:'no',  note:'free on Twitch'};
+        if (g.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
+        if (g.net === 'SAT')  return {s:'maybe', note:'network not announced'};
+        if (g.net === 'TBD')  return {s:'maybe', note:'flexed — set in January'};
+        if (g.net === 'INTL') {
+          return mine ? {s:'yes', note:'home-market game'}
+                      : {s:'maybe', note:'morning games go near-national'};
+        }
+        // FOX or CBS Sunday afternoon
+        if (mine) return {s:'yes', note:m.st[g.net]};
+        var blocked = G.some(function(x){
+          return !x.bye && x.d === g.d && x.net === g.net && x.ts === g.ts &&
+                 x.tm.indexOf(home) !== -1;
+        });
+        if (blocked) return {s:'no', note:homeName + ' have this window'};
+        return {s:'maybe', note:'open window — regional pick'};
+      }
+    }
+  }).mount('#app');
 })();
 </script>
 </body>
