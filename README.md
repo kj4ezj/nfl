@@ -1,9 +1,9 @@
 # 2026 NFL Football Schedule
 This repo contains a website showing how to watch 2026 NFL American football games in mid-Atlantic markets for teams of interest to me and the people I watch football with.
 
-This is a single-page web app rendering the schedule in HTML using zero external dependencies. It was built using `claude-opus-5`.
+This is a single-page web app rendering the schedule with client-side JavaScript using zero external dependencies. It was built using `claude-opus-5`.
 
-> [!WARNING]  
+> [!IMPORTANT]  
 > Over-the-air availability is computed from network and time-window rules, not from published coverage maps. Sunday afternoon games are not assigned to markets until roughly 12 days out. Check local listings. Several entries are estimates.
 
 > [!NOTE]  
