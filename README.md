@@ -13,7 +13,12 @@ This is a single-page web app rendering the schedule with client-side JavaScript
 
 
 ### Contents
+1. [DNS](#dns)
 1. [See Also](#see-also)
+
+
+## DNS
+Lock your custom GitHub Pages domain down with DNS.
 
 
 ## See Also
