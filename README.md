@@ -15,6 +15,7 @@ This is a single-page web app rendering the schedule with client-side JavaScript
 ### Contents
 1. [DNS](#dns)
     1. [DNSSEC](#dnssec)
+    1. [Email](#email)
 1. [See Also](#see-also)
 
 
@@ -39,12 +40,29 @@ My `DS` record was missing for a while. My DNS provider had to submit my `DS` re
 Once a `DS` record exists at the registry, validating resolvers will reject your entire domain with `SERVFAIL` if the signatures stop matching. Disable DNSSEC and wait for the `DS` to expire before moving DNS providers.
 
 
+### Email
+This domain is not intended to send or receive email, so we should take some steps to protect it from being used by attackers to send spam. The Messaging, Malware and Mobile Anti-Abuse Working Group has [published](https://www.m3aawg.org/sites/default/files/doc_files/m3aawg_parked_domains_bcp-2022-06.pdf) best-practices for this. We can't control what mail servers do with email forging this domain as the sender, but we can tell mail servers this domain does not send or receive email.
+
+Record | Key | Value | Notes
+:---: | ---: | --- | ---
+`TXT` | `zanzu.football` | `v=spf1 -all` | No IP addresses are authorized to send email from the root domain
+`TXT` | `*.zanzu.football` | `v=spf1 -all` | No IP addresses are authorized to send email from any subdomain
+`TXT` | `_dmarc.zanzu.football` | `v=DMARC1; p=reject; sp=reject` | Mail servers using DMARC should reject all email from the root domain or subdomains
+`MX` | `zanzu.football` | Mail Server: `.`<br/>Priority: `0` | Advise mail servers the root domain does not accept email
+`MX` | `*.zanzu.football` | Mail Server: `.`<br/>Priority: `0` | Advise mail servers no subdomains accept email
+
+This will cause most mail servers to bounce messages addressed to this domain, and to reject or quarantine mail forged from it. No DKIM record is published because the absence of a public key in DNS is what causes a forged signature to fail validation.
+
+
 ## See Also
 - [506sports.com](https://506sports.com) - NFL game coverage/market maps
 - [Claude](https://claude.ai) - AI
 - DNS
+    - [DMARC Subdomain Policy Tag](https://mxtoolbox.com/dmarc/details/dmarc-tags/dmarc-sp) - `sp`
     - [dnsviz.net](https://dnsviz.net) - DNSSEC checking tool
     - [Domain Name System Security Extensions](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) - DNSSEC Wikipedia
+    - [M³AAWG Protecting Parked Domains Best Common Practices](https://www.m3aawg.org/sites/default/files/doc_files/m3aawg_parked_domains_bcp-2022-06.pdf) \[PDF]
+    - [RFC-7505](https://www.rfc-editor.org/info/rfc7505) - A "Null MX" No Service Resource Record for Domains That Accept No Mail
 - [HD Homerun](https://www.silicondust.com/hdhomerun.html) - networked TV tuner
 - [Jellyfin](https://jellyfin.org)
 - [NFL](https://www.nfl.com)
