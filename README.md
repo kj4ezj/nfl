@@ -3,6 +3,9 @@ This repo contains a website showing how to watch 2026 NFL American football gam
 
 This is a single-page web app rendering the schedule in HTML using zero external dependencies. It was built using `claude-opus-5`.
 
+> [!WARNING]  
+> Over-the-air availability is computed from network and time-window rules, not from published coverage maps. Sunday afternoon games are not assigned to markets until roughly 12 days out. Check local listings. Several entries are estimates.
+
 > [!NOTE]  
 > While my source code is released under the MIT license, all rights to team names, network names, streaming service names, and the [NFL schedule](https://www.nfl.com/schedules) itself belong to their respective holders.
 
@@ -21,3 +24,7 @@ This is a single-page web app rendering the schedule in HTML using zero external
 - [rabbitears.info](https://www.rabbitears.info)
     - [Signal Search Map](https://www.rabbitears.info/searchmap.php) - over-the-air (OTA) reception
 - [tvtv.us](https://tvtv.us) - over-the-air (OTA) TV guide
+
+---
+> **_Notice_**  
+> Assets in this repo were created in collaboration with a large language model, machine learning algorithm, or weak artificial intelligence (AI). This notice is required in some countries.

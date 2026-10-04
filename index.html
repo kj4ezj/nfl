@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026 Viewing Guide — Lions, Packers, Commanders (Roanoke)</title>
+<style>
+  :root{
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    --bg:#f7f6f3;
+    --surface:#ffffff;
+    --ink:#1a1a18;
+    --muted:#6b6862;
+    --line:#e2dfd8;
+    --accent:#1c5c3a;
+    --yes-bg:#e3f2e8;
+    --yes-ink:#1c5c3a;
+    --maybe-bg:#fbf0d9;
+    --maybe-ink:#8a6414;
+    --no-bg:#f6e3e3;
+    --no-ink:#8d3535;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --bg:#17181a;
+      --surface:#202224;
+      --ink:#eceae5;
+      --muted:#9d9a94;
+      --line:#33363a;
+      --accent:#6fc294;
+      --yes-bg:#1d3a2a;
+      --yes-ink:#8fd9b0;
+      --maybe-bg:#3b3420;
+      --maybe-ink:#e3c47a;
+      --no-bg:#3d2626;
+      --no-ink:#e79f9f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#17181a;
+    --surface:#202224;
+    --ink:#eceae5;
+    --muted:#9d9a94;
+    --line:#33363a;
+    --accent:#6fc294;
+    --yes-bg:#1d3a2a;
+    --yes-ink:#8fd9b0;
+    --maybe-bg:#3b3420;
+    --maybe-ink:#e3c47a;
+    --no-bg:#3d2626;
+    --no-ink:#e79f9f;
+  }
+  *,*::before,*::after{box-sizing:inherit}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;
+    font-size:16px;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:24px 16px 56px}
+  h1{font-size:1.45rem;line-height:1.25;margin:0 0 6px;letter-spacing:-0.01em}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 22px}
+  h2{
+    font-size:1.1rem;margin:34px 0 4px;letter-spacing:-0.01em;
+    display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;
+  }
+  h2 .bye{font-size:.75rem;font-weight:400;color:var(--muted)}
+  .legend{
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin:0 0 8px;font-size:.85rem;
+  }
+  .legend p{margin:0 0 8px}
+  .legend p:last-child{margin:0}
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin-top:10px}
+  table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:600px}
+  th{
+    text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--muted);font-weight:600;padding:10px 10px;border-bottom:1px solid var(--line);
+    white-space:nowrap;background:var(--surface);
+  }
+  td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .wk{font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap}
+  .date{white-space:nowrap}
+  .time{white-space:nowrap;font-variant-numeric:tabular-nums}
+  .matchup{font-weight:600}
+  .played{color:var(--muted);font-weight:400}
+  .pill{
+    display:inline-block;padding:2px 8px;border-radius:100px;
+    font-size:.72rem;font-weight:600;white-space:nowrap;
+  }
+  .yes{background:var(--yes-bg);color:var(--yes-ink)}
+  .maybe{background:var(--maybe-bg);color:var(--maybe-ink)}
+  .no{background:var(--no-bg);color:var(--no-ink)}
+  .note{font-size:.72rem;color:var(--muted);display:block;margin-top:2px}
+  .callout{
+    background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:8px;padding:12px 14px;margin:26px 0 0;font-size:.87rem;
+  }
+  .callout strong{color:var(--accent)}
+  .callout ul{margin:8px 0 0;padding-left:18px}
+  .callout li{margin-bottom:6px}
+  footer{margin-top:34px;font-size:.75rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>2026 Season Viewing Guide</h1>
+<p class="sub">Lions · Packers · Commanders — with over-the-air odds for the Roanoke–Lynchburg market. All times Eastern.</p>
+
+<div class="legend">
+  <p><span class="pill yes">OTA</span> Nationally distributed — it will be on a Roanoke station.</p>
+  <p><span class="pill maybe">Maybe</span> Depends on the weekly FOX/CBS regional pick, which isn't set until about 12 days out.</p>
+  <p><span class="pill no">No</span> Streaming-exclusive or blocked by a Commanders game in the same window.</p>
+</div>
+
+<div class="legend">
+  <p><strong>Your stations:</strong> WFXR 27 (FOX) · WDBJ 7 (CBS) · WSLS 10 (NBC) · WSET 13 (ABC)</p>
+  <p>Roanoke is Commanders territory, so when Washington plays in a FOX or CBS window, that window is spoken for. Lions and Packers games mostly get through only when they're national, or when the Commanders are elsewhere on the dial.</p>
+</div>
+
+<h2>Detroit Lions <span class="bye">· bye Week 6</span></h2>
+<div class="scroller">
+<table>
+<thead><tr><th>Wk</th><th>Date</th><th>Time</th><th>Matchup</th><th>How to watch</th><th>Roanoke</th></tr></thead>
+<tbody>
+<tr><td class="wk">1</td><td class="date">Sun Sep 13</td><td class="time">1:00p</td><td class="matchup played">vs NO — W 31–30</td><td>FOX</td><td>—</td></tr>
+<tr><td class="wk">2</td><td class="date">Thu Sep 17</td><td class="time">8:15p</td><td class="matchup played">at BUF — L 41–31</td><td>Prime / Twitch</td><td>—</td></tr>
+<tr><td class="wk">3</td><td class="date">Sun Sep 27</td><td class="time">1:00p</td><td class="matchup">vs NY Jets</td><td>CBS</td><td><span class="pill maybe">Maybe</span><span class="note">CBS window open — WAS is on FOX</span></td></tr>
+<tr><td class="wk">4</td><td class="date">Sun Oct 4</td><td class="time">8:20p</td><td class="matchup">at Carolina</td><td>NBC / Peacock <span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
+<tr><td class="wk">5</td><td class="date">Sun Oct 11</td><td class="time">4:25p</td><td class="matchup">at Arizona</td><td>FOX</td><td><span class="pill no">No</span><span class="note">GB–CHI is the bigger FOX 4:25</span></td></tr>
+<tr><td class="wk">6</td><td class="date">—</td><td class="time">—</td><td class="matchup played">BYE</td><td>—</td><td>—</td></tr>
+<tr><td class="wk">7</td><td class="date">Sun Oct 25</td><td class="time">4:25p</td><td class="matchup">vs Green Bay</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">Best bet of the year — WAS on bye</span></td></tr>
+<tr><td class="wk">8</td><td class="date">Sun Nov 1</td><td class="time">1:00p</td><td class="matchup">vs Minnesota</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS plays SNF, FOX slot open</span></td></tr>
+<tr><td class="wk">9</td><td class="date">Sun Nov 8</td><td class="time">1:00p</td><td class="matchup">at Miami</td><td>FOX</td><td><span class="pill no">No</span><span class="note">WAS has the FOX 1:00</span></td></tr>
+<tr><td class="wk">10</td><td class="date">Sun Nov 15</td><td class="time">9:30a</td><td class="matchup">vs New England <span class="note">Munich, Germany</span></td><td>Likely CBS <span class="note">also NFL+</span></td><td><span class="pill maybe">Maybe</span><span class="note">Morning games go near-national</span></td></tr>
+<tr><td class="wk">11</td><td class="date">Sun Nov 22</td><td class="time">1:00p</td><td class="matchup">vs Tampa Bay</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS plays Monday</span></td></tr>
+<tr><td class="wk">12</td><td class="date">Thu Nov 26</td><td class="time">1:00p</td><td class="matchup">vs Chicago <span class="note">Thanksgiving</span></td><td>CBS</td><td><span class="pill yes">OTA</span><span class="note">WDBJ 7 — national</span></td></tr>
+<tr><td class="wk">13</td><td class="date">Sun Dec 6</td><td class="time">1:00p</td><td class="matchup">at Atlanta</td><td>FOX</td><td><span class="pill no">No</span><span class="note">WAS has the FOX 1:00</span></td></tr>
+<tr><td class="wk">14</td><td class="date">Sun Dec 13</td><td class="time">1:00p</td><td class="matchup">vs Tennessee</td><td>CBS</td><td><span class="pill no">No</span><span class="note">WAS has the CBS 1:00</span></td></tr>
+<tr><td class="wk">15</td><td class="date">Sun Dec 20</td><td class="time">8:20p</td><td class="matchup">at Minnesota</td><td>NBC / Peacock <span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
+<tr><td class="wk">16</td><td class="date">Mon Dec 28</td><td class="time">8:15p</td><td class="matchup">vs NY Giants</td><td>ESPN <span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
+<tr><td class="wk">17</td><td class="date">Sun Jan 3</td><td class="time">4:25p</td><td class="matchup">at Chicago</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS is in the 1:00 window</span></td></tr>
+<tr><td class="wk">18</td><td class="date">Sun Jan 10</td><td class="time">TBD</td><td class="matchup">at Green Bay</td><td>TBD <span class="note">flexed — network set later</span></td><td><span class="pill maybe">Maybe</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Green Bay Packers <span class="bye">· bye Week 11</span></h2>
+<div class="scroller">
+<table>
+<thead><tr><th>Wk</th><th>Date</th><th>Time</th><th>Matchup</th><th>How to watch</th><th>Roanoke</th></tr></thead>
+<tbody>
+<tr><td class="wk">1</td><td class="date">Sun Sep 13</td><td class="time">4:25p</td><td class="matchup played">at MIN — L 39–22</td><td>FOX</td><td>—</td></tr>
+<tr><td class="wk">2</td><td class="date">Sun Sep 20</td><td class="time">1:00p</td><td class="matchup played">at NY Jets</td><td>FOX</td><td>—</td></tr>
+<tr><td class="wk">3</td><td class="date">Thu Sep 24</td><td class="time">8:15p</td><td class="matchup">vs Atlanta</td><td>Prime / <strong>Twitch (free)</strong></td><td><span class="pill no">No</span><span class="note">but free on Twitch</span></td></tr>
+<tr><td class="wk">4</td><td class="date">Sun Oct 4</td><td class="time">1:00p</td><td class="matchup">at Tampa Bay</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS plays at 9:30a</span></td></tr>
+<tr><td class="wk">5</td><td class="date">Sun Oct 11</td><td class="time">4:25p</td><td class="matchup">vs Chicago</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">strong late-window candidate</span></td></tr>
+<tr><td class="wk">6</td><td class="date">Sun Oct 18</td><td class="time">8:20p</td><td class="matchup">vs Dallas</td><td>NBC / Peacock <span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
+<tr><td class="wk">7</td><td class="date">Sun Oct 25</td><td class="time">4:25p</td><td class="matchup">at Detroit</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WAS on bye — clean shot</span></td></tr>
+<tr><td class="wk">8</td><td class="date">Thu Oct 29</td><td class="time">8:15p</td><td class="matchup">vs Carolina</td><td>Prime / <strong>Twitch (free)</strong></td><td><span class="pill no">No</span><span class="note">but free on Twitch</span></td></tr>
+<tr><td class="wk">9</td><td class="date">Sun Nov 8</td><td class="time">4:25p</td><td class="matchup">at New England</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS is in the 1:00 window</span></td></tr>
+<tr><td class="wk">10</td><td class="date">Sun Nov 15</td><td class="time">1:00p</td><td class="matchup">vs Minnesota</td><td>FOX</td><td><span class="pill maybe">Maybe</span><span class="note">WAS played Thursday</span></td></tr>
+<tr><td class="wk">11</td><td class="date">—</td><td class="time">—</td><td class="matchup played">BYE</td><td>—</td><td>—</td></tr>
+<tr><td class="wk">12</td><td class="date">Wed Nov 25</td><td class="time">8:00p</td><td class="matchup">at LA Rams <span class="note">first Thanksgiving Eve game</span></td><td>Netflix</td><td><span class="pill no">No</span><span class="note">OTA only in GB and LA markets</span></td></tr>
+<tr><td class="wk">13</td><td class="date">Sun Dec 6</td><td class="time">1:00p</td><td class="matchup">at New Orleans</td><td>FOX</td><td><span class="pill no">No</span><span class="note">WAS has the FOX 1:00</span></td></tr>
+<tr><td class="wk">14</td><td class="date">Sun Dec 13</td><td class="time">8:20p</td><td class="matchup">vs Buffalo</td><td>NBC / Peacock <span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
+<tr><td class="wk">15</td><td class="date">Sun Dec 20</td><td class="time">1:00p</td><td class="matchup">vs Miami</td><td>CBS</td><td><span class="pill maybe">Maybe</span><span class="note">WAS is on FOX — CBS slot open</span></td></tr>
+<tr><td class="wk">16</td><td class="date">Fri Dec 25</td><td class="time">1:00p</td><td class="matchup">at Chicago <span class="note">Christmas Day</span></td><td>Netflix</td><td><span class="pill no">No</span><span class="note">OTA only in GB and CHI markets</span></td></tr>
+<tr><td class="wk">17</td><td class="date">Mon Jan 4</td><td class="time">8:15p</td><td class="matchup">vs Houston</td><td>ESPN <span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
+<tr><td class="wk">18</td><td class="date">Sun Jan 10</td><td class="time">TBD</td><td class="matchup">vs Detroit</td><td>TBD <span class="note">flexed — network set later</span></td><td><span class="pill maybe">Maybe</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Washington Commanders <span class="bye">· bye Week 7</span></h2>
+<div class="scroller">
+<table>
+<thead><tr><th>Wk</th><th>Date</th><th>Time</th><th>Matchup</th><th>How to watch</th><th>Roanoke</th></tr></thead>
+<tbody>
+<tr><td class="wk">1</td><td class="date">Sun Sep 13</td><td class="time">4:25p</td><td class="matchup played">at PHI — L 24–22</td><td>FOX</td><td>—</td></tr>
+<tr><td class="wk">2</td><td class="date">Sun Sep 20</td><td class="time">4:25p</td><td class="matchup">at Dallas</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
+<tr><td class="wk">3</td><td class="date">Sun Sep 27</td><td class="time">1:00p</td><td class="matchup">vs Seattle</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
+<tr><td class="wk">4</td><td class="date">Sun Oct 4</td><td class="time">9:30a</td><td class="matchup">vs Indianapolis <span class="note">international</span></td><td>Likely CBS <span class="note">also NFL+</span></td><td><span class="pill yes">OTA</span></td></tr>
+<tr><td class="wk">5</td><td class="date">Sun Oct 11</td><td class="time">1:00p</td><td class="matchup">vs NY Giants</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
+<tr><td class="wk">6</td><td class="date">Mon Oct 19</td><td class="time">8:15p</td><td class="matchup">at San Francisco</td><td>ESPN <span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
+<tr><td class="wk">7</td><td class="date">—</td><td class="time">—</td><td class="matchup played">BYE</td><td>—</td><td>—</td></tr>
+<tr><td class="wk">8</td><td class="date">Sun Nov 1</td><td class="time">8:20p</td><td class="matchup">vs Philadelphia</td><td>NBC / Peacock <span class="note">Sunday Night Football</span></td><td><span class="pill yes">OTA</span><span class="note">WSLS 10</span></td></tr>
+<tr><td class="wk">9</td><td class="date">Sun Nov 8</td><td class="time">1:00p</td><td class="matchup">vs LA Rams</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
+<tr><td class="wk">10</td><td class="date">Thu Nov 12</td><td class="time">8:15p</td><td class="matchup">at NY Giants</td><td>Prime / <strong>Twitch (free)</strong></td><td><span class="pill no">No</span><span class="note">but free on Twitch</span></td></tr>
+<tr><td class="wk">11</td><td class="date">Mon Nov 23</td><td class="time">8:15p</td><td class="matchup">vs Cincinnati</td><td>ESPN <span class="note">Monday Night Football</span></td><td><span class="pill no">No</span><span class="note">unless ABC simulcasts</span></td></tr>
+<tr><td class="wk">12</td><td class="date">Sun Nov 29</td><td class="time">4:25p</td><td class="matchup">at Arizona</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
+<tr><td class="wk">13</td><td class="date">Sun Dec 6</td><td class="time">1:00p</td><td class="matchup">at Tennessee</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
+<tr><td class="wk">14</td><td class="date">Sun Dec 13</td><td class="time">1:00p</td><td class="matchup">vs Houston</td><td>CBS</td><td><span class="pill yes">OTA</span><span class="note">WDBJ 7</span></td></tr>
+<tr><td class="wk">15</td><td class="date">Sun Dec 20</td><td class="time">1:00p</td><td class="matchup">vs Atlanta</td><td>FOX</td><td><span class="pill yes">OTA</span><span class="note">WFXR 27</span></td></tr>
+<tr><td class="wk">16</td><td class="date">Sun Dec 27</td><td class="time">1:00p</td><td class="matchup">at Minnesota</td><td>FOX <span class="note">flex candidate</span></td><td><span class="pill yes">OTA</span></td></tr>
+<tr><td class="wk">17</td><td class="date">Sun Jan 3</td><td class="time">1:00p</td><td class="matchup">at Jacksonville</td><td>FOX <span class="note">flex candidate</span></td><td><span class="pill yes">OTA</span></td></tr>
+<tr><td class="wk">18</td><td class="date">Sun Jan 10</td><td class="time">TBD</td><td class="matchup">opponent TBD</td><td>TBD</td><td><span class="pill maybe">Maybe</span><span class="note">not yet in the schedule data I pulled</span></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="callout">
+<strong>The five you can bank on</strong>
+<ul>
+<li><strong>Oct 25, 4:25p — Packers at Lions, FOX.</strong> The one week both your teams play each other <em>and</em> the Commanders are on bye. Roanoke's FOX late window has nothing else competing.</li>
+<li><strong>Nov 26, 1:00p — Bears at Lions, CBS.</strong> Thanksgiving is national. Guaranteed on WDBJ 7.</li>
+<li><strong>Oct 18 and Dec 13 — Packers on Sunday Night Football, NBC.</strong> National, WSLS 10.</li>
+<li><strong>Oct 4 and Dec 20 — Lions on Sunday Night Football, NBC.</strong> Same deal.</li>
+<li><strong>Sep 24 and Oct 29 — Packers on Thursday night.</strong> Free on Twitch, no card, no account gymnastics.</li>
+</ul>
+</div>
+
+<div class="callout">
+<strong>Weekly reality check</strong>
+<p style="margin:8px 0 0">FOX and CBS publish regional coverage maps about 12 days before each Sunday. <em>506 Sports</em> maps them by market and will tell you exactly what Roanoke is getting before kickoff — the single best way to turn every "Maybe" above into a yes or no.</p>
+</div>
+
+<div class="callout">
+<strong>If the Michigan box happens</strong>
+<p style="margin:8px 0 0">An HDHomeRun at your friend's place in the Detroit market plus Channels DVR flips nearly every Lions "Maybe" and "No" on this page to a yes — WJBK 2 carries the FOX games, WWJ 62 the CBS ones. A Green Bay or Milwaukee placement would do the same for the Packers.</p>
+</div>
+
+<footer>
+Schedule data pulled Sep 20, 2026. Network assignments for Sunday afternoon games follow the standard conference rule and can be cross-flexed; Weeks 15–18 are subject to flex scheduling. Christmas and Thanksgiving Eve games on Netflix simulcast over the air only in the participating teams' home markets.
+</footer>
+
+</div>
+</body>
+</html>
