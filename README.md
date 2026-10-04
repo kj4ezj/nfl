@@ -17,6 +17,7 @@ This is a single-page web app rendering the schedule with client-side JavaScript
     1. [DNSSEC](#dnssec)
     1. [Email](#email)
     1. [CAA](#caa)
+    1. [GitHub Pages](#github-pages)
 1. [See Also](#see-also)
 
 
@@ -66,6 +67,39 @@ Record | Key | Value | Notes
 GitHub Pages uses Let's Encrypt. Subdomain `CAA` records override root `CAA` records.
 
 
+### GitHub Pages
+Enable GitHub Pages by going to repository settings > Pages, then selecting "Deploy from a branch" and your base branch, then click save. The site should be live almost immediately at `${USERNAME}.github.io/${REPOSITORY_NAME}/`.
+
+[Verify your custom domain for GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages) by going to [account settings](https://github.com/settings) > [Pages](https://github.com/settings/pages) > [Add a domain](https://github.com/settings/pages_verified_domains/new), and entering your domain name. It will return a key-value pair for you to enter in your DNS records.
+
+Record | Key | Value | Notes
+:---: | ---: | --- | ---
+`TXT` | `_github-pages-challenge-kj4ezj.zanzu.football` | `1beb1d735f8e83408ae21a92919317` | GitHub-provided
+
+Enter this record and click verify.
+
+Next, follow [GitHub's instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain) to point your domain at GitHub Pages.
+
+> [!TIP]  
+> I recommend deviating from their instructions by entering the DNS records _before_ adding the domain to your repo so the GitHub DNS checks pass on the first attempt instead of caching a failure.
+
+Record | Key | Value | Notes
+:---: | ---: | --- | ---
+`A` | `zanzu.football` | `185.199.108.153` | Obtain from docs or `dig A ${USERNAME}.github.io`, not this table
+`A` | `zanzu.football` | `185.199.109.153` | Obtain from docs or `dig A ${USERNAME}.github.io`, not this table
+`A` | `zanzu.football` | `185.199.110.153` | Obtain from docs or `dig A ${USERNAME}.github.io`, not this table
+`A` | `zanzu.football` | `185.199.111.153` | Obtain from docs or `dig A ${USERNAME}.github.io`, not this table
+`AAAA` | `zanzu.football` | `2606:50c0:8000::153` | Obtain from docs or `dig AAAA ${USERNAME}.github.io`, not this table
+`AAAA` | `zanzu.football` | `2606:50c0:8001::153` | Obtain from docs or `dig AAAA ${USERNAME}.github.io`, not this table
+`AAAA` | `zanzu.football` | `2606:50c0:8002::153` | Obtain from docs or `dig AAAA ${USERNAME}.github.io`, not this table
+`AAAA` | `zanzu.football` | `2606:50c0:8003::153` | Obtain from docs or `dig AAAA ${USERNAME}.github.io`, not this table
+`CNAME` | `www.zanzu.football` | `kj4ezj.github.io` | Use your own username, lol
+
+Once your domain points to GitHub Pages, go to repo settings > Pages > Custom domain, enter your root domain and click "Save". Their DNS check should pass, GitHub will automatically obtain and renew a TLS certificate with Let's Encrypt, and redirect `www.*` to your root domain.
+
+Finally, when the DNS check is passing and the TLS cert has been (re)issued with `www.` as a Subject Alternative Name (SAN), you will be able to check "Enforce HTTPS".
+
+
 ## See Also
 - [506sports.com](https://506sports.com) - NFL game coverage/market maps
 - [Claude](https://claude.ai) - AI
@@ -76,6 +110,12 @@ GitHub Pages uses Let's Encrypt. Subdomain `CAA` records override root `CAA` rec
     - [Domain Name System Security Extensions](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) - DNSSEC Wikipedia
     - [M³AAWG Protecting Parked Domains Best Common Practices](https://www.m3aawg.org/sites/default/files/doc_files/m3aawg_parked_domains_bcp-2022-06.pdf) \[PDF]
     - [RFC-7505](https://www.rfc-editor.org/info/rfc7505) - A "Null MX" No Service Resource Record for Domains That Accept No Mail
+- GitHub Pages
+    - [About custom domains and GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages)
+    - [Managing a custom domain for your GitHub Pages site](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+        - [Configuring an apex domain](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site#configuring-an-apex-domain)
+    - [Securing your GitHub Pages site with HTTPS](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https)
+    - [Verifying your custom domain for GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)
 - [HD Homerun](https://www.silicondust.com/hdhomerun.html) - networked TV tuner
 - [Jellyfin](https://jellyfin.org)
 - [NFL](https://www.nfl.com)
@@ -84,6 +124,7 @@ GitHub Pages uses Let's Encrypt. Subdomain `CAA` records override root `CAA` rec
     - [Signal Search Map](https://www.rabbitears.info/searchmap.php) - over-the-air (OTA) reception
 - [tvtv.us](https://tvtv.us) - over-the-air (OTA) TV guide
 - [Vue.js](https://vuejs.org)
+
 
 ---
 > **_Notice_**  
