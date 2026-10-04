@@ -16,6 +16,7 @@ This is a single-page web app rendering the schedule with client-side JavaScript
 1. [DNS](#dns)
     1. [DNSSEC](#dnssec)
     1. [Email](#email)
+    1. [CAA](#caa)
 1. [See Also](#see-also)
 
 
@@ -54,10 +55,22 @@ Record | Key | Value | Notes
 This will cause most mail servers to bounce messages addressed to this domain, and to reject or quarantine mail forged from it. No DKIM record is published because the absence of a public key in DNS is what causes a forged signature to fail validation.
 
 
+### CAA
+Use a [Certification Authority Authorization](https://letsencrypt.org/docs/caa) `CAA` record to restrict who can issue TLS certificates, and under which conditions.
+
+Record | Key | Value | Notes
+:---: | ---: | --- | ---
+`CAA` | `zanzu.football` | `0 issue "letsencrypt.org"` | Only Let's Encrypt should be issuing new certificates for this root domain or subdomains
+`CAA` | `zanzu.football` | `0 issuewild ";"` | No certificate authority should be issuing wildcard certificates for this root domain or subdomains
+
+GitHub Pages uses Let's Encrypt. Subdomain `CAA` records override root `CAA` records.
+
+
 ## See Also
 - [506sports.com](https://506sports.com) - NFL game coverage/market maps
 - [Claude](https://claude.ai) - AI
 - DNS
+    - [Certification Authority Authorization](https://letsencrypt.org/docs/caa) - Let's Encrypt `CAA`
     - [DMARC Subdomain Policy Tag](https://mxtoolbox.com/dmarc/details/dmarc-tags/dmarc-sp) - `sp`
     - [dnsviz.net](https://dnsviz.net) - DNSSEC checking tool
     - [Domain Name System Security Extensions](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) - DNSSEC Wikipedia
