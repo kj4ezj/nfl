@@ -127,7 +127,7 @@
     <div class="chips">
       <button v-for="(m,k) in markets" :key="k" :class="{on: market===k}" @click="market=k">{{ m.short }}</button>
     </div>
-    <p><strong>{{ markets[market].name }}</strong> — {{ markets[market].st.FOX }} (FOX) · {{ markets[market].st.CBS }} (CBS) · {{ markets[market].st.NBC }} (NBC) · {{ markets[market].st.ABC }} (ABC). Home team: {{ teams[markets[market].home].name }}.</p>
+    <p><strong>{{ markets[market].name }}</strong> — {{ teams[markets[market].home].name }}<br/>{{ markets[market].st.CBS }} (CBS) · {{ markets[market].st.NBC }} (NBC) · {{ markets[market].st.ABC }} (ABC) · {{ markets[market].st.FOX }} (FOX)</p>
   </div>
 
   <div class="panel">
