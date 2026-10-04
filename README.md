@@ -1,6 +1,8 @@
 # 2026 NFL Football Schedule
 This repo contains a website showing how to watch 2026 NFL American football games in mid-Atlantic markets for teams of interest to me and the people I watch football with.
 
+\>\>\> [https://zanzu.football](https://zanzu.football) <<<
+
 This is a single-page web app rendering the schedule with client-side JavaScript using only one external dependency, [Vue.js](https://vuejs.org). It was built using `claude-opus-5`.
 
 > [!IMPORTANT]  
