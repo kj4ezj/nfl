@@ -14,6 +14,7 @@ This is a single-page web app rendering the schedule with client-side JavaScript
 
 ### Contents
 1. [DNS](#dns)
+    1. [DNSSEC](#dnssec)
 1. [See Also](#see-also)
 
 
@@ -21,9 +22,29 @@ This is a single-page web app rendering the schedule with client-side JavaScript
 Lock your custom GitHub Pages domain down with DNS.
 
 
+### DNSSEC
+[Domain Name System Security Extensions](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) (DNSSEC) allows your DNS provider to cryptographically sign your DNS records such that DNS forgery can be detected by clients. Enable this with your DNS provider, then verify it is enabled and working with [dnsviz.net](https://dnsviz.net) and `dig`.
+```log
+$ dig CDNSKEY zanzu.football +short
+257 3 13 mdsswUyr3DPW132mOi8V9xESWE8jTo0dxCjjnopKl+GqJxpVXckHAeF+ KkxLbxILfDLUT0rAK9iUzy1L53eKGQ==
+$ dig CDS zanzu.football +short
+2371 13 2 9CF058808AC1FA4B082CBE8E6429363A7074DB93969CA992BAF789C7 BBFE9054
+$ dig DNSKEY zanzu.football +short
+257 3 13 mdsswUyr3DPW132mOi8V9xESWE8jTo0dxCjjnopKl+GqJxpVXckHAeF+ KkxLbxILfDLUT0rAK9iUzy1L53eKGQ==
+256 3 13 oJMRESz5E4gYzS/q6XDrvU1qMPYIjCWzJaOau8XNEZeqCYKD5ar0IRd8 KqXXFJkqmVfRvMGPmM1x8fGAa2XhSA==
+$ dig DS zanzu.football +short
+```
+My `DS` record was missing for a while. My DNS provider had to submit my `DS` record to the TLD registry, which took some time. The site works for clients during this time because they ignore the signature without a `DS` record and operate in insecure mode. Just wait a day and the `DS` record will eventually appear and make [dnsviz.net](https://dnsviz.net) happy. Some providers and configurations will require you to submit this manually.
+
+Once a `DS` record exists at the registry, validating resolvers will reject your entire domain with `SERVFAIL` if the signatures stop matching. Disable DNSSEC and wait for the `DS` to expire before moving DNS providers.
+
+
 ## See Also
 - [506sports.com](https://506sports.com) - NFL game coverage/market maps
 - [Claude](https://claude.ai) - AI
+- DNS
+    - [dnsviz.net](https://dnsviz.net) - DNSSEC checking tool
+    - [Domain Name System Security Extensions](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) - DNSSEC Wikipedia
 - [HD Homerun](https://www.silicondust.com/hdhomerun.html) - networked TV tuner
 - [Jellyfin](https://jellyfin.org)
 - [NFL](https://www.nfl.com)
