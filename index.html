@@ -139,7 +139,7 @@
     </div>
     <div class="chips" style="margin-bottom:0">
       <button :class="{on: showHistory}" @click="showHistory=!showHistory">Show History</button>
-      <button :class="{on: onlyOTA}" @click="onlyOTA=!onlyOTA">{{ onlyOTA ? 'Showing OTA only' : 'Only games I can get' }}</button>
+      <button :class="{on: onlyFree}" @click="onlyFree=!onlyFree">{{ onlyFree ? 'Only Free Games' : 'Only Free Games' }}</button>
     </div>
   </div>
 
@@ -397,7 +397,7 @@
         market: 'roanoke',
         shown: ORDER.slice(),
         showHistory: false,
-        onlyOTA: false,
+        onlyFree: false,
         today: localToday()
       };
     },
@@ -408,7 +408,7 @@
         return this.games.filter(function(g){
           if (g.tm.length && !g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
           if (!self.showHistory && g.d < self.today) return false;
-          if (self.onlyOTA && (g.bye || self.v(g).s !== 'yes')) return false;
+          if (self.onlyFree && (g.bye || self.v(g).s !== 'yes')) return false;
           return true;
         });
       },
