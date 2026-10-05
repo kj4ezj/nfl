@@ -166,7 +166,7 @@
             <td class="matchup">{{ g.l }}<span v-if="g.sub" class="note">{{ g.sub }}</span></td>
             <td>{{ chan(g) }}<span v-if="g.nsub" class="note">{{ g.nsub }}</span></td>
             <td>
-              <span :class="['pill', v(g).s, {fixed: v(g).fixed}]">{{ v(g).s==='yes' ? 'OTA' : v(g).s==='maybe' ? 'Maybe' : 'No' }}</span>
+              <span :class="['pill', v(g).s, {fixed: v(g).fixed}]">{{ label(g) }}</span>
               <span class="note">{{ v(g).note }}</span>
             </td>
           </template>
@@ -174,7 +174,7 @@
       </tbody>
     </table>
   </div>
-  <p class="count">{{ gameCount }} games shown · {{ otaCount }} confirmed over the air in {{ markets[market].short }}</p>
+  <p class="count">{{ gameCount }} games shown · {{ otaCount }} you can watch in {{ markets[market].short }}</p>
 
   <div class="callout">
     <strong>How the verdict is computed</strong>
@@ -440,13 +440,18 @@
         var n = g.net;
         if (n === 'NBC')   return 'NBC / Peacock';
         if (n === 'ESPN')  return 'ABC / ESPN';
-        if (n === 'PRIME') return 'Prime / Twitch (free)';
+        if (n === 'PRIME') return 'Prime / Twitch';
         if (n === 'NFLX')  return 'Netflix';
         if (n === 'THX')   return g.chan;
         if (n === 'INTL')  return 'International';
         if (n === 'SAT')   return 'Saturday — network TBD';
         if (n === 'TBD')   return 'TBD';
         return n;
+      },
+      // OTA label ternary
+      label: function(g){
+        var r = this.v(g);
+        return r.label || (r.s === 'yes' ? 'OTA' : r.s === 'maybe' ? 'Maybe' : 'No');
       },
       // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with fixed:true.
       v: function(g){
@@ -473,7 +478,7 @@
         if (g.net === 'NBC')  return {s:'yes', note:m.st.NBC + ' — national'};
         if (g.net === 'THX')  return {s:'yes', note:m.st[g.chan] + ' — national'};
         if (g.net === 'ESPN') return {s:'yes', note:m.st.ABC + ' — ABC simulcast'};
-        if (g.net === 'PRIME')return {s:'no',  note:'free on Twitch'};
+        if (g.net === 'PRIME')return {s:'yes', label:'Twitch', note:'Prime · Free on Twitch'};
         if (g.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
         if (g.net === 'SAT')  return {s:'maybe', note:'network not announced'};
         if (g.net === 'TBD')  return {s:'maybe', note:'flexed — set in January'};
