@@ -98,6 +98,7 @@
   .b-phi{background:var(--phi-bg);color:var(--phi)}
   .matchup{font-weight:600}
   .pill{display:inline-block;padding:2px 8px;border-radius:100px;font-size:.7rem;font-weight:600;white-space:nowrap}
+  .pill.fixed{box-shadow:inset 0 0 0 1.5px currentColor}
   .yes{background:var(--yes-bg);color:var(--yes-ink)}
   .maybe{background:var(--maybe-bg);color:var(--maybe-ink)}
   .no{background:var(--no-bg);color:var(--no-ink)}
@@ -146,6 +147,7 @@
     <p><span class="pill yes">OTA</span> National, or your market's home team — it will be on a local station.</p>
     <p><span class="pill maybe">Maybe</span> Open window, decided by the weekly FOX/CBS regional pick about 12 days out.</p>
     <p><span class="pill no">No</span> Streaming-exclusive, or the home team has that same network and window.</p>
+    <p><span class="pill yes fixed">OTA</span> An outlined pill is confirmed against a published listing for this market, not predicted.</p>
   </div>
 
   <div class="scroller">
@@ -164,7 +166,7 @@
             <td class="matchup">{{ g.l }}<span v-if="g.sub" class="note">{{ g.sub }}</span></td>
             <td>{{ chan(g) }}<span v-if="g.nsub" class="note">{{ g.nsub }}</span></td>
             <td>
-              <span :class="['pill', v(g).s]">{{ v(g).s==='yes' ? 'OTA' : v(g).s==='maybe' ? 'Maybe' : 'No' }}</span>
+              <span :class="['pill', v(g).s, {fixed: v(g).fixed}]">{{ v(g).s==='yes' ? 'OTA' : v(g).s==='maybe' ? 'Maybe' : 'No' }}</span>
               <span class="note">{{ v(g).note }}</span>
             </td>
           </template>
@@ -221,8 +223,39 @@
       st:{FOX:'WBFF 45',CBS:'WJZ 13',NBC:'WBAL 11',ABC:'WMAR 2'}}
   };
 
-  // net: FOX CBS NBC ESPN PRIME NFLX THX INTL SAT TBD
-  // ts (window): am early late night special
+  // GAME RECORD
+  //   w    week number
+  //   d    date, YYYY-MM-DD
+  //   t    kickoff, 24h Eastern
+  //   ts   time window: am | early | late | night | special | bye
+  //   tm   tracked teams in this game. [] means a filler game involving none of them,
+  //        which is always shown regardless of the team chips.
+  //   l    matchup label
+  //   sub  second line under the matchup
+  //   net  FOX CBS NBC ESPN PRIME NFLX THX INTL SAT TBD
+  //   nsub second line under the network
+  //   bye  true for a bye-week placeholder row
+  //
+  //   ota  OPTIONAL per-market override of the predicted availability. Use this once a
+  //        listing is published — roughly 12 days out for Sunday afternoon games, and
+  //        whenever a simulcast, preemption or exclusive is confirmed. Overrides always
+  //        win over the heuristic and render with an outlined pill.
+  //
+  //        ota:{ all:{...} }            applies to every market
+  //        ota:{ roanoke:{...} }        applies to that market only
+  //        ota:{ all:{...}, balt:{...} }  all markets, except Baltimore
+  //
+  //        Each entry takes:
+  //          s     'yes' | 'maybe' | 'no'          (required)
+  //          on    'FOX'|'CBS'|'NBC'|'ABC'         (optional) renders that market's
+  //                                                 own callsign as the note
+  //          note  literal note text               (optional) wins over `on`
+  //
+  //        Examples:
+  //          ota:{all:{s:'yes',on:'ABC'}}                  ABC simulcast everywhere
+  //          ota:{all:{s:'no',note:'no simulcast'}}        ESPN kept it exclusive
+  //          ota:{roanoke:{s:'no',note:'preempted'}}       one market only
+  //          ota:{all:{s:'yes',on:'CBS'},balt:{s:'no',note:'Ravens have this window'}}
   var G = [
     {w:1,d:'2026-09-13',t:'13:00',ts:'early',tm:['DET'],l:'Saints at Lions',sub:'Lions won 31–30',net:'FOX'},
     {w:1,d:'2026-09-13',t:'13:00',ts:'early',tm:['BAL'],l:'Ravens at Colts',sub:'Ravens won 41–23',net:'CBS'},
@@ -241,7 +274,7 @@
     {w:3,d:'2026-09-27',t:'13:00',ts:'early',tm:['WAS'],l:'Seahawks at Commanders',sub:'Commanders won 33–30',net:'FOX'},
     {w:3,d:'2026-09-27',t:'13:00',ts:'early',tm:['TEN'],l:'Titans at Giants',sub:'Giants won 12–7',net:'CBS'},
     {w:3,d:'2026-09-27',t:'16:25',ts:'late',tm:['BAL'],l:'Ravens at Cowboys',sub:'Ravens won 34–31 — Rio de Janeiro',net:'CBS'},
-    {w:3,d:'2026-09-28',t:'20:15',ts:'night',tm:['PHI'],l:'Eagles at Bears',sub:'Bears won 27–7',net:'ESPN'},
+    {w:3,d:'2026-09-28',t:'20:15',ts:'night',tm:['PHI'],l:'Eagles at Bears',sub:'Bears won 27–7',net:'ESPN',ota:{all:{s:'yes',on:'ABC'}}},
 
     {w:4,d:'2026-10-04',t:'09:30',ts:'am',tm:['WAS'],l:'Colts vs. Commanders',sub:'Colts won 30–13 — London',net:'INTL',nsub:'likely CBS · also NFL+'},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['GB'],l:'Packers at Buccaneers',sub:'Packers won 17–14',net:'FOX'},
@@ -371,7 +404,7 @@
       visible: function(){
         var self = this;
         return this.games.filter(function(g){
-          if (!g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
+          if (g.tm.length && !g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
           if (self.hidePast && g.d < self.today) return false;
           if (self.onlyOTA && (g.bye || self.v(g).s !== 'yes')) return false;
           return true;
@@ -415,9 +448,24 @@
         if (n === 'TBD')   return 'TBD';
         return n;
       },
+      // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with fixed:true.
       v: function(g){
-        if (g.bye) return {s:'no', note:''};
-        var m = MARKETS[this.market], home = m.home;
+        if (g.bye) return {s:'no', note:'', fixed:false};
+        var mk = this.market, m = MARKETS[mk];
+        if (g.ota) {
+          var o = Object.prototype.hasOwnProperty.call(g.ota, mk) ? g.ota[mk] : g.ota.all;
+          if (o) {
+            var note = o.note || (o.on && m.st[o.on] ? m.st[o.on] : '');
+            return {s:o.s, note:note, fixed:true};
+          }
+        }
+        var p = this.predict(g, mk);
+        p.fixed = false;
+        return p;
+      },
+      // rules-based guess, used wherever no listing has been confirmed yet
+      predict: function(g, mk){
+        var m = MARKETS[mk], home = m.home;
         var homeName = TEAMS[home].name;
         var mine = g.tm.indexOf(home) !== -1;
 
