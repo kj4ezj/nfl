@@ -138,7 +138,7 @@
       <button v-for="c in order" :key="c" :class="['t-'+c.toLowerCase(), {on: shown.includes(c)}]" @click="toggle(c)">{{ teams[c].name }}</button>
     </div>
     <div class="chips" style="margin-bottom:0">
-      <button :class="{on: hidePast}" @click="hidePast=!hidePast">{{ hidePast ? 'Showing upcoming only' : 'Hide past games' }}</button>
+      <button :class="{on: showHistory}" @click="showHistory=!showHistory">Show History</button>
       <button :class="{on: onlyOTA}" @click="onlyOTA=!onlyOTA">{{ onlyOTA ? 'Showing OTA only' : 'Only games I can get' }}</button>
     </div>
   </div>
@@ -396,7 +396,7 @@
         teams: TEAMS, order: ORDER, markets: MARKETS, games: G,
         market: 'roanoke',
         shown: ORDER.slice(),
-        hidePast: true,
+        showHistory: false,
         onlyOTA: false,
         today: localToday()
       };
@@ -407,7 +407,7 @@
         var self = this;
         return this.games.filter(function(g){
           if (g.tm.length && !g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
-          if (self.hidePast && g.d < self.today) return false;
+          if (!self.showHistory && g.d < self.today) return false;
           if (self.onlyOTA && (g.bye || self.v(g).s !== 'yes')) return false;
           return true;
         });
