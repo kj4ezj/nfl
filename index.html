@@ -439,7 +439,7 @@
       chan: function(g){
         var n = g.net;
         if (n === 'NBC')   return 'NBC / Peacock';
-        if (n === 'ESPN')  return 'ESPN';
+        if (n === 'ESPN')  return 'ABC / ESPN';
         if (n === 'PRIME') return 'Prime / Twitch (free)';
         if (n === 'NFLX')  return 'Netflix';
         if (n === 'THX')   return g.chan;
@@ -472,7 +472,7 @@
 
         if (g.net === 'NBC')  return {s:'yes', note:m.st.NBC + ' — national'};
         if (g.net === 'THX')  return {s:'yes', note:m.st[g.chan] + ' — national'};
-        if (g.net === 'ESPN') return {s:'no',  note:'unless ABC simulcasts'};
+        if (g.net === 'ESPN') return {s:'yes', note:m.st.ABC + ' — ABC simulcast'};
         if (g.net === 'PRIME')return {s:'no',  note:'free on Twitch'};
         if (g.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
         if (g.net === 'SAT')  return {s:'maybe', note:'network not announced'};
