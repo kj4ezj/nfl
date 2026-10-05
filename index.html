@@ -470,6 +470,7 @@
     },
     methods: {
       toggle: function(c){
+        if (this.shown.length === CHIPS.length) { this.shown = [c]; return; }
         var i = this.shown.indexOf(c);
         if (i === -1) this.shown.push(c);
         else if (this.shown.length > 1) this.shown.splice(i,1);
