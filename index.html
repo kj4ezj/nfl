@@ -20,6 +20,7 @@
     --bal:#5b3b8c; --bal-bg:#ece5f6;
     --ten:#1b5d82; --ten-bg:#e0eef5;
     --phi:#1d5c56; --phi-bg:#e1efed;
+    --other:#5a5a56; --other-bg:#ebeae6;
   }
   :root:not([data-theme="light"]){
     @media (prefers-color-scheme: dark){
@@ -34,6 +35,7 @@
       --bal:#b9a2e3; --bal-bg:#2a2338;
       --ten:#8dc2de; --ten-bg:#1b2c36;
       --phi:#8cccc2; --phi-bg:#1b302e;
+      --other:#a8a5a0; --other-bg:#2a2b2d;
     }
   }
   :root[data-theme="dark"]{
@@ -48,6 +50,7 @@
     --bal:#b9a2e3; --bal-bg:#2a2338;
     --ten:#8dc2de; --ten-bg:#1b2c36;
     --phi:#8cccc2; --phi-bg:#1b302e;
+    --other:#a8a5a0; --other-bg:#2a2b2d;
   }
   *,*::before,*::after{box-sizing:inherit}
   html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
@@ -74,6 +77,7 @@
   button.t-bal.on{background:var(--bal-bg);color:var(--bal);border-color:var(--bal)}
   button.t-ten.on{background:var(--ten-bg);color:var(--ten);border-color:var(--ten)}
   button.t-phi.on{background:var(--phi-bg);color:var(--phi);border-color:var(--phi)}
+  button.t-other.on{background:var(--other-bg);color:var(--other);border-color:var(--other)}
   .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);
     border-radius:10px;background:var(--surface);margin-top:10px}
   table{border-collapse:collapse;width:100%;font-size:.82rem;min-width:700px}
@@ -138,8 +142,8 @@
   <div class="panel">
     <p class="lbl">Teams</p>
     <div class="chips">
-      <button :class="{on: shown.length===order.length}" @click="allTeams">All</button>
-      <button v-for="c in order" :key="c" :class="['t-'+c.toLowerCase(), {on: shown.includes(c)}]" @click="toggle(c)">{{ teams[c].name }}</button>
+      <button :class="{on: shown.length===chips.length}" @click="allTeams">All</button>
+      <button v-for="c in chips" :key="c" :class="['t-'+c.toLowerCase(), {on: shown.includes(c)}]" @click="toggle(c)">{{ teams[c].name }}</button>
     </div>
     <div class="chips" style="margin-bottom:0">
       <button :class="{on: showHistory}" @click="showHistory=!showHistory">Show History</button>
@@ -219,9 +223,11 @@
 
   var TEAMS = {
     DET:{name:'Lions'}, GB:{name:'Packers'}, WAS:{name:'Commanders'},
-    BAL:{name:'Ravens'}, TEN:{name:'Titans'}, PHI:{name:'Eagles'}
+    BAL:{name:'Ravens'}, TEN:{name:'Titans'}, PHI:{name:'Eagles'},
+    OTHER:{name:'Other'}
   };
   var ORDER = ['DET','GB','WAS','BAL','TEN','PHI'];
+  var CHIPS = ORDER.concat(['OTHER']);
 
   var MARKETS = {
     roanoke:{short:'Roanoke', name:'Roanoke–Lynchburg', home:'WAS',
@@ -434,9 +440,9 @@
     template: document.getElementById('tpl').innerHTML,
     data: function(){
       return {
-        teams: TEAMS, order: ORDER, markets: MARKETS, games: G,
+        teams: TEAMS, order: ORDER, chips: CHIPS, markets: MARKETS, games: G,
         market: 'roanoke',
-        shown: ORDER.slice(),
+        shown: CHIPS.slice(),
         showHistory: false,
         onlyFree: false,
         today: localToday()
@@ -447,7 +453,9 @@
       visible: function(){
         var self = this;
         return this.games.filter(function(g){
-          if (g.tm.length && !g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
+          if (g.tm.length === 0) {
+            if (self.shown.indexOf('OTHER') === -1) return false;
+          } else if (!g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
           if (!self.showHistory && g.d < self.today) return false;
           if (self.onlyFree && (g.bye || self.v(g).s !== 'yes')) return false;
           return true;
@@ -465,7 +473,7 @@
         if (i === -1) this.shown.push(c);
         else if (this.shown.length > 1) this.shown.splice(i,1);
       },
-      allTeams: function(){ this.shown = ORDER.slice(); },
+      allTeams: function(){ this.shown = CHIPS.slice(); },
       isPast: function(g){ return g.d < this.today; },
       parse: function(d){
         var p = d.split('-');
