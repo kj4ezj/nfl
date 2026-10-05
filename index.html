@@ -455,7 +455,8 @@
         if (g.ota) {
           var o = Object.prototype.hasOwnProperty.call(g.ota, mk) ? g.ota[mk] : g.ota.all;
           if (o) {
-            var note = o.note || (o.on && m.st[o.on] ? m.st[o.on] : '');
+            var on = o.on || (o.s === 'yes' && m.st[g.net] ? g.net : null);
+            var note = o.note || (on ? m.st[on] : '');
             return {s:o.s, note:note, fixed:true};
           }
         }
