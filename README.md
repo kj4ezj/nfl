@@ -120,6 +120,9 @@ Finally, when the DNS check is passing and the TLS cert has been (re)issued with
     - [Verifying your custom domain for GitHub Pages](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)
 - [HD Homerun](https://www.silicondust.com/hdhomerun.html) - networked TV tuner
 - [Jellyfin](https://jellyfin.org)
+- Link Previews
+    - [metatags.io](https://metatags.io)
+    - [opengraph.xyz](https://www.opengraph.xyz)
 - [NFL](https://www.nfl.com)
     - [Schedule](https://www.nfl.com/schedules)
 - [rabbitears.info](https://www.rabbitears.info)
