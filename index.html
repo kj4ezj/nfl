@@ -295,7 +295,7 @@
   //          ota:{all:{s:'no',note:'no simulcast'}}        ESPN kept it exclusive
   //          ota:{roanoke:{s:'no',note:'preempted'}}       one market only
   //          ota:{all:{s:'yes',on:'CBS'},balt:{s:'no',note:'Ravens have this window'}}
-  var G = [
+  var GAMES = [
     {w:1,d:'2026-09-09',t:'20:20',ts:'night',tm:[],l:'Patriots at Seahawks',sub:'Seahawks won 13–10 — season opener',net:'NBC'},
     {w:1,d:'2026-09-10',t:'20:15',ts:'night',tm:[],l:'49ers at Rams',sub:'49ers won 27–7',net:'NFLX'},
     {w:1,d:'2026-09-13',t:'13:00',ts:'early',tm:['DET'],l:'Saints at Lions',sub:'Lions won 31–30',net:'FOX'},
@@ -447,7 +447,7 @@
     {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['TEN'],l:'Titans at Texans',net:'TBD'},
     {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['PHI'],l:'Eagles at Giants',net:'TBD'}
   ];
-  G.forEach(function(g,i){ g.k = i; });
+  GAMES.forEach(function(g,i){ g.k = i; });
 
   function localToday(){
     var n = new Date();
@@ -463,7 +463,7 @@
     template: document.getElementById('tpl').innerHTML,
     data: function(){
       return {
-        teams: TEAMS, order: ORDER, chips: CHIPS, markets: MARKETS, games: G,
+        teams: TEAMS, order: ORDER, chips: CHIPS, markets: MARKETS, games: GAMES,
         market: 'roanoke',
         shown: CHIPS.slice(),
         showHistory: false,
@@ -565,7 +565,7 @@
         if (g.d === THANKSGIVING_DATE) return {s:'yes', note:m.st[g.net] + ' — national'};
         // FOX or CBS Sunday afternoon
         if (mine) return {s:'yes', note:m.st[g.net]};
-        var blocked = G.some(function(x){
+        var blocked = GAMES.some(function(x){
           return !x.bye && x.d === g.d && x.net === g.net && x.ts === g.ts &&
                  x.tm.indexOf(home) !== -1;
         });
