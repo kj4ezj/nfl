@@ -1,0 +1,12 @@
+{
+  "name": "2026 NFL Antenna and Streaming Guide — zanzu.football",
+  "short_name": "zanzu.football",
+  "icons": [
+    { "src": "/icon.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}
