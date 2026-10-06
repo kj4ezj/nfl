@@ -454,7 +454,7 @@
       String(n.getDate()).padStart(2,'0');
   }
 
-  var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var DAY_OF_WEEK = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   var MONTH_NAME = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   Vue.createApp({
@@ -503,11 +503,11 @@
       },
       fmt: function(d){
         var x = this.parse(d);
-        return DOW[x.getDay()] + ' ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate();
+        return DAY_OF_WEEK[x.getDay()] + ' ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate();
       },
       fmtLong: function(d){
         var x = this.parse(d);
-        return DOW[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
+        return DAY_OF_WEEK[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
       },
       chan: function(g){
         var n = g.net;
