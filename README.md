@@ -123,6 +123,7 @@ Finally, when the DNS check is passing and the TLS cert has been (re)issued with
 - Link Previews
     - [metatags.io](https://metatags.io)
     - [opengraph.xyz](https://www.opengraph.xyz)
+- [List of TV Markets](https://en.wikipedia.org/wiki/List_of_television_stations_in_North_America_by_media_market) - Wikipedia
 - [NFL](https://www.nfl.com)
     - [Schedule](https://www.nfl.com/schedules)
 - [rabbitears.info](https://www.rabbitears.info)
