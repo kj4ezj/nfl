@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "football.zanzu",
+        "sha256_cert_fingerprints": ["42:BF:BF:8C:4E:84:F6:46:49:D5:B0:7A:1B:46:72:63:D0:98:79:65:62:A1:0D:93:F5:8C:BC:71:52:B3:D2:9D"]
+      }
+    }]
