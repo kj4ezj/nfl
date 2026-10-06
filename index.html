@@ -260,6 +260,8 @@
       st:{FOX:'WBFF 45',CBS:'WJZ 13',NBC:'WBAL 11',ABC:'WMAR 2'}}
   };
 
+  const THANKSGIVING_DATE = '2026-11-26';
+
   // GAME RECORD
   //   w    week number
   //   d    date, YYYY-MM-DD
@@ -269,7 +271,7 @@
   //        which is always shown regardless of the team chips.
   //   l    matchup label
   //   sub  second line under the matchup
-  //   net  ABC FOX CBS NBC ESPN PRIME NFLX THX INTL SAT TBD
+  //   net  ABC FOX CBS NBC ESPN PRIME NFLX INTL SAT TBD
   //   nsub second line under the network
   //   bye  true for a bye-week placeholder row
   //
@@ -388,8 +390,8 @@
     {w:11,d:'2026-11-23',t:'20:15',ts:'night',tm:['WAS'],l:'Bengals at Commanders',net:'ESPN'},
 
     {w:12,d:'2026-11-25',t:'20:00',ts:'night',tm:['GB'],l:'Packers at Rams',sub:'first-ever Thanksgiving Eve game',net:'NFLX'},
-    {w:12,d:'2026-11-26',t:'13:00',ts:'early',tm:['DET'],l:'Bears at Lions',sub:'Thanksgiving',net:'THX',chan:'CBS'},
-    {w:12,d:'2026-11-26',t:'16:30',ts:'late',tm:['PHI'],l:'Eagles at Cowboys',sub:'Thanksgiving',net:'THX',chan:'FOX'},
+    {w:12,d:'2026-11-26',t:'13:00',ts:'early',tm:['DET'],l:'Bears at Lions',sub:'Thanksgiving',net:'CBS'},
+    {w:12,d:'2026-11-26',t:'16:30',ts:'late',tm:['PHI'],l:'Eagles at Cowboys',sub:'Thanksgiving',net:'FOX'},
     {w:12,d:'2026-11-26',t:'20:20',ts:'night',tm:[],l:'Chiefs at Bills',sub:'Thanksgiving night',net:'NBC'},
     {w:12,d:'2026-11-27',t:'15:00',ts:'special',tm:[],l:'Broncos at Steelers',sub:'Black Friday',net:'PRIME'},
     {w:12,d:'2026-11-29',t:'13:00',ts:'early',tm:['BAL'],l:'Ravens at Texans',net:'CBS'},
@@ -517,7 +519,6 @@
         if (n === 'ESPN')  return 'ESPN';
         if (n === 'PRIME') return 'Prime / Twitch';
         if (n === 'NFLX')  return 'Netflix';
-        if (n === 'THX')   return g.chan;
         if (n === 'INTL')  return 'International';
         if (n === 'SAT')   return 'Saturday — network TBD';
         if (n === 'TBD')   return 'TBD';
@@ -551,7 +552,6 @@
         var mine = g.tm.indexOf(home) !== -1;
         if (g.net === 'ABC')  return {s:'yes', note:m.st.ABC + ' — national'};
         if (g.net === 'NBC')  return {s:'yes', note:m.st.NBC + ' — national'};
-        if (g.net === 'THX')  return {s:'yes', note:m.st[g.chan] + ' — national'};
         if (g.net === 'ESPN') return {s:'no', note:'ESPN exclusive — no ABC simulcast'};
         if (g.net === 'PRIME')return {s:'yes', label:'Twitch', note:'Prime · Free on Twitch'};
         if (g.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
@@ -561,6 +561,8 @@
           return mine ? {s:'yes', note:'home-market game'}
                       : {s:'maybe', note:'morning games go near-national'};
         }
+        // FOX or CBS Thanksgiving
+        if (g.d === THANKSGIVING_DATE) return {s:'yes', note:m.st[g.net] + ' — national'};
         // FOX or CBS Sunday afternoon
         if (mine) return {s:'yes', note:m.st[g.net]};
         var blocked = G.some(function(x){
