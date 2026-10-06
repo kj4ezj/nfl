@@ -194,7 +194,7 @@
           </template>
           <template v-else>
             <td class="matchup">{{ g.l }}<span v-if="g.sub" class="note">{{ g.sub }}</span></td>
-            <td>{{ chan(g) }}<span v-if="g.nsub" class="note">{{ g.nsub }}</span></td>
+            <td>{{ getNetworkString(g) }}<span v-if="g.nsub" class="note">{{ g.nsub }}</span></td>
             <td>
               <span :class="['pill', v(g).s, {fixed: v(g).fixed}]">{{ label(g) }}</span>
               <span class="note">{{ v(g).note }}</span>
@@ -509,7 +509,7 @@
         var x = this.parse(d);
         return DAY_OF_WEEK[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
       },
-      chan: function(g){
+      getNetworkString: function(g){
         var n = g.net;
         if (n === 'NBC')   return 'NBC / Peacock';
         if (n === 'ESPN')  return 'ABC / ESPN';
