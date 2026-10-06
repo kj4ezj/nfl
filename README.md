@@ -108,6 +108,7 @@ Finally, when the DNS check is passing and the TLS cert has been (re)issued with
     - [Certification Authority Authorization](https://letsencrypt.org/docs/caa) - Let's Encrypt `CAA`
     - [DMARC Subdomain Policy Tag](https://mxtoolbox.com/dmarc/details/dmarc-tags/dmarc-sp) - `sp`
     - [dnsviz.net](https://dnsviz.net) - DNSSEC checking tool
+        - [Analyze zanzu.football](https://dnsviz.net/d/zanzu.football/dnssec)
     - [Domain Name System Security Extensions](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) - DNSSEC Wikipedia
     - [M³AAWG Protecting Parked Domains Best Common Practices](https://www.m3aawg.org/sites/default/files/doc_files/m3aawg_parked_domains_bcp-2022-06.pdf) \[PDF]
     - [RFC-7505](https://www.rfc-editor.org/info/rfc7505) - A "Null MX" No Service Resource Record for Domains That Accept No Mail
