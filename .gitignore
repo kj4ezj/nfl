@@ -113,6 +113,8 @@ logs
 *.txt
 
 # node
+.bubblewrap
+bubblewrap
 .cache
 coverage
 dist
