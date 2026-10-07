@@ -184,20 +184,20 @@
     <table>
       <thead><tr><th>Wk</th><th>Date</th><th>Time</th><th>Teams</th><th>Matchup</th><th>How to watch</th><th>{{ markets[market].short }}</th></tr></thead>
       <tbody>
-        <tr v-for="g in visible" :key="g.k" :class="{past: isPast(g), today: g.d===today, bye: g.bye}">
-          <td class="wk">{{ g.w }}</td>
-          <td class="date">{{ fmt(g.d) }}</td>
-          <td class="time">{{ g.bye ? '—' : g.t }}</td>
-          <td><span v-for="c in g.tm" :key="c" :class="['badge','b-'+c.toLowerCase()]">{{ c }}</span></td>
-          <template v-if="g.bye">
+        <tr v-for="game in visible" :key="game.k" :class="{past: isPast(game), today: game.d===today, bye: game.bye}">
+          <td class="wk">{{ game.w }}</td>
+          <td class="date">{{ fmt(game.d) }}</td>
+          <td class="time">{{ game.bye ? '—' : game.t }}</td>
+          <td><span v-for="c in game.tm" :key="c" :class="['badge','b-'+c.toLowerCase()]">{{ c }}</span></td>
+          <template v-if="game.bye">
             <td colspan="3">Bye week</td>
           </template>
           <template v-else>
-            <td class="matchup">{{ g.l }}<span v-if="g.sub" class="note">{{ g.sub }}</span></td>
-            <td>{{ getNetworkString(g) }}<span v-if="g.nsub" class="note">{{ g.nsub }}</span></td>
+            <td class="matchup">{{ game.l }}<span v-if="game.sub" class="note">{{ game.sub }}</span></td>
+            <td>{{ getNetworkString(game) }}<span v-if="game.nsub" class="note">{{ game.nsub }}</span></td>
             <td>
-              <span :class="['pill', v(g).s, {fixed: v(g).fixed}]">{{ label(g) }}</span>
-              <span class="note">{{ v(g).note }}</span>
+              <span :class="['pill', v(game).s, {fixed: v(game).fixed}]">{{ label(game) }}</span>
+              <span class="note">{{ v(game).note }}</span>
             </td>
           </template>
         </tr>
@@ -447,7 +447,7 @@
     {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['TEN'],l:'Titans at Texans',net:'TBD'},
     {w:18,d:'2027-01-10',t:'TBD',ts:'tbd',tm:['PHI'],l:'Eagles at Giants',net:'TBD'}
   ];
-  GAMES.forEach(function(g,i){ g.k = i; });
+  GAMES.forEach(function(game,i){ game.k = i; });
 
   function localToday(){
     var n = new Date();
@@ -475,19 +475,19 @@
       prettyToday: function(){ return this.fmtLong(this.today); },
       visible: function(){
         var self = this;
-        return this.games.filter(function(g){
-          if (g.tm.length === 0) {
+        return this.games.filter(function(game){
+          if (game.tm.length === 0) {
             if (self.shown.indexOf('OTHER') === -1) return false;
-          } else if (!g.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
-          if (!self.showHistory && g.d < self.today) return false;
-          if (self.onlyFree && (g.bye || self.v(g).s !== 'yes')) return false;
+          } else if (!game.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
+          if (!self.showHistory && game.d < self.today) return false;
+          if (self.onlyFree && (game.bye || self.v(game).s !== 'yes')) return false;
           return true;
         });
       },
-      gameCount: function(){ return this.visible.filter(function(g){ return !g.bye; }).length; },
+      gameCount: function(){ return this.visible.filter(function(game){ return !game.bye; }).length; },
       otaCount: function(){
         var self = this;
-        return this.visible.filter(function(g){ return !g.bye && self.v(g).s === 'yes'; }).length;
+        return this.visible.filter(function(game){ return !game.bye && self.v(game).s === 'yes'; }).length;
       }
     },
     methods: {
@@ -498,7 +498,7 @@
         else if (this.shown.length > 1) this.shown.splice(i,1);
       },
       allTeams: function(){ this.shown = CHIPS.slice(); },
-      isPast: function(g){ return g.d < this.today; },
+      isPast: function(game){ return game.d < this.today; },
       parse: function(d){
         var p = d.split('-');
         return new Date(+p[0], +p[1]-1, +p[2]);
@@ -511,8 +511,8 @@
         var x = this.parse(d);
         return DAY_OF_WEEK[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
       },
-      getNetworkString: function(g){
-        var n = g.net;
+      getNetworkString: function(game){
+        var n = game.net;
         if (n === 'ABC')  return 'ABC / ESPN';
         if (n === 'CBS')   return 'CBS / Paramount+';
         if (n === 'NBC')   return 'NBC / Peacock';
@@ -525,48 +525,48 @@
         return n;
       },
       // OTA label ternary
-      label: function(g){
-        var r = this.v(g);
+      label: function(game){
+        var r = this.v(game);
         return r.label || (r.s === 'yes' ? 'OTA' : r.s === 'maybe' ? 'Maybe' : 'No');
       },
       // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with fixed:true.
-      v: function(g){
-        if (g.bye) return {s:'no', note:'', fixed:false};
+      v: function(game){
+        if (game.bye) return {s:'no', note:'', fixed:false};
         var selectedMarketName = this.market, selectedMarket = MARKETS[selectedMarketName];
-        if (g.ota) {
-          var o = Object.prototype.hasOwnProperty.call(g.ota, selectedMarketName) ? g.ota[selectedMarketName] : g.ota.all;
+        if (game.ota) {
+          var o = Object.prototype.hasOwnProperty.call(game.ota, selectedMarketName) ? game.ota[selectedMarketName] : game.ota.all;
           if (o) {
-            var on = o.on || (o.s === 'yes' && selectedMarket.st[g.net] ? g.net : null);
+            var on = o.on || (o.s === 'yes' && selectedMarket.st[game.net] ? game.net : null);
             var note = o.note || (on ? selectedMarket.st[on] : '');
             return {s:o.s, label:o.label, note:note, fixed:true};
           }
         }
-        var p = this.predict(g, selectedMarketName);
+        var p = this.predict(game, selectedMarketName);
         p.fixed = false;
         return p;
       },
       // rules-based guess, used wherever no listing has been confirmed yet
-      predict: function(g, selectedMarketName){
+      predict: function(game, selectedMarketName){
         var selectedMarket = MARKETS[selectedMarketName], home = selectedMarket.home;
         var homeName = TEAMS[home].name;
-        var mine = g.tm.indexOf(home) !== -1;
-        if (g.net === 'ABC')  return {s:'yes', note:selectedMarket.st.ABC + ' — national'};
-        if (g.net === 'NBC')  return {s:'yes', note:selectedMarket.st.NBC + ' — national'};
-        if (g.net === 'ESPN') return {s:'no', note:'ESPN exclusive — no ABC simulcast'};
-        if (g.net === 'PRIME')return {s:'yes', label:'Twitch', note:'Prime · Free on Twitch'};
-        if (g.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
-        if (g.net === 'SAT')  return {s:'maybe', note:'network not announced'};
-        if (g.net === 'TBD')  return {s:'maybe', note:'flexed — set in January'};
-        if (g.net === 'INTL') {
+        var mine = game.tm.indexOf(home) !== -1;
+        if (game.net === 'ABC')  return {s:'yes', note:selectedMarket.st.ABC + ' — national'};
+        if (game.net === 'NBC')  return {s:'yes', note:selectedMarket.st.NBC + ' — national'};
+        if (game.net === 'ESPN') return {s:'no', note:'ESPN exclusive — no ABC simulcast'};
+        if (game.net === 'PRIME')return {s:'yes', label:'Twitch', note:'Prime · Free on Twitch'};
+        if (game.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
+        if (game.net === 'SAT')  return {s:'maybe', note:'network not announced'};
+        if (game.net === 'TBD')  return {s:'maybe', note:'flexed — set in January'};
+        if (game.net === 'INTL') {
           return mine ? {s:'yes', note:'home-market game'}
                       : {s:'maybe', note:'morning games go near-national'};
         }
         // FOX or CBS Thanksgiving
-        if (g.d === THANKSGIVING_DATE) return {s:'yes', note:selectedMarket.st[g.net] + ' — national'};
+        if (game.d === THANKSGIVING_DATE) return {s:'yes', note:selectedMarket.st[game.net] + ' — national'};
         // FOX or CBS Sunday afternoon
-        if (mine) return {s:'yes', note:selectedMarket.st[g.net]};
+        if (mine) return {s:'yes', note:selectedMarket.st[game.net]};
         var blocked = GAMES.some(function(x){
-          return !x.bye && x.d === g.d && x.net === g.net && x.ts === g.ts &&
+          return !x.bye && x.d === game.d && x.net === game.net && x.ts === game.ts &&
                  x.tm.indexOf(home) !== -1;
         });
         if (blocked) return {s:'no', note:homeName + ' have this window'};
