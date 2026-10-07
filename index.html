@@ -512,17 +512,17 @@
         return DAY_OF_WEEK[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
       },
       getNetworkString: function(game){
-        var n = game.net;
-        if (n === 'ABC')  return 'ABC / ESPN';
-        if (n === 'CBS')   return 'CBS / Paramount+';
-        if (n === 'NBC')   return 'NBC / Peacock';
-        if (n === 'ESPN')  return 'ESPN';
-        if (n === 'PRIME') return 'Prime / Twitch';
-        if (n === 'NFLX')  return 'Netflix';
-        if (n === 'INTL')  return 'International';
-        if (n === 'SAT')   return 'Saturday — network TBD';
-        if (n === 'TBD')   return 'TBD';
-        return n;
+        var network = game.net;
+        if (network === 'ABC')  return 'ABC / ESPN';
+        if (network === 'CBS')   return 'CBS / Paramount+';
+        if (network === 'NBC')   return 'NBC / Peacock';
+        if (network === 'ESPN')  return 'ESPN';
+        if (network === 'PRIME') return 'Prime / Twitch';
+        if (network === 'NFLX')  return 'Netflix';
+        if (network === 'INTL')  return 'International';
+        if (network === 'SAT')   return 'Saturday — network TBD';
+        if (network === 'TBD')   return 'TBD';
+        return network;
       },
       // OTA label ternary
       label: function(game){
