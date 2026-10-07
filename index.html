@@ -194,7 +194,7 @@
           </template>
           <template v-else>
             <td class="matchup">{{ game.l }}<span v-if="game.sub" class="note">{{ game.sub }}</span></td>
-            <td>{{ getNetworkString(game) }}<span v-if="game.nsub" class="note">{{ game.nsub }}</span></td>
+            <td>{{ networkString(game) }}<span v-if="game.nsub" class="note">{{ game.nsub }}</span></td>
             <td>
               <span :class="['pill', carriage(game).free, {confirmed: carriage(game).confirmed}]">{{ label(game) }}</span>
               <span class="note">{{ carriage(game).note }}</span>
@@ -510,7 +510,7 @@
         var date = this.parseDate(dateString);
         return DAY_OF_WEEK[date.getDay()] + ', ' + MONTH_NAME[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
       },
-      getNetworkString: function(game){
+      networkString: function(game){
         var network = game.net;
         if (network === 'ABC')   return 'ABC / ESPN';
         if (network === 'CBS')   return 'CBS / Paramount+';
