@@ -525,8 +525,8 @@
       },
       // OTA label ternary
       label: function(game){
-        var r = this.carriage(game);
-        return r.label || (r.free === 'yes' ? 'OTA' : r.free === 'maybe' ? 'Maybe' : 'No');
+        var result = this.carriage(game);
+        return result.label || (result.free === 'yes' ? 'OTA' : result.free === 'maybe' ? 'Maybe' : 'No');
       },
       // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with confirmed:true
       carriage: function(game){
