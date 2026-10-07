@@ -186,7 +186,7 @@
       <tbody>
         <tr v-for="game in visible" :key="game.k" :class="{past: isPast(game), today: game.d===today, bye: game.bye}">
           <td class="wk">{{ game.w }}</td>
-          <td class="date">{{ fmt(game.d) }}</td>
+          <td class="date">{{ fmtDate(game.d) }}</td>
           <td class="time">{{ game.bye ? '—' : game.t }}</td>
           <td><span v-for="c in game.tm" :key="c" :class="['badge','b-'+c.toLowerCase()]">{{ c }}</span></td>
           <template v-if="game.bye">
@@ -503,7 +503,7 @@
         var datePart = dateString.split('-');
         return new Date(+datePart[0], +datePart[1]-1, +datePart[2]);
       },
-      fmt: function(dateString){
+      fmtDate: function(dateString){
         var x = this.parseDate(dateString);
         return DAY_OF_WEEK[x.getDay()] + ' ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate();
       },
