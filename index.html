@@ -163,7 +163,7 @@
     <p class="lbl">Teams</p>
     <div class="chips">
       <button :class="{on: shown.length===chips.length}" @click="allTeams">All</button>
-      <button v-for="teamCode in chips" :key="teamCode" :class="['t-'+teamCode.toLowerCase(), {on: shown.includes(teamCode)}]" @click="toggle(teamCode)">{{ teams[teamCode].name }}</button>
+      <button v-for="teamCode in chips" :key="teamCode" :class="['t-'+teamCode.toLowerCase(), {on: shown.includes(teamCode)}]" @click="toggleTeam(teamCode)">{{ teams[teamCode].name }}</button>
     </div>
     <div class="chips" style="margin-bottom:0">
       <button :class="{on: showHistory}" @click="showHistory=!showHistory">Show History</button>
@@ -491,7 +491,7 @@
       }
     },
     methods: {
-      toggle: function(teamCode){
+      toggleTeam: function(teamCode){
         if (this.shown.length === CHIPS.length) { this.shown = [teamCode]; return; }
         var i = this.shown.indexOf(teamCode);
         if (i === -1) this.shown.push(teamCode);
