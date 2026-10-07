@@ -534,11 +534,11 @@
         if (game.bye) return {s:'no', note:'', fixed:false};
         var marketKey = this.market, selectedMarket = MARKETS[marketKey];
         if (game.ota) {
-          var o = Object.prototype.hasOwnProperty.call(game.ota, marketKey) ? game.ota[marketKey] : game.ota.all;
-          if (o) {
-            var on = o.on || (o.s === 'yes' && selectedMarket.st[game.net] ? game.net : null);
-            var note = o.note || (on ? selectedMarket.st[on] : '');
-            return {s:o.s, label:o.label, note:note, fixed:true};
+          var override = Object.prototype.hasOwnProperty.call(game.ota, marketKey) ? game.ota[marketKey] : game.ota.all;
+          if (override) {
+            var on = override.on || (override.s === 'yes' && selectedMarket.st[game.net] ? game.net : null);
+            var note = override.note || (on ? selectedMarket.st[on] : '');
+            return {s:override.s, label:override.label, note:note, fixed:true};
           }
         }
         var p = this.predict(game, marketKey);
