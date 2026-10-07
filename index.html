@@ -254,13 +254,13 @@
   var TEAM_CHIPS = Object.keys(TEAMS);
 
   var MARKETS = {
-    roanoke:{short:'Roanoke', name:'Roanoke–Lynchburg', home:'WAS',
+    roa:{short:'Roanoke', name:'Roanoke–Lynchburg', home:'WAS',
       ch: {CBS: 'WDBJ 7', NBC: 'WSLS 10', ABC: 'WSET 13', FOX: 'WFXR 27'}},
     nova:{short:'NoVA / DMV', name:'Washington, DC (Hagerstown)', home:'WAS',
       ch: {NBC: 'WRC 4', FOX: 'WTTG 5', ABC: 'WJLA 7', CBS: 'WUSA 9'}},
     vb:{short:'Hampton Roads', name:'Norfolk–Portsmouth–Newport News', home:'WAS',
       ch: {CBS: 'WTKR 3', NBC: 'WAVY 10', ABC: 'WVEC 13', FOX: 'WVBT 43'}},
-    balt:{short:'Baltimore', name:'Baltimore', home:'BAL',
+    bal:{short:'Baltimore', name:'Baltimore', home:'BAL',
       ch: {ABC: 'WMAR 2', NBC: 'WBAL 11', CBS: 'WJZ 13', FOX: 'WBFF 45'}}
   };
 
@@ -285,8 +285,8 @@
   //        win over the heuristic and render with an outlined pill.
   //
   //        ota:{ all:{...} }            applies to every market
-  //        ota:{ roanoke:{...} }        applies to that market only
-  //        ota:{ all:{...}, balt:{...} }  all markets, except Baltimore
+  //        ota:{ roa:{...} }            applies to that market only
+  //        ota:{ all:{...}, bal:{...} } all markets, except Baltimore
   //
   //        Each entry takes:
   //          free  'yes' | 'maybe' | 'no'          (required) whether or not the game will be free to watch
@@ -296,8 +296,8 @@
   //        Examples:
   //          ota:{all:{free:'yes',net:'ABC'}}                 ABC simulcast everywhere
   //          ota:{all:{free:'no',note:'no simulcast'}}        ESPN kept it exclusive
-  //          ota:{roanoke:{free:'no',note:'preempted'}}       one market only
-  //          ota:{all:{free:'yes',net:'CBS'},balt:{free:'no',note:'Ravens have this window'}}
+  //          ota:{roa:{free:'no',note:'preempted'}}           one market only
+  //          ota:{all:{free:'yes',net:'CBS'},bal:{free:'no',note:'Ravens have this window'}}
   var GAMES = [
     {w:1,d:'2026-09-09',t:'20:20',ts:'night',tm:[],l:'Patriots at Seahawks',sub:'Seahawks won 13–10 — season opener',net:'NBC'},
     {w:1,d:'2026-09-10',t:'20:15',ts:'night',tm:[],l:'49ers at Rams',sub:'49ers won 27–7',net:'NFLX'},
@@ -326,7 +326,7 @@
     {w:3,d:'2026-09-28',t:'20:15',ts:'night',tm:['PHI'],l:'Eagles at Bears',sub:'Bears won 27–7',net:'ABC',ota:{all:{free:'yes'}}},
 
     {w:4,d:'2026-10-01',t:'20:15',ts:'night',tm:[],l:'Steelers at Browns',sub:'Browns won 27–24',net:'PRIME',ota:{all:{free:'yes',label:'Twitch'}}},
-    {w:4,d:'2026-10-04',t:'09:30',ts:'am',tm:['WAS'],l:'Colts at Commanders',sub:'Colts won 30–13 — London',net:'INTL',nsub:'FOX · NFL+',ota:{balt:{free:'no'},nova:{free:'yes',net:"FOX"},roanoke:{free:'no'},vb:{free:'no'}}},
+    {w:4,d:'2026-10-04',t:'09:30',ts:'am',tm:['WAS'],l:'Colts at Commanders',sub:'Colts won 30–13 — London',net:'INTL',nsub:'FOX · NFL+',ota:{bal:{free:'no'},nova:{free:'yes',net:"FOX"},roa:{free:'no'},vb:{free:'no'}}},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['GB'],l:'Packers at Buccaneers',sub:'Packers won 17–14',net:'FOX',ota:{all:{free:'no'}}},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['BAL','TEN'],l:'Titans at Ravens',sub:'Ravens won 24–18',net:'CBS'},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['PHI'],l:'Rams at Eagles',sub:'Rams won 24–20',net:'FOX'},
@@ -467,7 +467,7 @@
     data: function(){
       return {
         teams: TEAMS, teamChips: TEAM_CHIPS, markets: MARKETS, games: GAMES,
-        market: 'roanoke',
+        market: 'roa',
         shown: TEAM_CHIPS.slice(),
         showHistory: false,
         onlyFree: false,
