@@ -541,9 +541,9 @@
             return {s:override.s, label:override.label, note:note, fixed:true};
           }
         }
-        var p = this.predict(game, marketKey);
-        p.fixed = false;
-        return p;
+        var prediction = this.predict(game, marketKey);
+        prediction.fixed = false;
+        return prediction;
       },
       // rules-based guess, used wherever no listing has been confirmed yet
       predict: function(game, marketKey){
