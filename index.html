@@ -163,7 +163,7 @@
     <p class="lbl">Teams</p>
     <div class="chips">
       <button :class="{on: shown.length===chips.length}" @click="allTeams">All</button>
-      <button v-for="c in chips" :key="c" :class="['t-'+c.toLowerCase(), {on: shown.includes(c)}]" @click="toggle(c)">{{ teams[c].name }}</button>
+      <button v-for="teamCode in chips" :key="teamCode" :class="['t-'+teamCode.toLowerCase(), {on: shown.includes(teamCode)}]" @click="toggle(teamCode)">{{ teams[teamCode].name }}</button>
     </div>
     <div class="chips" style="margin-bottom:0">
       <button :class="{on: showHistory}" @click="showHistory=!showHistory">Show History</button>
@@ -188,7 +188,7 @@
           <td class="wk">{{ game.w }}</td>
           <td class="date">{{ fmtDate(game.d) }}</td>
           <td class="time">{{ game.bye ? '—' : game.t }}</td>
-          <td><span v-for="c in game.tm" :key="c" :class="['badge','b-'+c.toLowerCase()]">{{ c }}</span></td>
+          <td><span v-for="teamCode in game.tm" :key="teamCode" :class="['badge','b-'+teamCode.toLowerCase()]">{{ teamCode }}</span></td>
           <template v-if="game.bye">
             <td colspan="3">Bye week</td>
           </template>
@@ -478,7 +478,7 @@
         return this.games.filter(function(game){
           if (game.tm.length === 0) {
             if (self.shown.indexOf('OTHER') === -1) return false;
-          } else if (!game.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
+          } else if (!game.tm.some(function(teamCode){ return self.shown.indexOf(teamCode) !== -1; })) return false;
           if (!self.showHistory && game.d < self.today) return false;
           if (self.onlyFree && (game.bye || self.carriage(game).s !== 'yes')) return false;
           return true;
@@ -491,10 +491,10 @@
       }
     },
     methods: {
-      toggle: function(c){
-        if (this.shown.length === CHIPS.length) { this.shown = [c]; return; }
-        var i = this.shown.indexOf(c);
-        if (i === -1) this.shown.push(c);
+      toggle: function(teamCode){
+        if (this.shown.length === CHIPS.length) { this.shown = [teamCode]; return; }
+        var i = this.shown.indexOf(teamCode);
+        if (i === -1) this.shown.push(teamCode);
         else if (this.shown.length > 1) this.shown.splice(i,1);
       },
       allTeams: function(){ this.shown = CHIPS.slice(); },
