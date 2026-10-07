@@ -499,16 +499,16 @@
       },
       allTeams: function(){ this.shown = CHIPS.slice(); },
       isPast: function(game){ return game.d < this.today; },
-      parse: function(d){
-        var datePart = d.split('-');
+      parse: function(dateString){
+        var datePart = dateString.split('-');
         return new Date(+datePart[0], +datePart[1]-1, +datePart[2]);
       },
-      fmt: function(d){
-        var x = this.parse(d);
+      fmt: function(dateString){
+        var x = this.parse(dateString);
         return DAY_OF_WEEK[x.getDay()] + ' ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate();
       },
-      fmtLong: function(d){
-        var x = this.parse(d);
+      fmtLong: function(dateString){
+        var x = this.parse(dateString);
         return DAY_OF_WEEK[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
       },
       getNetworkString: function(game){
