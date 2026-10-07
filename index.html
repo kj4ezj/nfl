@@ -286,15 +286,14 @@
   //
   //        Each entry takes:
   //          s     'yes' | 'maybe' | 'no'          (required)
-  //          on    'FOX'|'CBS'|'NBC'|'ABC'         (optional) renders that market's
-  //                                                 own callsign as the note
-  //          note  literal note text               (optional) wins over `on`
+  //          net   'FOX'|'CBS'|'NBC'|'ABC'         (optional) network - renders that market's own callsign as the note
+  //          note  literal note text               (optional) wins over `net`
   //
   //        Examples:
-  //          ota:{all:{s:'yes',on:'ABC'}}                  ABC simulcast everywhere
+  //          ota:{all:{s:'yes',net:'ABC'}}                 ABC simulcast everywhere
   //          ota:{all:{s:'no',note:'no simulcast'}}        ESPN kept it exclusive
   //          ota:{roanoke:{s:'no',note:'preempted'}}       one market only
-  //          ota:{all:{s:'yes',on:'CBS'},balt:{s:'no',note:'Ravens have this window'}}
+  //          ota:{all:{s:'yes',net:'CBS'},balt:{s:'no',note:'Ravens have this window'}}
   var GAMES = [
     {w:1,d:'2026-09-09',t:'20:20',ts:'night',tm:[],l:'Patriots at Seahawks',sub:'Seahawks won 13–10 — season opener',net:'NBC'},
     {w:1,d:'2026-09-10',t:'20:15',ts:'night',tm:[],l:'49ers at Rams',sub:'49ers won 27–7',net:'NFLX'},
@@ -323,7 +322,7 @@
     {w:3,d:'2026-09-28',t:'20:15',ts:'night',tm:['PHI'],l:'Eagles at Bears',sub:'Bears won 27–7',net:'ABC',ota:{all:{s:'yes'}}},
 
     {w:4,d:'2026-10-01',t:'20:15',ts:'night',tm:[],l:'Steelers at Browns',sub:'Browns won 27–24',net:'PRIME',ota:{all:{s:'yes',label:'Twitch'}}},
-    {w:4,d:'2026-10-04',t:'09:30',ts:'am',tm:['WAS'],l:'Colts at Commanders',sub:'Colts won 30–13 — London',net:'INTL',nsub:'FOX · NFL+',ota:{balt:{s:'no'},nova:{s:'yes',on:"FOX"},roanoke:{s:'no'},vb:{s:'no'}}},
+    {w:4,d:'2026-10-04',t:'09:30',ts:'am',tm:['WAS'],l:'Colts at Commanders',sub:'Colts won 30–13 — London',net:'INTL',nsub:'FOX · NFL+',ota:{balt:{s:'no'},nova:{s:'yes',net:"FOX"},roanoke:{s:'no'},vb:{s:'no'}}},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['GB'],l:'Packers at Buccaneers',sub:'Packers won 17–14',net:'FOX',ota:{all:{s:'no'}}},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['BAL','TEN'],l:'Titans at Ravens',sub:'Ravens won 24–18',net:'CBS'},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['PHI'],l:'Rams at Eagles',sub:'Rams won 24–20',net:'FOX'},
@@ -536,8 +535,8 @@
         if (game.ota) {
           var override = Object.prototype.hasOwnProperty.call(game.ota, marketKey) ? game.ota[marketKey] : game.ota.all;
           if (override) {
-            var on = override.on || (override.s === 'yes' && selectedMarket.st[game.net] ? game.net : null);
-            var note = override.note || (on ? selectedMarket.st[on] : '');
+            var network = override.net || (override.s === 'yes' && selectedMarket.st[game.net] ? game.net : null);
+            var note = override.note || (network ? selectedMarket.st[network] : '');
             return {s: override.s, label: override.label, note: note, confirmed: true};
           }
         }
