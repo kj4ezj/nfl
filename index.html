@@ -532,12 +532,12 @@
       // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with fixed:true.
       v: function(g){
         if (g.bye) return {s:'no', note:'', fixed:false};
-        var selectedMarketName = this.market, m = MARKETS[selectedMarketName];
+        var selectedMarketName = this.market, selectedMarket = MARKETS[selectedMarketName];
         if (g.ota) {
           var o = Object.prototype.hasOwnProperty.call(g.ota, selectedMarketName) ? g.ota[selectedMarketName] : g.ota.all;
           if (o) {
-            var on = o.on || (o.s === 'yes' && m.st[g.net] ? g.net : null);
-            var note = o.note || (on ? m.st[on] : '');
+            var on = o.on || (o.s === 'yes' && selectedMarket.st[g.net] ? g.net : null);
+            var note = o.note || (on ? selectedMarket.st[on] : '');
             return {s:o.s, label:o.label, note:note, fixed:true};
           }
         }
@@ -547,11 +547,11 @@
       },
       // rules-based guess, used wherever no listing has been confirmed yet
       predict: function(g, selectedMarketName){
-        var m = MARKETS[selectedMarketName], home = m.home;
+        var selectedMarket = MARKETS[selectedMarketName], home = selectedMarket.home;
         var homeName = TEAMS[home].name;
         var mine = g.tm.indexOf(home) !== -1;
-        if (g.net === 'ABC')  return {s:'yes', note:m.st.ABC + ' — national'};
-        if (g.net === 'NBC')  return {s:'yes', note:m.st.NBC + ' — national'};
+        if (g.net === 'ABC')  return {s:'yes', note:selectedMarket.st.ABC + ' — national'};
+        if (g.net === 'NBC')  return {s:'yes', note:selectedMarket.st.NBC + ' — national'};
         if (g.net === 'ESPN') return {s:'no', note:'ESPN exclusive — no ABC simulcast'};
         if (g.net === 'PRIME')return {s:'yes', label:'Twitch', note:'Prime · Free on Twitch'};
         if (g.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
@@ -562,9 +562,9 @@
                       : {s:'maybe', note:'morning games go near-national'};
         }
         // FOX or CBS Thanksgiving
-        if (g.d === THANKSGIVING_DATE) return {s:'yes', note:m.st[g.net] + ' — national'};
+        if (g.d === THANKSGIVING_DATE) return {s:'yes', note:selectedMarket.st[g.net] + ' — national'};
         // FOX or CBS Sunday afternoon
-        if (mine) return {s:'yes', note:m.st[g.net]};
+        if (mine) return {s:'yes', note:selectedMarket.st[g.net]};
         var blocked = GAMES.some(function(x){
           return !x.bye && x.d === g.d && x.net === g.net && x.ts === g.ts &&
                  x.tm.indexOf(home) !== -1;
