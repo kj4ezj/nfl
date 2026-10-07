@@ -196,8 +196,8 @@
             <td class="matchup">{{ game.l }}<span v-if="game.sub" class="note">{{ game.sub }}</span></td>
             <td>{{ getNetworkString(game) }}<span v-if="game.nsub" class="note">{{ game.nsub }}</span></td>
             <td>
-              <span :class="['pill', v(game).s, {fixed: v(game).fixed}]">{{ label(game) }}</span>
-              <span class="note">{{ v(game).note }}</span>
+              <span :class="['pill', carriage(game).s, {fixed: carriage(game).fixed}]">{{ label(game) }}</span>
+              <span class="note">{{ carriage(game).note }}</span>
             </td>
           </template>
         </tr>
@@ -480,14 +480,14 @@
             if (self.shown.indexOf('OTHER') === -1) return false;
           } else if (!game.tm.some(function(c){ return self.shown.indexOf(c) !== -1; })) return false;
           if (!self.showHistory && game.d < self.today) return false;
-          if (self.onlyFree && (game.bye || self.v(game).s !== 'yes')) return false;
+          if (self.onlyFree && (game.bye || self.carriage(game).s !== 'yes')) return false;
           return true;
         });
       },
       gameCount: function(){ return this.visible.filter(function(game){ return !game.bye; }).length; },
       otaCount: function(){
         var self = this;
-        return this.visible.filter(function(game){ return !game.bye && self.v(game).s === 'yes'; }).length;
+        return this.visible.filter(function(game){ return !game.bye && self.carriage(game).s === 'yes'; }).length;
       }
     },
     methods: {
@@ -526,11 +526,11 @@
       },
       // OTA label ternary
       label: function(game){
-        var r = this.v(game);
+        var r = this.carriage(game);
         return r.label || (r.s === 'yes' ? 'OTA' : r.s === 'maybe' ? 'Maybe' : 'No');
       },
       // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with fixed:true.
-      v: function(game){
+      carriage: function(game){
         if (game.bye) return {s:'no', note:'', fixed:false};
         var marketKey = this.market, selectedMarket = MARKETS[marketKey];
         if (game.ota) {
