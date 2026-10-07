@@ -156,7 +156,7 @@
     <div class="chips">
       <button v-for="(m,k) in markets" :key="k" :class="{on: market===k}" @click="market=k">{{ m.short }}</button>
     </div>
-    <p><strong>{{ markets[market].name }}</strong> — {{ teams[markets[market].home].name }}<br/>{{ markets[market].ch.CBS }} (CBS) · {{ markets[market].ch.NBC }} (NBC) · {{ markets[market].ch.ABC }} (ABC) · {{ markets[market].ch.FOX }} (FOX)</p>
+    <p><strong>{{ markets[market].name }}</strong> — {{ teams[markets[market].home].name }}<br/><span v-for="(callsign, net, i) in markets[market].ch" :key="net"><template v-if="i">&nbsp;· </template>{{ callsign }} ({{ net }})</span></p>
   </div>
 
   <div class="panel">
@@ -253,7 +253,7 @@
 
   var TEAM_CHIPS = Object.keys(TEAMS);
 
-  var MARKETS = {
+  var MARKETS = {  // market channels rendered in-order in header
     roa:{short:'Roanoke', name:'Roanoke–Lynchburg', home:'WAS',
       ch: {CBS: 'WDBJ 7', NBC: 'WSLS 10', ABC: 'WSET 13', FOX: 'WFXR 27'}},
     nova:{short:'NoVA / DMV', name:'Washington, DC (Hagerstown)', home:'WAS',
