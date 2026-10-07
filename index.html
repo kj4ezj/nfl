@@ -162,8 +162,8 @@
   <div class="panel">
     <p class="lbl">Teams</p>
     <div class="chips">
-      <button :class="{on: shown.length===chips.length}" @click="allTeams">All</button>
-      <button v-for="teamCode in chips" :key="teamCode" :class="['t-'+teamCode.toLowerCase(), {on: shown.includes(teamCode)}]" @click="toggleTeam(teamCode)">{{ teams[teamCode].name }}</button>
+      <button :class="{on: shown.length===teamChips.length}" @click="allTeams">All</button>
+      <button v-for="teamCode in teamChips" :key="teamCode" :class="['t-'+teamCode.toLowerCase(), {on: shown.includes(teamCode)}]" @click="toggleTeam(teamCode)">{{ teams[teamCode].name }}</button>
     </div>
     <div class="chips" style="margin-bottom:0">
       <button :class="{on: showHistory}" @click="showHistory=!showHistory">Show History</button>
@@ -241,13 +241,17 @@
     return;
   }
 
-  var TEAMS = {
-    DET:{name:'Lions'}, GB:{name:'Packers'}, WAS:{name:'Commanders'},
-    BAL:{name:'Ravens'}, TEN:{name:'Titans'}, PHI:{name:'Eagles'},
+  var TEAMS = {  // displayed in-order
+    DET:{name:'Lions'},
+    GB:{name:'Packers'},
+    WAS:{name:'Commanders'},
+    BAL:{name:'Ravens'},
+    TEN:{name:'Titans'},
+    PHI:{name:'Eagles'},
     OTHER:{name:'Other'}
   };
-  var ORDER = ['DET','GB','WAS','BAL','TEN','PHI'];
-  var CHIPS = ORDER.concat(['OTHER']);
+
+  var TEAM_CHIPS = Object.keys(TEAMS);
 
   var MARKETS = {
     roanoke:{short:'Roanoke', name:'Roanoke–Lynchburg', home:'WAS',
@@ -462,9 +466,9 @@
     template: document.getElementById('tpl').innerHTML,
     data: function(){
       return {
-        teams: TEAMS, order: ORDER, chips: CHIPS, markets: MARKETS, games: GAMES,
+        teams: TEAMS, teamChips: TEAM_CHIPS, markets: MARKETS, games: GAMES,
         market: 'roanoke',
-        shown: CHIPS.slice(),
+        shown: TEAM_CHIPS.slice(),
         showHistory: false,
         onlyFree: false,
         today: localToday()
@@ -491,12 +495,12 @@
     },
     methods: {
       toggleTeam: function(teamCode){
-        if (this.shown.length === CHIPS.length) { this.shown = [teamCode]; return; }
+        if (this.shown.length === TEAM_CHIPS.length) { this.shown = [teamCode]; return; }
         var i = this.shown.indexOf(teamCode);
         if (i === -1) this.shown.push(teamCode);
         else if (this.shown.length > 1) this.shown.splice(i,1);
       },
-      allTeams: function(){ this.shown = CHIPS.slice(); },
+      allTeams: function(){ this.shown = TEAM_CHIPS.slice(); },
       isPast: function(game){ return game.d < this.today; },
       parseDate: function(dateString){
         var datePart = dateString.split('-');
