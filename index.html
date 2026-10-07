@@ -254,17 +254,17 @@
   var TEAM_CHIPS = Object.keys(TEAMS);
 
   var MARKETS = {  // market channels rendered in-order in header
-    roa:{short:'Roanoke', name:'Roanoke–Lynchburg', home:'WAS',
+    roa: {short: 'Roanoke', name: 'Roanoke–Lynchburg', home: 'WAS', state: 'va',
       ch: {CBS: 'WDBJ 7', NBC: 'WSLS 10', ABC: 'WSET 13', FOX: 'WFXR 27'}},
-    nova:{short:'NoVA / DMV', name:'Washington, DC (Hagerstown)', home:'WAS',
+    nova: {short: 'NoVA / DMV', name: 'Washington, DC (Hagerstown)', home: 'WAS', state: 'va',
       ch: {NBC: 'WRC 4', FOX: 'WTTG 5', ABC: 'WJLA 7', CBS: 'WUSA 9'}},
-    vb:{short:'Hampton Roads', name:'Norfolk–Portsmouth–Newport News', home:'WAS',
+    vb: {short: 'Hampton Roads', name: 'Norfolk–Portsmouth–Newport News', home: 'WAS', state: 'va',
       ch: {CBS: 'WTKR 3', NBC: 'WAVY 10', ABC: 'WVEC 13', FOX: 'WVBT 43'}},
-    bal:{short:'Baltimore', name:'Baltimore', home:'BAL',
+    bal: {short: 'Baltimore', name: 'Baltimore', home: 'BAL', state: 'md',
       ch: {ABC: 'WMAR 2', NBC: 'WBAL 11', CBS: 'WJZ 13', FOX: 'WBFF 45'}},
-    det:{short:'Detroit', name:'Detroit', home:'DET',
+    det: {short: 'Detroit', name: 'Detroit', home: 'DET', state: 'mi',
       ch: {FOX: 'WJBK 2', NBC: 'WDIV 4', ABC: 'WXYZ 7', CBS: 'WWJ 62'}},
-    knox:{short:'Knoxville', name:'Knoxville', home:'TEN',
+    knox: {short: 'Knoxville', name: 'Knoxville', home: 'TEN', state: 'tn',
       ch: {ABC: 'WATE 6', CBS: 'WVLT 8', NBC: 'WBIR 10', FOX: 'WTNZ 43'}}
   };
 
@@ -541,7 +541,7 @@
         if (game.bye) return {free: 'no', note: '', confirmed: false};
         var marketKey = this.market, selectedMarket = MARKETS[marketKey];
         if (game.ota) {
-          var override = Object.prototype.hasOwnProperty.call(game.ota, marketKey) ? game.ota[marketKey] : game.ota.all;
+          const override = game.ota[marketKey] ?? game.ota[selectedMarket.state] ?? game.ota.all;
           if (override) {
             var network = override.net || (override.free === 'yes' && selectedMarket.ch[game.net] ? game.net : null);
             var note = override.note || (network ? selectedMarket.ch[network] : '');
