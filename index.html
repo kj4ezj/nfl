@@ -565,9 +565,9 @@
         if (game.d === THANKSGIVING_DATE) return {s:'yes', note:selectedMarket.st[game.net] + ' — national'};
         // FOX or CBS Sunday afternoon
         if (mine) return {s:'yes', note:selectedMarket.st[game.net]};
-        var blocked = GAMES.some(function(x){
-          return !x.bye && x.d === game.d && x.net === game.net && x.ts === game.ts &&
-                 x.tm.indexOf(home) !== -1;
+        var blocked = GAMES.some(function(g){  // does the market's home team occupy this exact broadcast slot?
+          return !g.bye && g.d === game.d && g.net === game.net && g.ts === game.ts &&
+                 g.tm.indexOf(home) !== -1;
         });
         if (blocked) return {s:'no', note:homeName + ' have this window'};
         return {s:'maybe', note:'open window — regional pick'};
