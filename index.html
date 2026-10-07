@@ -504,12 +504,12 @@
         return new Date(+datePart[0], +datePart[1]-1, +datePart[2]);
       },
       fmtDate: function(dateString){
-        var x = this.parseDate(dateString);
-        return DAY_OF_WEEK[x.getDay()] + ' ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate();
+        var date = this.parseDate(dateString);
+        return DAY_OF_WEEK[date.getDay()] + ' ' + MONTH_NAME[date.getMonth()] + ' ' + date.getDate();
       },
       fmtDateLong: function(dateString){
-        var x = this.parseDate(dateString);
-        return DAY_OF_WEEK[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
+        var date = this.parseDate(dateString);
+        return DAY_OF_WEEK[date.getDay()] + ', ' + MONTH_NAME[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
       },
       getNetworkString: function(game){
         var network = game.net;
