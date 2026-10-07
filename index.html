@@ -196,7 +196,7 @@
             <td class="matchup">{{ game.l }}<span v-if="game.sub" class="note">{{ game.sub }}</span></td>
             <td>{{ getNetworkString(game) }}<span v-if="game.nsub" class="note">{{ game.nsub }}</span></td>
             <td>
-              <span :class="['pill', carriage(game).s, {confirmed: carriage(game).confirmed}]">{{ label(game) }}</span>
+              <span :class="['pill', carriage(game).free, {confirmed: carriage(game).confirmed}]">{{ label(game) }}</span>
               <span class="note">{{ carriage(game).note }}</span>
             </td>
           </template>
@@ -285,15 +285,15 @@
   //        ota:{ all:{...}, balt:{...} }  all markets, except Baltimore
   //
   //        Each entry takes:
-  //          s     'yes' | 'maybe' | 'no'          (required)
+  //          free  'yes' | 'maybe' | 'no'          (required) whether or not the game will be free to watch
   //          net   'FOX'|'CBS'|'NBC'|'ABC'         (optional) network - renders that market's own callsign as the note
   //          note  literal note text               (optional) wins over `net`
   //
   //        Examples:
-  //          ota:{all:{s:'yes',net:'ABC'}}                 ABC simulcast everywhere
-  //          ota:{all:{s:'no',note:'no simulcast'}}        ESPN kept it exclusive
-  //          ota:{roanoke:{s:'no',note:'preempted'}}       one market only
-  //          ota:{all:{s:'yes',net:'CBS'},balt:{s:'no',note:'Ravens have this window'}}
+  //          ota:{all:{free:'yes',net:'ABC'}}                 ABC simulcast everywhere
+  //          ota:{all:{free:'no',note:'no simulcast'}}        ESPN kept it exclusive
+  //          ota:{roanoke:{free:'no',note:'preempted'}}       one market only
+  //          ota:{all:{free:'yes',net:'CBS'},balt:{free:'no',note:'Ravens have this window'}}
   var GAMES = [
     {w:1,d:'2026-09-09',t:'20:20',ts:'night',tm:[],l:'Patriots at Seahawks',sub:'Seahawks won 13–10 — season opener',net:'NBC'},
     {w:1,d:'2026-09-10',t:'20:15',ts:'night',tm:[],l:'49ers at Rams',sub:'49ers won 27–7',net:'NFLX'},
@@ -313,31 +313,31 @@
     {w:2,d:'2026-09-20',t:'20:20',ts:'night',tm:[],l:'Colts at Chiefs',sub:'Chiefs won 33–30',net:'NBC'},
     {w:2,d:'2026-09-21',t:'20:15',ts:'night',tm:[],l:'Giants at Rams',sub:'Rams won 28–6',net:'ABC'},
 
-    {w:3,d:'2026-09-24',t:'20:15',ts:'night',tm:['GB'],l:'Falcons at Packers',sub:'Falcons won 35–14',net:'PRIME',ota:{all:{s:'yes',label:'Twitch'}}},
+    {w:3,d:'2026-09-24',t:'20:15',ts:'night',tm:['GB'],l:'Falcons at Packers',sub:'Falcons won 35–14',net:'PRIME',ota:{all:{free:'yes',label:'Twitch'}}},
     {w:3,d:'2026-09-27',t:'13:00',ts:'early',tm:['DET'],l:'Jets at Lions',sub:'Lions won 31–24',net:'CBS'},
     {w:3,d:'2026-09-27',t:'13:00',ts:'early',tm:['WAS'],l:'Seahawks at Commanders',sub:'Commanders won 33–30',net:'FOX'},
     {w:3,d:'2026-09-27',t:'13:00',ts:'early',tm:['TEN'],l:'Titans at Giants',sub:'Giants won 12–7',net:'CBS'},
     {w:3,d:'2026-09-27',t:'16:25',ts:'late',tm:['BAL'],l:'Ravens at Cowboys',sub:'Ravens won 34–31 — Rio de Janeiro',net:'CBS'},
     {w:3,d:'2026-09-27',t:'20:20',ts:'night',tm:[],l:'Rams at Broncos',sub:'Broncos won 30–26',net:'NBC'},
-    {w:3,d:'2026-09-28',t:'20:15',ts:'night',tm:['PHI'],l:'Eagles at Bears',sub:'Bears won 27–7',net:'ABC',ota:{all:{s:'yes'}}},
+    {w:3,d:'2026-09-28',t:'20:15',ts:'night',tm:['PHI'],l:'Eagles at Bears',sub:'Bears won 27–7',net:'ABC',ota:{all:{free:'yes'}}},
 
-    {w:4,d:'2026-10-01',t:'20:15',ts:'night',tm:[],l:'Steelers at Browns',sub:'Browns won 27–24',net:'PRIME',ota:{all:{s:'yes',label:'Twitch'}}},
-    {w:4,d:'2026-10-04',t:'09:30',ts:'am',tm:['WAS'],l:'Colts at Commanders',sub:'Colts won 30–13 — London',net:'INTL',nsub:'FOX · NFL+',ota:{balt:{s:'no'},nova:{s:'yes',net:"FOX"},roanoke:{s:'no'},vb:{s:'no'}}},
-    {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['GB'],l:'Packers at Buccaneers',sub:'Packers won 17–14',net:'FOX',ota:{all:{s:'no'}}},
+    {w:4,d:'2026-10-01',t:'20:15',ts:'night',tm:[],l:'Steelers at Browns',sub:'Browns won 27–24',net:'PRIME',ota:{all:{free:'yes',label:'Twitch'}}},
+    {w:4,d:'2026-10-04',t:'09:30',ts:'am',tm:['WAS'],l:'Colts at Commanders',sub:'Colts won 30–13 — London',net:'INTL',nsub:'FOX · NFL+',ota:{balt:{free:'no'},nova:{free:'yes',net:"FOX"},roanoke:{free:'no'},vb:{free:'no'}}},
+    {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['GB'],l:'Packers at Buccaneers',sub:'Packers won 17–14',net:'FOX',ota:{all:{free:'no'}}},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['BAL','TEN'],l:'Titans at Ravens',sub:'Ravens won 24–18',net:'CBS'},
     {w:4,d:'2026-10-04',t:'13:00',ts:'early',tm:['PHI'],l:'Rams at Eagles',sub:'Rams won 24–20',net:'FOX'},
-    {w:4,d:'2026-10-04',t:'16:25',ts:'late',tm:[],l:'Chiefs at Raiders',sub:'Chiefs won 30–27',net:'CBS',ota:{all:{s:'yes'}}},
-    {w:4,d:'2026-10-04',t:'20:20',ts:'night',tm:['DET'],l:'Lions at Panthers',sub:'Panthers won 32–26 — Charlotte',net:'NBC',ota:{all:{s:'yes'}}},
-    {w:4,d:'2026-10-05',t:'20:15',ts:'night',tm:[],l:'Falcons at Saints',sub:'Falcons won 45–24 — New Orleans',net:'ESPN',ota:{all:{s:'no'}}},
+    {w:4,d:'2026-10-04',t:'16:25',ts:'late',tm:[],l:'Chiefs at Raiders',sub:'Chiefs won 30–27',net:'CBS',ota:{all:{free:'yes'}}},
+    {w:4,d:'2026-10-04',t:'20:20',ts:'night',tm:['DET'],l:'Lions at Panthers',sub:'Panthers won 32–26 — Charlotte',net:'NBC',ota:{all:{free:'yes'}}},
+    {w:4,d:'2026-10-05',t:'20:15',ts:'night',tm:[],l:'Falcons at Saints',sub:'Falcons won 45–24 — New Orleans',net:'ESPN',ota:{all:{free:'no'}}},
 
-    {w:5,d:'2026-10-08',t:'20:15',ts:'night',tm:[],l:'Buccaneers at Cowboys',sub:'Arlington, TX',net:'PRIME',ota:{all:{s:'yes',label:'Twitch'}}},
-    {w:5,d:'2026-10-11',t:'09:30',ts:'am',tm:['PHI'],l:'Eagles at Jaguars',sub:'London',net:'INTL',nsub:'NFL+',ota:{all:{s:'no'}}},
-    {w:5,d:'2026-10-11',t:'13:00',ts:'early',tm:['WAS'],l:'Giants at Commanders',sub:'Washington DC',net:'FOX',ota:{all:{s:'yes'}}},
-    {w:5,d:'2026-10-11',t:'13:00',ts:'early',tm:['TEN'],l:'Texans at Titans',sub:'Nashville',net:'CBS',ota:{all:{s:'no'}}},
-    {w:5,d:'2026-10-11',t:'13:00',ts:'early',tm:['GB'],l:'Bears at Packers',sub:'Green Bay',net:'FOX',ota:{all:{s:'no'}}},
-    {w:5,d:'2026-10-11',t:'16:25',ts:'late',tm:['DET'],l:'Lions at Cardinals',sub:'Arizona',net:'FOX',ota:{all:{s:'no'}}},
-    {w:5,d:'2026-10-11',t:'20:20',ts:'night',tm:['BAL'],l:'Ravens at Falcons',sub:'Atlanta',net:'NBC',ota:{all:{s:'yes'}}},
-    {w:5,d:'2026-10-12',t:'20:15',ts:'night',tm:[],l:'Bills at Rams',sub:'Los Angeles',net:'ABC',ota:{all:{s:'yes'}}},
+    {w:5,d:'2026-10-08',t:'20:15',ts:'night',tm:[],l:'Buccaneers at Cowboys',sub:'Arlington, TX',net:'PRIME',ota:{all:{free:'yes',label:'Twitch'}}},
+    {w:5,d:'2026-10-11',t:'09:30',ts:'am',tm:['PHI'],l:'Eagles at Jaguars',sub:'London',net:'INTL',nsub:'NFL+',ota:{all:{free:'no'}}},
+    {w:5,d:'2026-10-11',t:'13:00',ts:'early',tm:['WAS'],l:'Giants at Commanders',sub:'Washington DC',net:'FOX',ota:{all:{free:'yes'}}},
+    {w:5,d:'2026-10-11',t:'13:00',ts:'early',tm:['TEN'],l:'Texans at Titans',sub:'Nashville',net:'CBS',ota:{all:{free:'no'}}},
+    {w:5,d:'2026-10-11',t:'13:00',ts:'early',tm:['GB'],l:'Bears at Packers',sub:'Green Bay',net:'FOX',ota:{all:{free:'no'}}},
+    {w:5,d:'2026-10-11',t:'16:25',ts:'late',tm:['DET'],l:'Lions at Cardinals',sub:'Arizona',net:'FOX',ota:{all:{free:'no'}}},
+    {w:5,d:'2026-10-11',t:'20:20',ts:'night',tm:['BAL'],l:'Ravens at Falcons',sub:'Atlanta',net:'NBC',ota:{all:{free:'yes'}}},
+    {w:5,d:'2026-10-12',t:'20:15',ts:'night',tm:[],l:'Bills at Rams',sub:'Los Angeles',net:'ABC',ota:{all:{free:'yes'}}},
 
     {w:6,d:'2026-10-15',t:'20:15',ts:'night',tm:[],l:'Seahawks at Broncos',sub:'Denver',net:'PRIME'},
     {w:6,d:'2026-10-18',t:'—',ts:'bye',tm:['DET'],bye:true},
@@ -479,14 +479,14 @@
             if (self.shown.indexOf('OTHER') === -1) return false;
           } else if (!game.tm.some(function(teamCode){ return self.shown.indexOf(teamCode) !== -1; })) return false;
           if (!self.showHistory && game.d < self.today) return false;
-          if (self.onlyFree && (game.bye || self.carriage(game).s !== 'yes')) return false;
+          if (self.onlyFree && (game.bye || self.carriage(game).free !== 'yes')) return false;
           return true;
         });
       },
       gameCount: function(){ return this.visible.filter(function(game){ return !game.bye; }).length; },
       otaCount: function(){
         var self = this;
-        return this.visible.filter(function(game){ return !game.bye && self.carriage(game).s === 'yes'; }).length;
+        return this.visible.filter(function(game){ return !game.bye && self.carriage(game).free === 'yes'; }).length;
       }
     },
     methods: {
@@ -512,7 +512,7 @@
       },
       getNetworkString: function(game){
         var network = game.net;
-        if (network === 'ABC')  return 'ABC / ESPN';
+        if (network === 'ABC')   return 'ABC / ESPN';
         if (network === 'CBS')   return 'CBS / Paramount+';
         if (network === 'NBC')   return 'NBC / Peacock';
         if (network === 'ESPN')  return 'ESPN';
@@ -526,18 +526,18 @@
       // OTA label ternary
       label: function(game){
         var r = this.carriage(game);
-        return r.label || (r.s === 'yes' ? 'OTA' : r.s === 'maybe' ? 'Maybe' : 'No');
+        return r.label || (r.free === 'yes' ? 'OTA' : r.free === 'maybe' ? 'Maybe' : 'No');
       },
       // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with confirmed:true
       carriage: function(game){
-        if (game.bye) return {s: 'no', note: '', confirmed: false};
+        if (game.bye) return {free: 'no', note: '', confirmed: false};
         var marketKey = this.market, selectedMarket = MARKETS[marketKey];
         if (game.ota) {
           var override = Object.prototype.hasOwnProperty.call(game.ota, marketKey) ? game.ota[marketKey] : game.ota.all;
           if (override) {
-            var network = override.net || (override.s === 'yes' && selectedMarket.st[game.net] ? game.net : null);
+            var network = override.net || (override.free === 'yes' && selectedMarket.st[game.net] ? game.net : null);
             var note = override.note || (network ? selectedMarket.st[network] : '');
-            return {s: override.s, label: override.label, note: note, confirmed: true};
+            return {free: override.free, label: override.label, note: note, confirmed: true};
           }
         }
         var prediction = this.predict(game, marketKey);
@@ -549,27 +549,27 @@
         var selectedMarket = MARKETS[marketKey], home = selectedMarket.home;
         var homeName = TEAMS[home].name;
         var mine = game.tm.indexOf(home) !== -1;
-        if (game.net === 'ABC')  return {s:'yes', note:selectedMarket.st.ABC + ' — national'};
-        if (game.net === 'NBC')  return {s:'yes', note:selectedMarket.st.NBC + ' — national'};
-        if (game.net === 'ESPN') return {s:'no', note:'ESPN exclusive — no ABC simulcast'};
-        if (game.net === 'PRIME')return {s:'yes', label:'Twitch', note:'Prime · Free on Twitch'};
-        if (game.net === 'NFLX') return {s:'no',  note:'OTA only in participating markets'};
-        if (game.net === 'SAT')  return {s:'maybe', note:'network not announced'};
-        if (game.net === 'TBD')  return {s:'maybe', note:'flexed — set in January'};
+        if (game.net === 'ABC')  return {free: 'yes',   note: selectedMarket.st.ABC + ' — national'};
+        if (game.net === 'NBC')  return {free: 'yes',   note: selectedMarket.st.NBC + ' — national'};
+        if (game.net === 'ESPN') return {free: 'no',    note: 'ESPN exclusive — no ABC simulcast'};
+        if (game.net === 'PRIME')return {free: 'yes',   note: 'Prime · Free on Twitch', label: 'Twitch'};
+        if (game.net === 'NFLX') return {free: 'no',    note: 'OTA only in participating markets'};
+        if (game.net === 'SAT')  return {free: 'maybe', note: 'network not announced'};
+        if (game.net === 'TBD')  return {free: 'maybe', note: 'flexed — set in January'};
         if (game.net === 'INTL') {
-          return mine ? {s:'yes', note:'home-market game'}
-                      : {s:'maybe', note:'morning games go near-national'};
+          return mine ? {free: 'yes',   note: 'home-market game'}
+                      : {free: 'maybe', note: 'morning games go near-national'};
         }
         // FOX or CBS Thanksgiving
-        if (game.d === THANKSGIVING_DATE) return {s:'yes', note:selectedMarket.st[game.net] + ' — national'};
+        if (game.d === THANKSGIVING_DATE) return {free: 'yes', note: selectedMarket.st[game.net] + ' — national'};
         // FOX or CBS Sunday afternoon
-        if (mine) return {s:'yes', note:selectedMarket.st[game.net]};
+        if (mine) return {free: 'yes', note: selectedMarket.st[game.net]};
         var blocked = GAMES.some(function(g){  // does the market's home team occupy this exact broadcast slot?
           return !g.bye && g.d === game.d && g.net === game.net && g.ts === game.ts &&
                  g.tm.indexOf(home) !== -1;
         });
-        if (blocked) return {s:'no', note:homeName + ' have this window'};
-        return {s:'maybe', note:'open window — regional pick'};
+        if (blocked) return {free: 'no', note: homeName + ' have this window'};
+        return {free: 'maybe', note: 'open window — regional pick'};
       }
     }
   }).mount('#app');
