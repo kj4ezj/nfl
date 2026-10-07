@@ -500,8 +500,8 @@
       allTeams: function(){ this.shown = CHIPS.slice(); },
       isPast: function(game){ return game.d < this.today; },
       parse: function(d){
-        var p = d.split('-');
-        return new Date(+p[0], +p[1]-1, +p[2]);
+        var datePart = d.split('-');
+        return new Date(+datePart[0], +datePart[1]-1, +datePart[2]);
       },
       fmt: function(d){
         var x = this.parse(d);
