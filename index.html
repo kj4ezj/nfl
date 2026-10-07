@@ -472,7 +472,7 @@
       };
     },
     computed: {
-      prettyToday: function(){ return this.fmtLong(this.today); },
+      prettyToday: function(){ return this.fmtDateLong(this.today); },
       visible: function(){
         var self = this;
         return this.games.filter(function(game){
@@ -507,7 +507,7 @@
         var x = this.parseDate(dateString);
         return DAY_OF_WEEK[x.getDay()] + ' ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate();
       },
-      fmtLong: function(dateString){
+      fmtDateLong: function(dateString){
         var x = this.parseDate(dateString);
         return DAY_OF_WEEK[x.getDay()] + ', ' + MONTH_NAME[x.getMonth()] + ' ' + x.getDate() + ', ' + x.getFullYear();
       },
