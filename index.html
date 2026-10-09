@@ -197,7 +197,7 @@
             <td>{{ networkString(game) }}<span v-if="game.nsub" class="note">{{ game.nsub }}</span></td>
             <td>
               <span :class="['pill', carriage(game).free, {confirmed: carriage(game).confirmed}]">{{ label(game) }}</span>
-              <span class="note">{{ carriage(game).note }}</span>
+              <span class="note">{{ carriage(game).note || carriage(game).why }}</span>
             </td>
           </template>
         </tr>
@@ -555,48 +555,52 @@
         var result = this.carriage(game);
         return result.label || (result.free === 'yes' ? 'OTA' : result.free === 'maybe' ? 'Maybe' : 'No');
       },
-      // override first, heuristic second; anything with an `ota` entry for the current market is a published fact and is returned with confirmed:true
-      carriage: function(game){
-        if (game.bye) return {free: 'no', note: '', confirmed: false};
-        var marketKey = this.market, selectedMarket = MARKETS[marketKey];
-        if (game.ota) {
-          const override = game.ota[marketKey] ?? game.ota[selectedMarket.state] ?? game.ota.all;
-          if (override) {
-            var network = override.net || (override.free === 'yes' && selectedMarket.ch[game.net] ? game.net : null);
-            var note = override.note || (network ? selectedMarket.ch[network] : '');
-            return {free: override.free, label: override.label, note: note, confirmed: true};
-          }
+      // predict first, layer any override on top, unspecified fields are inherited
+      carriage: function(game) {
+        if (game.bye) return {free: 'no', confirmed: false};
+        const marketKey = this.market, selectedMarket = MARKETS[marketKey];
+        const prediction = this.predict(game, marketKey);
+        const override = game.ota && (game.ota[marketKey] ?? game.ota[selectedMarket.state] ?? game.ota.all); // most specific override wins
+        if (!override) return {...prediction, confirmed: false};
+        // layer override on prediction
+        const result = {...prediction, ...override, confirmed: true};
+        delete result.why; // `why` is dropped because a confirmed verdict isn't a guess
+        // backfill a callsign where the override didn't supply its own note
+        if (override.note === undefined) {
+          if (override.net) result.note = selectedMarket.ch[override.net];
+          else if (result.note === undefined && result.free === 'yes' && selectedMarket.ch[game.net])
+            result.note = selectedMarket.ch[game.net];
         }
-        var prediction = this.predict(game, marketKey);
-        prediction.confirmed = false;
-        return prediction;
+        return result;
       },
       // rules-based guess, used wherever no listing has been confirmed yet
-      predict: function(game, marketKey){
-        var selectedMarket = MARKETS[marketKey], home = selectedMarket.home;
-        var homeName = TEAMS[home].name;
-        var mine = game.tm.indexOf(home) !== -1;
-        if (game.net === 'ABC')  return {free: 'yes',   note: selectedMarket.ch.ABC + ' — national'};
-        if (game.net === 'NBC')  return {free: 'yes',   note: selectedMarket.ch.NBC + ' — national'};
-        if (game.net === 'ESPN') return {free: 'no',    note: 'ESPN exclusive — no ABC simulcast'};
-        if (game.net === 'PRIME')return {free: 'yes',   note: 'Prime · Free on Twitch', label: 'Twitch'};
-        if (game.net === 'NFLX') return {free: 'no',    note: 'OTA only in participating markets'};
-        if (game.net === 'SAT')  return {free: 'maybe', note: 'network not announced'};
-        if (game.net === 'TBD')  return {free: 'maybe', note: 'flexed — set in January'};
+      //     note = where to watch, survives confirmation.
+      //     why  = why this was guessed, discarded on confirmation.
+      predict: function(game, marketKey) {
+        const selectedMarket = MARKETS[marketKey], home = selectedMarket.home;
+        const homeName = TEAMS[home].name;
+        const mine = game.tm.indexOf(home) !== -1;
+        if (game.net === 'ABC')  return {free: 'yes',  note: selectedMarket.ch.ABC + ' — national'};
+        if (game.net === 'NBC')  return {free: 'yes',  note: selectedMarket.ch.NBC + ' — national'};
+        if (game.net === 'ESPN') return {free: 'no',    why: 'ESPN exclusive, no ABC simulcast'};
+        if (game.net === 'PRIME')return {free: 'yes',  note: 'Prime · Free on Twitch', label: 'Twitch'};
+        if (game.net === 'NFLX') return {free: 'no',    why: 'OTA only in participating markets'};
+        if (game.net === 'SAT')  return {free: 'maybe', why: 'network not announced'};
+        if (game.net === 'TBD')  return {free: 'maybe', why: 'flexed, set in January'};
         if (game.net === 'INTL') {
-          return mine ? {free: 'yes',   note: 'home-market game'}
-                      : {free: 'maybe', note: 'morning games go near-national'};
+          return mine ? {free: 'yes',   why: 'home-market game'}
+                      : {free: 'maybe', why: 'morning games go near-national'};
         }
         // FOX or CBS Thanksgiving
         if (game.d === THANKSGIVING_DATE) return {free: 'yes', note: selectedMarket.ch[game.net] + ' — national'};
         // FOX or CBS Sunday afternoon
         if (mine) return {free: 'yes', note: selectedMarket.ch[game.net]};
-        var blocked = GAMES.some(function(g){  // does the market's home team occupy this exact broadcast slot?
+        const blocked = GAMES.some(function(g) {  // does the market's home team occupy this exact broadcast slot?
           return !g.bye && g.d === game.d && g.net === game.net && g.ts === game.ts &&
                  g.tm.indexOf(home) !== -1;
         });
-        if (blocked) return {free: 'no', note: homeName + ' have this window'};
-        return {free: 'maybe', note: 'open window — regional pick'};
+        if (blocked) return {free: 'no', why: homeName + ' have this window'};
+        return {free:'maybe', why: 'open window — regional pick'};
       }
     }
   }).mount('#app');
