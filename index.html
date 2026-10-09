@@ -241,35 +241,6 @@
     return;
   }
 
-  var TEAMS = {  // displayed in-order
-    DET:{name:'Lions'},
-    GB:{name:'Packers'},
-    WAS:{name:'Commanders'},
-    BAL:{name:'Ravens'},
-    TEN:{name:'Titans'},
-    PHI:{name:'Eagles'},
-    OTHER:{name:'Other'}
-  };
-
-  var TEAM_CHIPS = Object.keys(TEAMS);
-
-  var MARKETS = {  // market channels rendered in-order in header
-    roa: {short: 'Roanoke', name: 'Roanoke–Lynchburg', home: 'WAS', state: 'va',
-      ch: {CBS: 'WDBJ 7', NBC: 'WSLS 10', ABC: 'WSET 13', FOX: 'WFXR 27'}},
-    nova: {short: 'NoVA / DMV', name: 'Washington, DC (Hagerstown)', home: 'WAS', state: 'va',
-      ch: {NBC: 'WRC 4', FOX: 'WTTG 5', ABC: 'WJLA 7', CBS: 'WUSA 9'}},
-    vb: {short: 'Hampton Roads', name: 'Norfolk–Portsmouth–Newport News', home: 'WAS', state: 'va',
-      ch: {CBS: 'WTKR 3', NBC: 'WAVY 10', ABC: 'WVEC 13', FOX: 'WVBT 43'}},
-    bal: {short: 'Baltimore', name: 'Baltimore', home: 'BAL', state: 'md',
-      ch: {ABC: 'WMAR 2', NBC: 'WBAL 11', CBS: 'WJZ 13', FOX: 'WBFF 45'}},
-    det: {short: 'Detroit', name: 'Detroit', home: 'DET', state: 'mi',
-      ch: {FOX: 'WJBK 2', NBC: 'WDIV 4', ABC: 'WXYZ 7', CBS: 'WWJ 62'}},
-    knox: {short: 'Knoxville', name: 'Knoxville', home: 'TEN', state: 'tn',
-      ch: {ABC: 'WATE 6', CBS: 'WVLT 8', NBC: 'WBIR 10', FOX: 'WTNZ 43'}}
-  };
-
-  const THANKSGIVING_DATE = '2026-11-26';
-
   // GAME RECORD
   //   w    week number
   //   d    date, YYYY-MM-DD
@@ -302,7 +273,7 @@
   //          ota:{all:{free:'no',note:'no simulcast'}}        ESPN kept it exclusive
   //          ota:{roa:{free:'no',note:'preempted'}}           one market only
   //          ota:{all:{free:'yes',net:'CBS'},bal:{free:'no',note:'Ravens have this window'}}
-  var GAMES = [
+  const GAMES = [
     {w:1,d:'2026-09-09',t:'20:20',ts:'night',tm:[],l:'Patriots at Seahawks',sub:'Seahawks won 13–10 — season opener',net:'NBC'},
     {w:1,d:'2026-09-10',t:'20:15',ts:'night',tm:[],l:'49ers at Rams',sub:'49ers won 27–7',net:'NFLX'},
     {w:1,d:'2026-09-13',t:'13:00',ts:'early',tm:['DET'],l:'Saints at Lions',sub:'Lions won 31–30',net:'FOX'},
@@ -456,15 +427,44 @@
   ];
   GAMES.forEach(function(game,i){ game.k = i; });
 
+  const MARKETS = {  // market channels rendered in-order in header
+    roa: {short: 'Roanoke', name: 'Roanoke–Lynchburg', home: 'WAS', state: 'va',
+      ch: {CBS: 'WDBJ 7', NBC: 'WSLS 10', ABC: 'WSET 13', FOX: 'WFXR 27'}},
+    nova: {short: 'NoVA / DMV', name: 'Washington, DC (Hagerstown)', home: 'WAS', state: 'va',
+      ch: {NBC: 'WRC 4', FOX: 'WTTG 5', ABC: 'WJLA 7', CBS: 'WUSA 9'}},
+    vb: {short: 'Hampton Roads', name: 'Norfolk–Portsmouth–Newport News', home: 'WAS', state: 'va',
+      ch: {CBS: 'WTKR 3', NBC: 'WAVY 10', ABC: 'WVEC 13', FOX: 'WVBT 43'}},
+    bal: {short: 'Baltimore', name: 'Baltimore', home: 'BAL', state: 'md',
+      ch: {ABC: 'WMAR 2', NBC: 'WBAL 11', CBS: 'WJZ 13', FOX: 'WBFF 45'}},
+    det: {short: 'Detroit', name: 'Detroit', home: 'DET', state: 'mi',
+      ch: {FOX: 'WJBK 2', NBC: 'WDIV 4', ABC: 'WXYZ 7', CBS: 'WWJ 62'}},
+    knox: {short: 'Knoxville', name: 'Knoxville', home: 'TEN', state: 'tn',
+      ch: {ABC: 'WATE 6', CBS: 'WVLT 8', NBC: 'WBIR 10', FOX: 'WTNZ 43'}}
+  };
+
+  const SHORT_MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const SHORT_WEEKDAY = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  const TEAMS = {  // displayed in-order
+    DET:{name:'Lions'},
+    GB:{name:'Packers'},
+    WAS:{name:'Commanders'},
+    BAL:{name:'Ravens'},
+    TEN:{name:'Titans'},
+    PHI:{name:'Eagles'},
+    OTHER:{name:'Other'}
+  };
+
+  const TEAM_CHIPS = Object.keys(TEAMS);
+
+  const THANKSGIVING_DATE = '2026-11-26';
+
   function localToday(){
     var n = new Date();
     return n.getFullYear() + '-' +
       String(n.getMonth()+1).padStart(2,'0') + '-' +
       String(n.getDate()).padStart(2,'0');
   }
-
-  var SHORT_MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var SHORT_WEEKDAY = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
   Vue.createApp({
     template: document.getElementById('tpl').innerHTML,
