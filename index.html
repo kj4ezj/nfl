@@ -463,8 +463,8 @@
       String(n.getDate()).padStart(2,'0');
   }
 
-  var DAY_OF_WEEK = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   var MONTH_NAME = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var SHORT_WEEKDAY = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
   Vue.createApp({
     template: document.getElementById('tpl').innerHTML,
@@ -512,11 +512,11 @@
       },
       fmtDate: function(dateString){
         var date = this.parseDate(dateString);
-        return DAY_OF_WEEK[date.getDay()] + ' ' + MONTH_NAME[date.getMonth()] + ' ' + date.getDate();
+        return SHORT_WEEKDAY[date.getDay()] + ' ' + MONTH_NAME[date.getMonth()] + ' ' + date.getDate();
       },
       fmtDateLong: function(dateString){
         var date = this.parseDate(dateString);
-        return DAY_OF_WEEK[date.getDay()] + ', ' + MONTH_NAME[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
+        return SHORT_WEEKDAY[date.getDay()] + ', ' + MONTH_NAME[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear();
       },
       networkString: function(game){
         var network = game.net;
