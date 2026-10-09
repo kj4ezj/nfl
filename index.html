@@ -442,6 +442,9 @@
       ch: {ABC: 'WATE 6', CBS: 'WVLT 8', NBC: 'WBIR 10', FOX: 'WTNZ 43'}}
   };
 
+  const MARKET_DEFAULT = 'roa';
+  const MARKET_LOCAL_STORAGE_KEY = 'market';
+
   const SHORT_MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const SHORT_WEEKDAY = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
@@ -466,12 +469,26 @@
       String(n.getDate()).padStart(2,'0');
   }
 
+  // localStorage throws outright in some privacy configurations rather than returning null, so every access is guarded.
+  function loadMarket(){
+    try {
+      const stored = localStorage.getItem(MARKET_LOCAL_STORAGE_KEY);
+      return Object.prototype.hasOwnProperty.call(MARKETS, stored) ? stored : MARKET_DEFAULT;
+    } catch (e) {
+      return MARKET_DEFAULT;
+    }
+  }
+
+  function saveMarket(marketKey){
+    try { localStorage.setItem(MARKET_LOCAL_STORAGE_KEY, marketKey); } catch (e) {}
+  }
+
   Vue.createApp({
     template: document.getElementById('tpl').innerHTML,
     data: function(){
       return {
         teams: TEAMS, teamChips: TEAM_CHIPS, markets: MARKETS, games: GAMES,
-        market: 'roa',
+        market: loadMarket(),
         shown: TEAM_CHIPS.slice(),
         showHistory: false,
         onlyFree: false,
@@ -496,6 +513,8 @@
         var self = this;
         return this.visible.filter(function(game){ return !game.bye && self.carriage(game).free === 'yes'; }).length;
       }
+    }, watch: {
+      market: function(marketKey) { saveMarket(marketKey); }
     },
     methods: {
       toggleTeam: function(teamCode){
