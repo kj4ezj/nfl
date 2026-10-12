@@ -241,6 +241,9 @@
     return;
   }
 
+  // register the service worker for offline caching, deferred so it doesn't compete with the page load
+  if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+
   // GAME RECORD
   //   w    week number
   //   d    date, YYYY-MM-DD
