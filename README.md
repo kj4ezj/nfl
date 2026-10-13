@@ -27,6 +27,9 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
         1. [Email](#email)
         1. [CAA](#caa)
     1. [GitHub Pages](#github-pages)
+    1. [Assets](#assets)
+        1. [Icons](#icons)
+        1. [Link Preview](#link-preview)
 1. [See Also](#see-also)
 
 
@@ -254,9 +257,61 @@ Finally, when the DNS check is passing and the TLS cert has been (re)issued with
 > GitHub Pages sets no `Strict-Transport-Security` header on custom domains and offers no way to add one. HSTS preloading and Encrypted Client Hello are both out of reach for the same reason. Moving to a host you control, such as [Caddy](https://caddyserver.com) on a VPS, is the only fix.
 
 
+### Assets
+Icons and the link preview have constraints that are invisible until something crops or scales your artwork.
+
+> [!WARNING]  
+> AI-generated image files can arrive containing metadata you did not ask for. Check before you commit them.
+
+
+#### Icons
+Four icon files cover every context. Each one exists because something refuses to accept the others.
+
+> [!TIP]  
+> Design the 16 pixel frame first and scale up. Artwork that reads at 512 pixels usually turns to mush at 16, and a multi-resolution `*.ico` file lets you ship a simplified small frame rather than a shrunken large one.
+
+File | Size | Purpose
+--- | --- | ---
+`favicon.ico` | 48x48, 32x32, 16x16 | Browser tabs, multi-resolution, requested automatically at the site root
+`icon.svg` | vector | Modern browser tabs, scales perfectly, themeable
+`icon-apple.png` | 180x180 | iOS home screen, must be opaque, never cropped by iOS
+`icon-maskable.png` | 512x512 | Android launcher, must be opaque, cropped to the launcher shape
+`link-preview.jpg` | 1200x630 | [Link preview](#link-preview)
+
+The maskable icon is the fussy one. Android crops it to a circle, a squircle, or whatever shape the launcher uses, so the artwork has to sit inside the center 80 percent. On a 512 pixel canvas that leaves about 51 pixels of padding on every side. Transparent regions inside the crop render as holes, so the background must be painted edge to edge.
+
+
+#### Link Preview
+Open Graph tags control how the site renders when someone shares the link. Every major messaging app reads them.
+
+> [!TIP]  
+> Platforms cache previews aggressively and for a long time. Test in a thread you do not mind polluting, and append a query string to the page URL while iterating.
+
+```html
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zanzu.football/">
+<meta property="og:title" content="2026 NFL Antenna and Streaming Guide">
+<meta property="og:description" content="Pick your teams, pick your TV market, see which games are free over-the-air, see which games are free on streaming.">
+<meta property="og:image" content="https://zanzu.football/link-preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A football schedule table rendered as a field, with rabbit-ear antennas as goalposts and a kicker kicking a football">
+<meta name="twitter:card" content="summary_large_image">
+```
+Four details decide whether this works at all.
+- The image URL must be absolute. A relative path is the most common reason a preview comes back blank.
+- The image must be 1200x630. That is the 1.91:1 ratio every platform crops to.
+- Open Graph tags use `property`, Twitter tags use `name`. Mixing them up breaks one or the other silently.
+- Put the tags before any script tags. Some scrapers read only the first chunk of the document.
+
+Design the image for a 350 pixel wide render, because that is roughly how wide it appears in a chat thread. Shrink your draft to 350 pixels and look at it before committing. Put the domain in large type and keep the composition simple.
+
+
 ## See Also
 - [506sports.com](https://506sports.com) - NFL game coverage/market maps
 - [ABC Monday Night Football Schedule](https://abc.com/news/640105ff-cab7-46f5-98c5-ccd165214869/category/1138628) - 2026-2027
+- Android
+    - [Maskable Icons](https://web.dev/articles/maskable-icon)
 - [Caddy](https://caddyserver.com) - web server with automatic HTTPS
 - [Claude](https://claude.ai) - AI
 - DNS
@@ -278,6 +333,7 @@ Finally, when the DNS check is passing and the TLS cert has been (re)issued with
 - Link Previews
     - [metatags.io](https://metatags.io)
     - [opengraph.xyz](https://www.opengraph.xyz)
+    - [The Open Graph Protocol](https://ogp.me)
 - [List of TV Markets](https://en.wikipedia.org/wiki/List_of_television_stations_in_North_America_by_media_market) - Wikipedia
 - [NFL](https://www.nfl.com)
     - [Schedule](https://www.nfl.com/schedules)
