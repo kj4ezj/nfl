@@ -128,6 +128,7 @@ Finally, when the DNS check is passing and the TLS cert has been (re)issued with
     - [Schedule](https://www.nfl.com/schedules)
 - [rabbitears.info](https://www.rabbitears.info)
     - [Signal Search Map](https://www.rabbitears.info/searchmap.php) - over-the-air (OTA) reception
+- [scorigami](https://nflscorigami.com) - NFL score history matrix
 - [tvtv.us](https://tvtv.us) - over-the-air (OTA) TV guide
 - [Vue.js](https://vuejs.org)
     - [Releases](https://github.com/vuejs/core/releases) - GitHub
