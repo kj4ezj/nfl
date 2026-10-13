@@ -11,6 +11,8 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
 > [!NOTE]  
 > While my source code is released under the MIT license, all rights to team names, network names, streaming service names, and the [NFL schedule](https://www.nfl.com/schedules) itself belong to their respective holders.
 
+This is a single-page web app rendering the schedule with client-side JavaScript using only one external dependency, [Vue.js](https://vuejs.org). It was built using `claude-opus-5`.
+
 
 ### Contents
 1. [Install](#install)
@@ -41,9 +43,6 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
         1. [iOS Manifest](#ios-manifest)
     1. [Bubblewrap](#bubblewrap) - TWA
 1. [See Also](#see-also)
-
-
-This is a single-page web app rendering the schedule with client-side JavaScript using only one external dependency, [Vue.js](https://vuejs.org). It was built using `claude-opus-5`.
 
 
 ## Install
