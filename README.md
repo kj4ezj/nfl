@@ -21,10 +21,11 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
     1. [Markets](#markets)
     1. [Overrides](#overrides)
     1. [Carriage](#carriage)
-1. [DNS](#dns)
-    1. [DNSSEC](#dnssec)
-    1. [Email](#email)
-    1. [CAA](#caa)
+1. [Deployment](#deployment)
+    1. [DNS](#dns)
+        1. [DNSSEC](#dnssec)
+        1. [Email](#email)
+        1. [CAA](#caa)
     1. [GitHub Pages](#github-pages)
 1. [See Also](#see-also)
 
@@ -164,11 +165,15 @@ The returned object carries two different kinds of text. The distinction is what
 A `confirmed` flag renders the pill with an outline. That is the only visual difference between a fact and a prediction, and it is explained in the legend on the page.
 
 
-## DNS
+## Deployment
+Deploy `zanzu.football`, or another progressive web app (PWA) backed by GitHub Pages.
+
+
+### DNS
 Lock your custom GitHub Pages domain down with DNS.
 
 
-### DNSSEC
+#### DNSSEC
 [Domain Name System Security Extensions](https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions) (DNSSEC) allows your DNS provider to cryptographically sign your DNS records such that DNS forgery can be detected by clients. Enable this with your DNS provider, then verify it is enabled and working with [dnsviz.net](https://dnsviz.net) and `dig`.
 ```log
 $ dig CDNSKEY zanzu.football +short
@@ -185,7 +190,7 @@ My `DS` record was missing for a while. My DNS provider had to submit my `DS` re
 Once a `DS` record exists at the registry, validating resolvers will reject your entire domain with `SERVFAIL` if the signatures stop matching. Disable DNSSEC and wait for the `DS` to expire before moving DNS providers.
 
 
-### Email
+#### Email
 This domain is not intended to send or receive email, so we should take some steps to protect it from being used by attackers to send spam. The Messaging, Malware and Mobile Anti-Abuse Working Group has [published](https://www.m3aawg.org/sites/default/files/doc_files/m3aawg_parked_domains_bcp-2022-06.pdf) best-practices for this. We can't control what mail servers do with email forging this domain as the sender, but we can tell mail servers this domain does not send or receive email.
 
 Record | Key | Value | Notes
@@ -199,8 +204,11 @@ Record | Key | Value | Notes
 This will cause most mail servers to bounce messages addressed to this domain, and to reject or quarantine mail forged from it. No DKIM record is published because the absence of a public key in DNS is what causes a forged signature to fail validation.
 
 
-### CAA
+#### CAA
 Use a [Certification Authority Authorization](https://letsencrypt.org/docs/caa) `CAA` record to restrict who can issue TLS certificates, and under which conditions.
+
+> [!TIP]  
+> Add `CAA` records before requesting your first certificate, so that issuance by an unexpected authority fails loudly instead of succeeding silently.
 
 Record | Key | Value | Notes
 :---: | ---: | --- | ---
