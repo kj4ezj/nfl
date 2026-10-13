@@ -15,6 +15,7 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
 ### Contents
 1. [Installation](#installation)
     1. [Android](#android)
+    1. [iOS](#ios)
 1. [DNS](#dns)
     1. [DNSSEC](#dnssec)
     1. [Email](#email)
@@ -42,6 +43,14 @@ Install `zanzu.football` on Android!
 1. Confirm
 
 If you used Chrome, `zanzu.football` will appear in your app drawer and on your home screen. If you used Brave or Firefox, `zanzu.football` will be on your homescreen but not your app drawer.
+
+
+### iOS
+Installation is Safari only. Chrome on iOS cannot do it.
+1. Open [https://zanzu.football](https://zanzu.football) in Safari
+1. Tap Share, the square with an arrow
+1. Scroll down and tap Add to Home Screen
+1. Tap Add
 
 
 ## DNS
