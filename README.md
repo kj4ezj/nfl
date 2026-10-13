@@ -13,7 +13,7 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
 
 
 ### Contents
-1. [Installation](#installation)
+1. [Install](#install)
     1. [Android](#android)
     1. [iOS](#ios)
 1. [Schema](#schema)
@@ -32,8 +32,8 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
 This is a single-page web app rendering the schedule with client-side JavaScript using only one external dependency, [Vue.js](https://vuejs.org). It was built using `claude-opus-5`.
 
 
-## Installation
-You can install `zanzu.football` as an app, right to your homescreen, on [Android](#android) or [iOS](#ios)!
+## Install
+You can install `zanzu.football` as an app, right to your homescreen, on [Android](#android) or [iOS](#ios).
 
 
 ### Android
