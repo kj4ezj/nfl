@@ -22,6 +22,8 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
     1. [Overrides](#overrides)
     1. [Carriage](#carriage)
 1. [Development](#development)
+    1. [Service Worker](#service-worker)
+        1. [Killswitch](#killswitch)
 1. [Deployment](#deployment)
     1. [DNS](#dns)
         1. [DNSSEC](#dnssec)
@@ -181,6 +183,75 @@ Service workers require a secure origin, and `localhost` counts as one.
 python3 -m http.server 8080
 ```
 Then open [http://localhost:8080](http://localhost:8080).
+
+
+### Service Worker
+A service worker is a script the browser registers against an origin and keeps locally. It intercepts every request from that origin, including the one that loads the page itself.
+
+> [!WARNING]  
+> A service worker is the only thing on a static site that persists in someone else's browser after you stop serving it. Ship a broken one and every visitor keeps running it. The browser refetches the worker on every navigation and bypasses HTTP caching for it after 24 hours, which is what makes recovery possible at all.
+
+The strategy here is network first with a cache fallback. Online, you always get fresh content and the cache refreshes behind you. Offline, you get the last successful load.
+```js
+async function fetchThenCache(request) {
+  try {
+    const response = await fetch(request);
+    if (response.ok) (await caches.open(CACHE)).put(request, response.clone());
+    return response;
+  } catch {
+    return caches.match(request);
+  }
+}
+```
+Service worker install pre-caches a short list so the very first offline load works without the user having visited twice. Activate deletes every cache whose name is not the current one, which is the whole cache invalidation mechanism.
+
+Three details are easy to get wrong and are correct in [sw.js](./sw.js).
+- Clone the response before returning it. A body can only be read once, so the cache gets the clone and the page gets the original.
+- Do not await the cache write. Awaiting it delays the response to the page for no benefit.
+- Keep the precache list short. The `addAll()` call is atomic, so one bad URL fails the entire install and the worker never activates.
+
+
+#### Killswitch
+Keep [sw-killswitch.js](./sw-killswitch.js) in the repo. It unregisters the worker and deletes every cache.
+```js
+self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', event => event.waitUntil(selfDestruct()));
+async function selfDestruct() {
+  const names = await caches.keys();
+  await Promise.all(names.map(n => caches.delete(n)));
+  await self.registration.unregister();
+  const clients = await self.clients.matchAll();
+  clients.forEach(c => c.navigate(c.url));
+}
+```
+Deploy it by overwriting the registered path. The browser only ever fetches the URL it has registered, so a file sitting at a different path will never be loaded.
+```bash
+cp sw-killswitch.js sw.js
+git add sw.js
+git commit -m 'Deploy service worker killswitch'
+git push
+```
+Visitors recover on their next _two_ page loads. Restore the real worker once the damage is undone.
+
+Test the killswitch before you need it.
+
+> [!CAUTION]  
+> Do not recover using the Unregister button in devtools. That lever does not exist for your visitors. The point of the test is proving the deployed file path works.
+
+Use a throwaway path or [serve locally](#development) so live visitors are never affected, because worker scope is the directory the worker lives in.
+1. Copy `index.html` and `sw.js` into `sw-test/` and register at `/sw-test/sw.js`.
+1. Load the page, confirm the worker is active in devtools under Application, then go offline and reload.
+1. Replace `sw-test/sw.js` with a worker that serves garbage for every request.
+    ```js
+    self.addEventListener('install', () => self.skipWaiting());
+    self.addEventListener('activate', e => e.waitUntil(self.clients.claim()));
+    self.addEventListener('fetch', e => {
+      e.respondWith(new Response('<h1>broken</h1>', {headers: {'Content-Type': 'text/html'}}));
+    });
+    ```
+1. Reload twice and confirm the site is unusable.
+1. Copy the killswitch over it, reload twice, and confirm the worker and caches are gone.
+1. Delete `sw-test/`.
 
 
 ## Deployment
@@ -409,6 +480,9 @@ A URL bar across the top of the installed app means the JSON is unreachable or t
 - [rabbitears.info](https://www.rabbitears.info)
     - [Signal Search Map](https://www.rabbitears.info/searchmap.php) - over-the-air (OTA) reception
 - [scorigami](https://nflscorigami.com) - NFL score history matrix
+- Service Workers
+    - [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) - MDN
+    - [The Cache API](https://developer.mozilla.org/en-US/docs/Web/API/Cache) - MDN
 - [tvtv.us](https://tvtv.us) - over-the-air (OTA) TV guide
 - [Vue.js](https://vuejs.org)
     - [Releases](https://github.com/vuejs/core/releases) - GitHub
