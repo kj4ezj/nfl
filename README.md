@@ -3,7 +3,7 @@ This repo contains a website showing you how to watch 2026 NFL American football
 
 \>\>\> [https://zanzu.football](https://zanzu.football) <<<
 
-Over-the-air (OTA) television works without Internet...so does this website (after first page load).
+Over-the-air (OTA) television works without Internet...so does this website (after first page load)! Install the app on [Android](#android) or [iOS](#ios).
 
 > [!IMPORTANT]  
 > Over-the-air availability is predicted from network and time-window heuristics, then confirmed from published TV guide data. Sunday afternoon games are not assigned to markets until roughly 12 days out. Check local listings. Some entries are estimates.
