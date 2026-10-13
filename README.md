@@ -30,6 +30,7 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
     1. [Assets](#assets)
         1. [Icons](#icons)
         1. [Link Preview](#link-preview)
+    1. [Bubblewrap](#bubblewrap)
 1. [See Also](#see-also)
 
 
@@ -307,10 +308,64 @@ Four details decide whether this works at all.
 Design the image for a 350 pixel wide render, because that is roughly how wide it appears in a chat thread. Shrink your draft to 350 pixels and look at it before committing. Put the domain in large type and keep the composition simple.
 
 
+### Bubblewrap
+[Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) generates the Trusted Web Activity (TWA). It downloads its own JDK and Android build tools, so Android Studio is not required.
+
+> [!CAUTION]  
+> Back up the keystore and its password. Lose either and you cannot ship an update, only a fresh install under a different identity. The `packageId` is permanent for the same reason. Bump `appVersionCode` before every rebuild or Android refuses the upgrade.
+
+> [!WARNING]  
+> GitHub Pages runs Jekyll by default, and Jekyll ignores directories beginning with a dot. Add an empty `.nojekyll` file at the repo root or `.well-known/assetlinks.json` returns a 404.
+
+Install bubblewrap.
+```bash
+npm install --global @bubblewrap/cli
+```
+Install any missing bubblewrap dependencies.
+```bash
+bubblewrap doctor
+```
+Initialize from the live manifest.
+```bash
+bubblewrap init --manifest https://zanzu.football/site.webmanifest
+```
+
+> [!TIP]  
+> If bubblewrap fails before the init process is complete, you can generate your own keys...
+> ```bash
+> keytool -genkeypair -v -keystore android.keystore -alias android.zanzu.football -keyalg RSA -keysize 4096 -validity 36500 -storetype PKCS12
+> ```
+> ...get your fingerprint...
+> ```bash
+> keytool -list -v -keystore android.keystore -alias android.zanzu.football | grep SHA256
+> ```
+> ...then declare it in `twa-manifest.json` at `fingerprints.value` and pull it in.
+> ```bash
+> bubblewrap update
+> ```
+
+Build the APK.
+```bash
+bubblewrap build
+```
+Digital Asset Links is the step that breaks silently. The app claims an identity, the site vouches for it, and Android checks both before dropping the URL bar.
+```bash
+bubblewrap fingerprint add <SHA256>
+bubblewrap fingerprint generateAssetLinks
+```
+Copy the result to `/.well-known/assetlinks.json` and verify it is reachable.
+```bash
+curl -s https://zanzu.football/.well-known/assetlinks.json
+```
+A URL bar across the top of the installed app means the JSON is unreachable or the fingerprint does not match the key that signed the APK.
+
+
 ## See Also
 - [506sports.com](https://506sports.com) - NFL game coverage/market maps
 - [ABC Monday Night Football Schedule](https://abc.com/news/640105ff-cab7-46f5-98c5-ccd165214869/category/1138628) - 2026-2027
 - Android
+    - [Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) - TWA generator
+    - [Digital Asset Links](https://developers.google.com/digital-asset-links/v1/getting-started)
     - [Maskable Icons](https://web.dev/articles/maskable-icon)
 - [Caddy](https://caddyserver.com) - web server with automatic HTTPS
 - [Claude](https://claude.ai) - AI
