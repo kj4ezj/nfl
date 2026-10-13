@@ -16,6 +16,11 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
 1. [Installation](#installation)
     1. [Android](#android)
     1. [iOS](#ios)
+1. [Schema](#schema)
+    1. [Games](#games)
+    1. [Markets](#markets)
+    1. [Overrides](#overrides)
+    1. [Carriage](#carriage)
 1. [DNS](#dns)
     1. [DNSSEC](#dnssec)
     1. [Email](#email)
@@ -51,6 +56,112 @@ Installation is Safari only. Chrome on iOS cannot do it.
 1. Tap Share, the square with an arrow
 1. Scroll down and tap Add to Home Screen
 1. Tap Add
+
+
+## Schema
+All schedule data lives in two constants near the top of the script block. Everything the table renders comes from `GAMES`, `MARKETS`, and the rules in `predict()`.
+
+
+### Games
+Each entry in `GAMES` is one game. Rows render in array order, so keep the array sorted by date and kickoff time.
+
+Key | Type | Notes
+--- | --- | ---
+`w` | number | NFL week number, 1 through 18
+`d` | string | Date, `YYYY-MM-DD`, compared as a string against today
+`t` | string | Kickoff, 24 hour Eastern or `TBD`
+`ts` | string | Time slot (see below)
+`tm` | array | Tracked teams in this game, `[]` for a filler game
+`l` | string | Matchup label, always `Away at Home`
+`sub` | string | Subtext under the matchup, score and location
+`net` | string | Broadcast rights holder (see below)
+`nsub` | string | Subtext under the network
+`bye` | boolean | Bye week placeholder, no other fields apply
+`ota` | object | Optional per-market [override](#overrides)
+
+The time slot drives the carriage rules, because a station can only air one game per network per window.
+
+Time Slot | Meaning
+--- | ---
+`am` | Morning game (~9:30 ET)
+`early` | Early afternoon (~13:00 ET)
+`late` | Late afternoon (~16:15 ET)
+`night` | Primetime game
+`special` | Holiday or Saturday kickoff that fits nothing else
+`bye` | Bye week placeholder
+`tbd` | Week 18, not scheduled until January
+
+The network field names who holds the broadcast rights, which is not always who broadcasts the game.
+
+> [!IMPORTANT]  
+> The league flexes games. Kickoff times move, Sunday afternoon games swap windows, and FOX and CBS cross-flex more often than the conference rule suggests. 2026 Week 6 had three games inverted from the default in one week. Trust published listings over any rule of thumb.
+
+Network | Meaning
+--- | ---
+`FOX` | Regional Sunday afternoon
+`CBS` | Regional Sunday afternoon
+`NBC` | Sunday Night Football, national
+`ABC` | Monday Night Football usually simulcast on ABC, national
+`ESPN` | Monday Night Football with no ABC simulcast
+`PRIME` | Thursday Night Football, free on Twitch
+`NFLX` | Netflix exclusive
+`INTL` | International game, network varies
+`SAT` | Late season Saturday game, network announced later
+`TBD` | Week 18, flexed
+
+A game with `tm: []` is a filler game involving none of the tracked teams. Those rows always render regardless of the team chips, gated instead by the `Other` chip.
+
+
+### Markets
+Each entry in `MARKETS` is one television market. The market key is what gets stored in `localStorage` and what an override can target.
+
+> [!NOTE]  
+> The team's actual home market behaves differently from the other markets assigned to that team. Washington DC reorganizes its whole Sunday around the Commanders. Roanoke, Hampton Roads, and Baltimore simply take what the network offers. The rules cannot express that difference, so it has to come from listings.
+
+Key | Type | Notes
+--- | --- | ---
+`short` | string | Chip label and column header
+`name` | string | Full market name shown under the chips
+`home` | string | Team code whose games this market protects
+`state` | string | Two letter group key, lets one override cover several markets
+`ch` | object | Network to callsign map, ordered by virtual channel number
+
+The `state` key and the market keys share one namespace inside `ota`, so market keys must never collide with a state's two-letter abbreviation.
+
+
+### Overrides
+The `ota` key records a published fact. Add one once a first-party source exists (e.g. TV guide, marketing, ), which is roughly 12 days out for Sunday afternoon games and immediately for anything confirmed by a network.
+```js
+ota: {all: {free: 'yes'}}                     // every market
+ota: {nova: {free: 'yes'}}                    // one market, everything else predicted
+ota: {va: {free: 'no'}, bal: {free: 'no'}}    // one state group plus one market
+ota: {all: {free: 'yes'}, det: {free: 'no'}}  // every market except Detroit
+```
+Lookup is most specific first. The market key wins, then the state key, then `all`. A market with no match falls through to the heuristic.
+
+Entries accept four keys, all optional except `free`.
+
+Key | Values | Notes
+--- | --- | ---
+`free` | `yes`, `maybe`, `no` | Can you watch this without paying
+`net` | `FOX`, `CBS`, `NBC`, `ABC` | Show a network other than `net` in specific markets
+`label` | string | Replace the pill text, for example `Twitch`
+`note` | string | Replace the note under the pill
+
+Anything you leave out is inherited from the prediction. Confirming a Prime game as `{free: 'yes'}` keeps the Twitch label and the Twitch note without restating either.
+
+
+### Carriage
+The `carriage()` method produces every pill in the table. It always runs the heuristic (`predict()`), then layers any override on top.
+
+> [!TIP]  
+> The heuristic blocks a game when the market's home team occupies the same network in the same window. That is the single most useful rule in the file, and it is why a Lions game at 13:00 on FOX disappears in Washington DC whenever the Commanders are in the same slot.
+
+The returned object carries two different kinds of text. The distinction is what makes overrides terse.
+- `note` is _where to watch_, for example a callsign. It survives confirmation.
+- `why` is _why this was guessed_, for example `open window, regional pick`. It is dropped on confirmation, because a confirmed verdict is not a guess.
+
+A `confirmed` flag renders the pill with an outline. That is the only visual difference between a fact and a prediction, and it is explained in the legend on the page.
 
 
 ## DNS
