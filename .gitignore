@@ -6,6 +6,7 @@
 *.gpg
 *.gz
 *.gzip
+*.har
 *.iso
 *.lzo
 *.rar
