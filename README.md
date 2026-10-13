@@ -22,6 +22,9 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
     1. [Overrides](#overrides)
     1. [Carriage](#carriage)
 1. [Development](#development)
+    1. [Subresource Integrity](#subresource-integrity)
+        1. [Verification](#verification)
+        1. [Upgrading Vue](#upgrading-vue)
     1. [Service Worker](#service-worker)
         1. [Killswitch](#killswitch)
 1. [Deployment](#deployment)
@@ -183,6 +186,71 @@ Service workers require a secure origin, and `localhost` counts as one.
 python3 -m http.server 8080
 ```
 Then open [http://localhost:8080](http://localhost:8080).
+
+
+### Subresource Integrity
+TLS proves a server sent you a file. [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) proves the served file is the one you expect it to be, as defined by the site author.
+
+Vue renders the table. It is the only external dependency, loaded from a CDN at a pinned version.
+
+> [!CAUTION]  
+> Do not use the CDN's `*.min.js` build. Vue publishes `vue.global.prod.js` already minified. The `*.min.js` file is a second minification performed by cdnjs, it does not exist upstream, and there is nothing to verify it against. Using it reduces SRI to pinning whatever the CDN happened to produce.
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.43/vue.global.prod.js" integrity="sha384-EAm39cvdifYiZjQQxCxStLasDodQMYokBrN5XPuJ7aC/JsQ4vyEUCy/+6hXpcBOW" crossorigin="anonymous"></script>
+```
+The browser hashes the fetched file and refuses to execute it on a mismatch. A compromised CDN, a poisoned cache, or a proxy with a trusted root can all satisfy TLS and none of them can satisfy this.
+
+The `crossorigin="anonymous"` attribute is required, not decorative. Without CORS the browser cannot read a cross-origin response, so it cannot hash it, so the integrity attribute is ignored and the script is blocked.
+
+
+#### Verification
+Pinning a version is not the same as knowing what is in it. Verify the bytes against the signed upstream artifact before trusting a hash.
+
+> [!NOTE]  
+> Hash the raw binary, not the hex. Piping `sha384sum` output into `base64` encodes the hex text plus a filename and gives you a longer, wrong value. The `openssl dgst -binary` form is correct. The `-A` flag on `openssl base64` suppresses line wrapping, which would otherwise break the attribute.
+
+1. Take the SHA-384 hash the CDN distribution you are trying to consume in the website.
+    ```bash
+    $ curl -fsSL https://cdnjs.cloudflare.com/ajax/libs/vue/3.5.43/vue.global.prod.js | openssl dgst -sha384 -binary | openssl base64 -A
+    EAm39cvdifYiZjQQxCxStLasDodQMYokBrN5XPuJ7aC/JsQ4vyEUCy/+6hXpcBOW
+    ```
+2. Get the vue.js release tarball hash from some other distributor.
+    ```bash
+    $ curl -fsSL https://registry.npmjs.org/vue/3.5.43 | jq -r '.dist.integrity, .dist.tarball'
+    sha512-o5qZoksdnjIKvW1srZ3ab7pcDNYAerBjRe54D0LBLfRdCYFrSgBHVXokMas35czQc0//lmx4/tuY4ZNQ+Rf2Ng==
+    ```
+3. Download the tarball.
+    ```bash
+    $ curl -fsSL https://registry.npmjs.org/vue/-/vue-3.5.43.tgz -o vue.tgz
+    ```
+4. Check the integrity of your download against the expected hash from step two.
+    ```bash
+    $ openssl dgst -sha512 -binary vue.tgz | openssl base64 -A
+    o5qZoksdnjIKvW1srZ3ab7pcDNYAerBjRe54D0LBLfRdCYFrSgBHVXokMas35czQc0//lmx4/tuY4ZNQ+Rf2Ng==
+    ```
+5. Open the release tarball and SHA-384 hash the specific distribution we're trying to use for the website. This hash should match step one, and is what we use in the [SRI](#subresource-integrity) declaration.
+    ```bash
+    $ tar -xzOf vue.tgz package/dist/vue.global.prod.js | openssl dgst -sha384 -binary | openssl base64 -A
+    EAm39cvdifYiZjQQxCxStLasDodQMYokBrN5XPuJ7aC/JsQ4vyEUCy/+6hXpcBOW
+    ```
+
+Five steps and every link is checkable. The tarball hash matches NPM's signed `dist.integrity`, and the file inside the verified tarball matches the file the CDN serves. That closes the chain from NPM's signature to the attribute in the HTML.
+
+Two stronger layers exist if you want them. The registry signs the integrity field, so `dist.signatures` lets you confirm NPM intended that hash. Provenance attestations at `https://registry.npmjs.org/-/npm/v1/attestations/vue@3.5.43` link the artifact to a specific build if the publisher uses them.
+
+
+#### Upgrading Vue
+A Vue upgrade touches three places. Miss one and the site breaks in a way that is obvious but confusing.
+1. The script URL and `integrity` attribute in [index.html](./index.html).
+1. The `VUE` constant in [sw.js](./sw.js).
+1. The `CACHE` constant in [sw.js](./sw.js).
+
+The cache name contains the Vue version on purpose. You cannot upgrade without changing the name, so you cannot forget to invalidate the cache.
+```js
+const CACHE = 'zanzu-vue-3.5.43';
+```
+Run the [verification](#verification) steps above against the new version, then update all three. [Test on localhost](#development) before pushing.
 
 
 ### Service Worker
@@ -483,6 +551,9 @@ A URL bar across the top of the installed app means the JSON is unreachable or t
 - Service Workers
     - [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) - MDN
     - [The Cache API](https://developer.mozilla.org/en-US/docs/Web/API/Cache) - MDN
+- Supply Chain
+    - [NPM Provenance](https://docs.npmjs.com/generating-provenance-statements)
+    - [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) - MDN
 - [tvtv.us](https://tvtv.us) - over-the-air (OTA) TV guide
 - [Vue.js](https://vuejs.org)
     - [Releases](https://github.com/vuejs/core/releases) - GitHub
