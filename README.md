@@ -1,12 +1,12 @@
 # 2026 NFL Football Schedule
-This repo contains a website showing how to watch 2026 NFL American football games in mid-Atlantic markets for teams of interest to me and the people I watch football with.
+This repo contains a website showing you how to watch 2026 NFL American football games for free in mid-Atlantic markets for teams of interest to me and the people I watch football with.
 
 \>\>\> [https://zanzu.football](https://zanzu.football) <<<
 
-This is a single-page web app rendering the schedule with client-side JavaScript using only one external dependency, [Vue.js](https://vuejs.org). It was built using `claude-opus-5`.
+Over-the-air (OTA) television works without Internet...so does this website (after first page load).
 
 > [!IMPORTANT]  
-> Over-the-air availability is computed from network and time-window rules, not from published coverage maps. Sunday afternoon games are not assigned to markets until roughly 12 days out. Check local listings. Several entries are estimates.
+> Over-the-air availability is predicted from network and time-window heuristics, then confirmed from published TV guide data. Sunday afternoon games are not assigned to markets until roughly 12 days out. Check local listings. Some entries are estimates.
 
 > [!NOTE]  
 > While my source code is released under the MIT license, all rights to team names, network names, streaming service names, and the [NFL schedule](https://www.nfl.com/schedules) itself belong to their respective holders.
@@ -19,6 +19,9 @@ This is a single-page web app rendering the schedule with client-side JavaScript
     1. [CAA](#caa)
     1. [GitHub Pages](#github-pages)
 1. [See Also](#see-also)
+
+
+This is a single-page web app rendering the schedule with client-side JavaScript using only one external dependency, [Vue.js](https://vuejs.org). It was built using `claude-opus-5`.
 
 
 ## DNS
