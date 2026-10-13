@@ -36,7 +36,10 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
     1. [Assets](#assets)
         1. [Icons](#icons)
         1. [Link Preview](#link-preview)
-    1. [Bubblewrap](#bubblewrap)
+    1. [Apps](#apps)
+        1. [Android Manifest](#android-manifest)
+        1. [iOS Manifest](#ios-manifest)
+    1. [Bubblewrap](#bubblewrap) - TWA
 1. [See Also](#see-also)
 
 
@@ -461,8 +464,58 @@ Four details decide whether this works at all.
 Design the image for a 350 pixel wide render, because that is roughly how wide it appears in a chat thread. Shrink your draft to 350 pixels and look at it before committing. Put the domain in large type and keep the composition simple.
 
 
+### Apps
+Each platform reads a different file to decide how an installed site behaves. Android reads the [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest), iOS ignores it entirely and reads `<meta>` tags instead. You need both. See [Install](#install) for the user-facing steps.
+
+
+#### Android Manifest
+The manifest at [site.webmanifest](./site.webmanifest) is what makes the site installable on Android. It needs two icon entries, because the plain one is used where nothing gets cropped by the system, and the maskable one is used where the launcher applies a mask.
+```json
+{
+  "name": "2026 NFL Antenna and Streaming Guide",
+  "short_name": "zanzu.football",
+  "icons": [
+    {"src": "/icon.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000"
+}
+```
+Declare it in the document head.
+```html
+<link rel="manifest" href="/site.webmanifest">
+```
+The `display` key is what drops the browser UX. The `background_color` is the splash screen the launcher paints while the page loads, so matching it to the site background makes the launch feel seamless. The `short_name` is the home screen label, and most launchers truncate past about twelve characters.
+
+> [!TIP]  
+> The browser menu tells you whether the manifest parsed. An Install option means it worked. If the only option is Add to Home screen, the manifest failed to load or an icon did not resolve. Check devtools under Application for parse errors.
+
+
+#### iOS Manifest
+There is no iOS manifest. Safari ignores the [web app manifest](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest) for these purposes and reads four `<meta>` and `<link>` tags instead, so these are not optional.
+```html
+<link rel="apple-touch-icon" href="/icon-apple.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="zanzu.football">
+```
+The capable tag is what drops the browser UX, the same job `display` does on Android. The status bar style lets the page render under the system bar, which is why the CSS uses `env(safe-area-inset-top)` padding. The title tag sets the home screen label, which would otherwise come from `<title>` and truncate badly.
+
+
 ### Bubblewrap
-[Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) generates the Trusted Web Activity (TWA). It downloads its own JDK and Android build tools, so Android Studio is not required.
+A Progressive Web App (PWA) installs from the browser, which is what [Install](#install) describes. A Trusted Web Activity (TWA) is a real Android APK that renders the same site through an installed browser's Custom Tabs engine. The APK contains no page content, just the icon, the name, and the target URL, so security updates still come from the browser rather than from you.
+
+Only Chrome with Google Play Services and Samsung Internet on Samsung devices mint a WebAPK, which is the thing that produces an app drawer entry. Brave and Firefox install PWAs but stop at a home screen icon. That one difference is the only reason this section exists.
+
+Use | Audience | Why
+--- | --- | ---
+PWA | Everyone | One tap, no warnings, works on [Android](#android) and [iOS](#ios).
+TWA | De-Googled Androids<br/>F-Droid<br/>Play Store | Gets a real entry in the Android app drawer and app settings.
+
+[Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) generates the TWA. It downloads its own JDK and Android build tools, so Android Studio is not required.
 
 > [!CAUTION]  
 > Back up the keystore and its password. Lose either and you cannot ship an update, only a fresh install under a different identity. The `packageId` is permanent for the same reason. Bump `appVersionCode` before every rebuild or Android refuses the upgrade.
@@ -520,6 +573,8 @@ A URL bar across the top of the installed app means the JSON is unreachable or t
     - [Bubblewrap](https://github.com/GoogleChromeLabs/bubblewrap) - TWA generator
     - [Digital Asset Links](https://developers.google.com/digital-asset-links/v1/getting-started)
     - [Maskable Icons](https://web.dev/articles/maskable-icon)
+    - [Trusted Web Activity](https://developer.chrome.com/docs/android/trusted-web-activity)
+    - [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest) - MDN
 - [Caddy](https://caddyserver.com) - web server with automatic HTTPS
 - [Claude](https://claude.ai) - AI
 - DNS
