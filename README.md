@@ -130,7 +130,7 @@ The `state` key and the market keys share one namespace inside `ota`, so market 
 
 
 ### Overrides
-The `ota` key records a published fact. Add one once a first-party source exists (e.g. TV guide, marketing, ), which is roughly 12 days out for Sunday afternoon games and immediately for anything confirmed by a network.
+The `ota` key records a published fact. Add one once a first-party source exists (TV guide, network schedule, marketing), which is roughly 12 days out for Sunday afternoon games.
 ```js
 ota: {all: {free: 'yes'}}                     // every market
 ota: {nova: {free: 'yes'}}                    // one market, everything else predicted
