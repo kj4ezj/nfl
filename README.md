@@ -242,10 +242,14 @@ Once your domain points to GitHub Pages, go to repo settings > Pages > Custom do
 
 Finally, when the DNS check is passing and the TLS cert has been (re)issued with `www.` as a Subject Alternative Name (SAN), you will be able to check "Enforce HTTPS".
 
+> [!NOTE]  
+> GitHub Pages sets no `Strict-Transport-Security` header on custom domains and offers no way to add one. HSTS preloading and Encrypted Client Hello are both out of reach for the same reason. Moving to a host you control, such as [Caddy](https://caddyserver.com) on a VPS, is the only fix.
+
 
 ## See Also
 - [506sports.com](https://506sports.com) - NFL game coverage/market maps
 - [ABC Monday Night Football Schedule](https://abc.com/news/640105ff-cab7-46f5-98c5-ccd165214869/category/1138628) - 2026-2027
+- [Caddy](https://caddyserver.com) - web server with automatic HTTPS
 - [Claude](https://claude.ai) - AI
 - DNS
     - [Certification Authority Authorization](https://letsencrypt.org/docs/caa) - Let's Encrypt `CAA`
