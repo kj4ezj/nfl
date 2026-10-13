@@ -21,6 +21,7 @@ Over-the-air (OTA) television works without Internet...so does this website (aft
     1. [Markets](#markets)
     1. [Overrides](#overrides)
     1. [Carriage](#carriage)
+1. [Development](#development)
 1. [Deployment](#deployment)
     1. [DNS](#dns)
         1. [DNSSEC](#dnssec)
@@ -167,6 +168,19 @@ The returned object carries two different kinds of text. The distinction is what
 - `why` is _why this was guessed_, for example `open window, regional pick`. It is dropped on confirmation, because a confirmed verdict is not a guess.
 
 A `confirmed` flag renders the pill with an outline. That is the only visual difference between a fact and a prediction, and it is explained in the legend on the page.
+
+
+## Development
+Open the file over HTTP, not from disk.
+
+> [!WARNING]  
+> Opening `index.html` directly as `file://` looks broken and is not. Service workers never register on that protocol, absolute paths like `/icon.svg` resolve to the filesystem root, and the manifest throws a CORS error. None of that means the site is broken.
+
+Service workers require a secure origin, and `localhost` counts as one.
+```bash
+python3 -m http.server 8080
+```
+Then open [http://localhost:8080](http://localhost:8080).
 
 
 ## Deployment
